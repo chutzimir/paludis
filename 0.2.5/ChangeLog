@@ -1,0 +1,1069 @@
+ChangeLog for Paludis
+=====================
+
+This file lists every change made except typo and formatting fixes, which are
+only listed in SVN log. For a summary of what has changed between releases,
+see the NEWS file.
+
+2006-05-29 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* NEWS, configure.ac: Tag for 0.2.5
+
+	+ Release: 0.2.5
+
+2006-05-27 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/hashed_containers.hh.in: Fix harmless compiler warning,
+	since people keep asking about it.
+
+2006-05-27 Stephen Bennett <spb@gentoo.org>
+
+	* ebuild/echo_functions.bash, ebuild/echo_functions.bash.in,
+	configure.ac, hooks/news.bash, hooks/eselect_env_update.bash,
+	hooks/find_config_updates.bash: Make bash and hook output pink when
+	appropriate.
+
+2006-05-26 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* hooks/gnu_info_index.bash, paludis/default_environment.cc: Fix up
+	remaining path issues.
+
+2006-05-26 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* ebuild/utils/Makefile.am, ebuild/utils/sed, ebuild/utils/sed.in:
+	Move sed -> sed.in, and only generate sed wrapper when it's needed, to
+	avoid path issues.
+
+2006-05-25 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* doc/Makefile.am, ebuild/Makefile.am, ebuild/builtin_init.bash,
+	ebuild/builtin_merge.bash, ebuild/builtin_unmerge.bash,
+	ebuild/ebuild.bash, ebuild/portage_stubs.bash,
+	ebuild/utils/Makefile.am, ebuild/utils/canonicalise,
+	ebuild/utils/merge, ebuild/utils/merge_TEST.bash,
+	ebuild/utils/unmerge, ebuild/utils/unmerge_TEST.bash: Make a
+	canonicalise wrapper, rather than using realpath or readlink -f.
+	Tinker with PATH ordering so that this actually works.
+
+2006-05-25 Robert Sebastian Gerus <arachnist@gmail.com>
+
+	* hooks/gnu_info_index.bash, ebuild/utils/merge, ebuild/utils/getmtime,
+	ebuild/utils/unmerge: Add a wrapper that will call stat -f '%m' on
+	FreeBSD and stat -c '%Y' everywhere else.
+
+2006-05-25 Robert Sebastian Gerus <arachnist@gmail.com>
+
+	* ebuild/ebuild.bash, ebuild/portage_stubs.bash, ebuild/utils/merge,
+	ebuild/utils/unmerge, ebuild/builtin_merge.bash, doc/Makefile.am,
+	ebuild/builtin_unmerge.bash: Replace readlink -f with realpath, for
+	portability.
+
+2006-05-24 Robert Sebastian Gerus <arachnist@gmail.com>
+
+	* configure.ac, ebuild/utils/Makefile.am, ebuild/utils/sed: Add sed
+	wrapper script which calls gsed, installed only if sed isn't gnu sed.
+
+2006-05-24 Robert Sebastian Gerus <arachnist@gmail.com>
+
+	* test/test_runner.cc: Skip glibc-specific backtrace call on non-glibc
+	systems.
+
+2006-05-24 Robert Sebastian Gerus <arachnist@gmail.com>
+
+	* paludis/util/system_TEST.cc: Added a check for FreeBSD.
+
+2006-05-24 Robert Sebastian Gerus <arachnist@gmail.com>
+
+	* /trunk/configure.ac: date --iso=seconds -> date +%Y-%m-%dT%H:%M:%S%z
+	for portability.
+
+2006-05-23 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/version_spec.cc, paludis/version_spec_TEST.cc: Add -try
+	support to version specs.
+
+	* doc/doc_portage_differences.cc: Bring up to date.
+
+2006-05-23 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/vdb_repository.cc, paludis/vdb_repository.hh: Improve error
+	condition handling.
+
+2006-05-22 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/util/system.cc: Improve error condition handling.
+
+2006-05-22 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/environment.cc: Improve error condition handling.
+
+	* paludis/portage_repository.cc: Use
+	PortageRepositoryConfigurationError rather than InternalError for
+	profiles where ARCH is unset. Clean up various small todo items.
+	
+	* paludis/portage_repository.cc: Don't hardcode mirror://gentoo/ as
+	the master mirror name.
+
+2006-05-22 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/default_config.cc, paludis/default_config.hh,
+	paludis/default_environment.cc, paludis/default_environment.hh,
+	paludis/environment.hh, paludis/portage_repository.cc,
+	paludis/test_environment.hh: Support a mirrors.conf file, with the
+	same format as thirdpartymirrors, in the config directory.
+
+2006-05-22 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* ebuild/ebuild.bash, paludis/portage_repository_TEST.cc: Use EAPI="0"
+	when EAPI is unset. Improve version metadata generation tests.
+
+2006-05-22 Fernando J. Pereda <ferdy@gentoo.org>
+
+	* paludis/syncer.hh, paludis/syncer.cc: Add a Syncer to sync Git
+	repositories (GitSyncer).
+
+	* AUTHORS: Add myself as 'Contributor'.
+
+2006-05-21 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* NEWS, configure.ac: Tag for 0.2.4.
+
+	+ Release: 0.2.4
+
+2006-05-21 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/ebuild.cc: Fix ebuild metadata generation.
+
+2006-05-20 Danny van Dyk <kugelfang@gentoo.org>
+
+	* paludis/util/smart_record.hh.m4: Increase maximal number of smartrecord
+	entries to 15.
+
+	* paludis/portage_repository.cc, paludis/portage_repository.hh: Turn
+	the location of the security advisory directory into a config item.
+
+2006-05-19 Stephen Bennett <spb@gentoo.org>
+
+	* NEWS, configure.ac: Tag for 0.2.3.
+
+	+ Release: 0.2.3
+
+2006-05-19 Stephen Bennett <spb@gentoo.org>
+
+	* ebuild/kernel_functions.bash, ebuild/kernel_funtions_TEST.bash,
+	ebuild/ebuild.bash, ebuild/Makefile.am: Add KV_* functions imported
+	from functions.sh.
+
+2006-05-19 Stephen Bennett <spb@gentoo.org>
+
+	* paludis/portage_repository.cc: Support removal of packages from
+	system set in subprofiles.
+
+2006-05-19 Stephen Bennett <spb@gentoo.org>
+
+	* src/colour.hh, configure.ac: Allow a choice of colourschemes.
+
+2006-05-19 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* Makefile.am, configure.ac, eselect, eselect/Makefile.am,
+	eselect/news.eselect: Ship the news.eselect module as part of Paludis
+	for now.
+
+2006-05-18 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* ebuild/Makefile.am, ebuild/digests/Makefile.am,
+	ebuild/utils/Makefile.am, ebuild/utils/merge_TEST_cleanup.sh,
+	ebuild/utils/merge_TEST_setup.sh,
+	ebuild/utils/unmerge_TEST_cleanup.sh,
+	ebuild/utils/unmerge_TEST_setup.sh, hooks/Makefile.am.m4,
+	paludis/Makefile.am.m4, paludis/args/Makefile.am,
+	paludis/config_file_TEST_cleanup.sh,
+	paludis/config_file_TEST_setup.sh,
+	paludis/portage_repository_TEST_cleanup.sh,
+	paludis/portage_repository_TEST_setup.sh, paludis/qa/Makefile.am.m4,
+	paludis/qa/file_permissions_check_TEST_cleanup.sh,
+	paludis/qa/file_permissions_check_TEST_setup.sh,
+	paludis/qa/has_ebuilds_check_TEST_cleanup.sh,
+	paludis/qa/has_ebuilds_check_TEST_setup.sh,
+	paludis/qa/has_misc_files_check_TEST_cleanup.sh,
+	paludis/qa/has_misc_files_check_TEST_setup.sh,
+	paludis/qa/package_name_check_TEST_cleanup.sh,
+	paludis/qa/package_name_check_TEST_setup.sh,
+	paludis/util/Makefile.am.m4,
+	paludis/util/dir_iterator_TEST_cleanup.sh,
+	paludis/util/dir_iterator_TEST_setup.sh,
+	paludis/util/fs_entry_TEST_cleanup.sh,
+	paludis/util/fs_entry_TEST_setup.sh,
+	paludis/util/is_file_with_extension_TEST_setup.sh,
+	paludis/vdb_repository_TEST_cleanup.sh,
+	paludis/vdb_repository_TEST_setup.sh, src/Makefile.am,
+	src/qualudis/Makefile.am, test/Makefile.am, test/run_test.sh: Use bash
+	rather than sh, since we already require it anyway and BSD sh sucks.
+
+2006-05-18 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/version_spec_TEST.cc: Check tilde comparison behaviour.
+
+2006-05-17 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/ebuild.cc, paludis/portage_repository_TEST.cc,
+	paludis/portage_repository_TEST_setup.sh: Handle ebuilds with really
+	broken metadata more gracefully.
+
+2006-05-17 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* src/install.cc: Fix text alignment issue when displaying tags.
+
+2006-05-17 Stephen Bennett <spb@gentoo.org>
+
+	* ebuild/echo_functions.bash: Add our own implementations of einfo and
+	friends to avoid depending on functions.sh.
+
+2006-05-17 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* ebuild/ebuild.bash, paludis/ebuild.cc, paludis/ebuild.hh: Emulate
+	various Portage internals.
+
+2006-05-16 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* ebuild/builtin_unmerge.bash: Don't sandbox unmerging from /, to work
+	around a sandbox 'feature'.
+
+2006-05-15 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* src/command_line.cc, src/command_line.hh, src/list.cc: Add
+	--repository, --category, --package filter options for the --list
+	actions.
+
+2006-05-14 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* doc/Makefile.am: Fix distcheck.
+
+2006-05-14 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/dep_lexer.cc, paludis/dep_lexer.hh,
+	paludis/dep_lexer_TEST.cc, paludis/dep_list.cc,
+	paludis/dep_list_TEST.cc, paludis/dep_parser.cc,
+	paludis/dep_parser.hh, paludis/dep_parser_TEST.cc, paludis/ebuild.cc,
+	paludis/environment.cc, paludis/fake_repository.cc, paludis/files.m4,
+	paludis/portage_repository.cc, paludis/vdb_repository.cc,
+	paludis/version_metadata.cc, paludis/version_metadata.hh,
+	src/install.cc, src/query.cc, paludis/portage_dep_lexer.cc,
+	paludis/portage_dep_lexer.hh, paludis/portage_dep_lexer_TEST.cc,
+	paludis/portage_dep_parser.cc, paludis/portage_dep_parser.hh,
+	paludis/portage_dep_parser_TEST.cc: Move DepParser ->
+	PortageDepParser, DepLexer -> PortageDepLexer, abstract out remaining
+	parser calls into VersionMetadata.
+
+2006-05-13 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/util/tokeniser.cc: Generalise the WhitespaceTokeniser to
+	include newlines.
+
+	* paludis/config_file.cc, paludis/default_config.cc,
+	paludis/default_environment.cc, paludis/portage_repository.cc,
+	paludis/vdb_repository.cc: Switch to using WhitespaceTokeniser rather
+	than separate instances.
+
+2006-05-13 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/dep_list.cc, paludis/dep_list_TEST.cc, paludis/dep_parser.cc,
+	paludis/dep_parser.hh, paludis/ebuild.cc, paludis/ebuild.hh,
+	paludis/environment.cc, paludis/fake_repository.cc,
+	paludis/match_package.cc, paludis/portage_repository.cc,
+	paludis/portage_repository_TEST.cc, paludis/vdb_repository.cc,
+	paludis/version_metadata.cc, paludis/version_metadata.hh,
+	src/install.cc, src/query.cc: Rework VersionMetadata to be far less
+	ebuild-centric.
+
+	* paludis/util/compare.hh: Avoid using always_inline, it breaks in
+	various weird circumstances.
+	
+	* paludis/util/files.m4, paludis/util/tokeniser.cc,
+	paludis/util/tokeniser.hh: Add a singleton WhitespaceTokeniser class,
+	rather than declaring them all over the place.
+
+2006-05-08 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* ebuild/utils/merge, ebuild/utils/unmerge: Avoid temporarily removing
+	symlinks where possible.
+
+2006-05-07 Danny van Dyk <kugelfang@gentoo.org>
+
+	* ebuild/utils/merge: Add 'hash -r' after removal of symlinks.
+
+	+ Fixes: Berlios#7414.
+
+2006-05-07 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* ebuild/builtin_merge.bash: Switch off sandbox when merging to / to
+	avoid sandbox getting upset when its own files get replaced.
+
+	+ Fixes: Berlios#7402.
+
+2006-05-06 Stephen Bennett <spb@gentoo.org>
+
+	* src/install.cc: Display use.force info in --install output.
+
+2006-05-06 Stephen Bennett <spb@gentoo.org>
+
+	* paludis/repository.hh, paludis/vdb_repository.hh,
+	paludis/vdb_repository.cc, paludis/fake_repository.hh,
+	paludis/fake_repository.cc, paludis/portage_repository.hh,
+	paludis/portage_repository.cc, paludis/portage_repository_TEST.cc,
+	paludis/portage_repository_TEST_setup.sh: use.force, package.use.force
+	support.
+
+2006-05-05 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* doc/Makefile.am: Make clean, maintainer-clean remove the html/
+	generated content.
+
+2006-05-05 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* NEWS, configure.ac: Update for 0.2.2.
+
+	+ Release: 0.2.2
+
+2006-05-05 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/default_environment.cc, paludis/dep_tag.cc,
+	paludis/dep_tag.hh, paludis/environment.cc,
+	paludis/portage_repository.cc, paludis/vdb_repository.cc,
+	src/install.cc: Rework dep tagging, and use it more heavily.
+
+2006-05-04 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* ebuild/pkg_setup.bash: Allow extra pkg_ sandbox privs in pkg_setup.
+
+2006-05-04 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* src/query.cc: Explain the mask reasons shown with --query via a key.
+
+2006-05-04 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/portage_repository.cc: Don't try Gentoo mirrors for
+	RESTRICT=mirror packages.
+
+2006-05-04 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* ebuild/ebuild.bash: Add /var/cache to the sandbox writelist.
+
+2006-05-04 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* ebuild/build_functions.bash: Pass along quotes properly when calling
+	econf.
+
+	+ Fixes: Berlios#7358.
+
+2006-05-03 Ilya A. Volynets-Evenbakh <ilya@total-knowledge.com>
+
+	* ebuild/util/Makefile.am: use $< and $@ to refer to lib input and
+	output files, in order to avoid out-of-tree build breackage
+
+2006-05-03 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* ChangeLog, paludis/portage_repository_TEST.cc,
+	test/test_framework.cc, test/test_framework.hh: Don't try to run tests
+	that launch sandbox if sandbox is already active.
+
+2006-05-02 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* hooks/Makefile.am.m4, hooks/news.bash: Add GLEP 42 (News items)
+	hooks.
+
+	* paludis/config_file.cc, paludis/config_file.hh: Add GLEP 42 news
+	item file class.
+
+	* paludis/portage_repository.cc, paludis/portage_repository.hh,
+	paludis/repository.hh: Add repository support for creating unread news
+	file lists.
+
+	* src/Makefile.am, src/command_line.cc, src/command_line.hh,
+	src/install.cc, src/news.cc, src/news.hh, src/paludis.cc: Add
+	--update-news internal action.
+
+2006-05-02 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/default_config.hh, paludis/default_environment.cc: Pass
+	HOOK_LOG_LEVEL, HOOK_CONFIG_SUFFIX to hooks.
+
+2006-05-02 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* src/sync.cc: Hooks now get called even if repository names aren't
+	passed on the commandline.
+
+2006-05-02 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/dep_atom.cc, paludis/dep_atom_TEST.cc: Parse =foo/bar-scm
+	and the like correctly.
+
+2006-05-02 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/util/fs_entry_TEST_setup.sh: Add a one second delay and an
+	extra touch, to try to avoid tests occasionally failing when checking
+	mtime / ctime.
+
+2006-05-02 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* NEWS, configure.ac: Update for 0.2.1.
+
+	+ Release: 0.2.1
+
+2006-05-02 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* doc/Makefile.am, doc/doc_news.doxygen, doc/header.html: Add a NEWS
+	docs page.
+
+2006-05-01 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* ebuild/pkg_nofetch.bash, paludis/ebuild.cc, paludis/ebuild.hh,
+	paludis/portage_repository.cc: Better nofetch support.
+
+2006-05-01 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/util/system.cc: Don't spawn sandbox if we're already
+	sandboxed.
+
+2006-05-01 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* src/query.cc: Tell the user if they try to query a set.
+
+2006-05-01 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/portage_repository.cc, paludis/portage_repository.hh,
+	paludis/util/smart_record.hh.m4: Add file package sets to Portage
+	format repositories.
+
+	+ Fixes: Paludis#FR2184.
+
+2006-05-01 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* hooks/Makefile.am.m4: Rework to avoid breaking distcheck's uninstall
+	checks.
+
+2006-05-01 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/vdb_repository.cc: Don't display the "key lookup failed"
+	warning for VDB entries where the file is missing.
+
+2006-05-01 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/vdb_repository.cc: USE may contain -flags. Ignore them.
+
+2006-05-01 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* src/applets.cc: Don't include the ::repo in --best-version output,
+	it confuses built_with_use.
+
+2006-05-01 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/default_environment.cc, paludis/default_environment.hh,
+	paludis/environment.cc, paludis/environment.hh,
+	paludis/test_environment.hh: Allow hooks to have additional associated
+	environment variables.
+
+	* src/install.cc, src/sync.cc, src/uninstall.cc: Provide appropriate
+	environment variables for hooks.
+
+	* hooks/Makefile.am.m4, hooks/log.bash: Add hook script for creating
+	paludis.log entries.
+
+2006-05-01 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* doc/doc_bootstrap_howto.doxygen: Use cat <<"END" to avoid having to
+	escape the dollar signs. Thanks to ecatmur.
+
+2006-05-01 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* doc/doc_portage_differences.doxygen, paludis/default_environment.cc,
+	paludis/default_environment.hh, paludis/environment.cc,
+	paludis/environment.hh: Support user defined package sets.
+
+2006-05-01 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* src/install.cc: Display EAPI in mask reasons, like we do for licence
+	and keywords.
+
+2006-05-01 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* doc/doc_bootstrap_howto.doxygen: Update with new overlay URL.
+
+2006-05-01 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	+ Release: 0.2.0
+
+2006-05-01 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* src/install.cc: Don't add to world if --fetch is specified.
+
+2006-05-01 Stephen Bennett <spb@gentoo.org>
+
+	* NEWS, configure.ac: Paludis 0.2.0.
+
+2006-04-30 Stephen Bennett <spb@gentoo.org>
+
+	* ebuild/build_functions.bash: Killed some overzealous quoting in
+	einstall that was breaking some packages.
+
+2006-04-30 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* ebuild/utils/Makefile.am, ebuild/utils/dolib.a,
+	ebuild/utils/dolib.so, ebuild/utils/newlib.a, ebuild/utils/newlib.so,
+	ebuild/utils/dolib.a.in, ebuild/utils/dolib.so.in,
+	ebuild/utils/newlib.a.in, ebuild/utils/newlib.so.in: Try to work
+	around svn ignoring things.
+
+2006-04-30 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* hooks/Makefile.am.m4: Fix EXTRA_DIST for distribution tarballs.
+
+2006-04-30 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* ebuild/digests/Makefile.am: Fix include path.
+
+2006-04-30 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* doc/Makefile.am, doc/doxygen.conf.in, doc/footer.html,
+	doc/header.html, doc/paludis.css: Replace the icky default Doxygen
+	style with a marginally less icky style stolen from libebt.
+
+2006-04-30 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* autogen.bash, ebuild/utils/dobin_TEST.bash, hooks/Makefile.am ->
+	hooks/Makefile.am.m4: Restructure hooks Makefile and dobin tests to
+	avoid breaking distcheck.
+
+	+ Fixes: Berlios#7328.
+	+ Fixes: Berlios#7326.
+
+2006-04-30 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/syncer.cc: Make the local directory when syncing via rsync.
+
+2006-04-30 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/util/fs_entry.cc, paludis/util/fs_entry.hh,
+	paludis/util/fs_entry_TEST.cc: Add a mkdir method to FSEntry.
+
+2006-04-29 Stephen Bennett <spb@gentoo.org>
+
+	* ebuild/build_functions.bash: Make einstall pass libdir= to make.
+
+	+ Fixes: Berlios#7305.
+
+2006-04-29 Danny van Dyk <kugelfang@gentoo.org>
+
+	* paludis/config_file.cc, paludis/config_file.hh,
+	paludis/portage_repository.cc, paludis/portage_repository.hh:
+	Rework of the built-in security set.
+
+2006-04-28 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* doc/doc_main.doxygen, paludis/contents.cc, paludis/contents.hh,
+	paludis/fake_repository.cc, paludis/fake_repository.hh,
+	paludis/files.m4, paludis/package_database.cc,
+	paludis/package_database.hh, paludis/portage_repository.cc,
+	paludis/portage_repository.hh, paludis/repository.hh,
+	paludis/vdb_repository.cc, paludis/vdb_repository.hh: Provide a way of
+	querying the contents of a package.
+	
+	* src/Makefile.am, src/colour.hh, src/command_line.cc,
+	src/command_line.hh, src/contents.cc, src/contents.hh, src/owner.cc,
+	src/owner.hh, src/paludis.cc: Add --owner and --contents actions.
+
+2006-04-27 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/version_spec.cc, paludis/version_spec_TEST.cc: Allow scm-rX
+	on unversioned packages.
+
+2006-04-27 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* ebuild/unpack_functions.bash: Make unpack know how to extract .ar
+	and .deb files.
+
+2006-04-27 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* doc/doc_bootstrap_howto.doxygen: Add gettext to the suggested test
+	blacklist.
+
+2006-04-26 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* src/Makefile.am, src/install.cc, src/licence.cc, src/licence.hh,
+	src/query.cc: Use the fancy licence displayer for --query as well as
+	--install.
+
+2006-04-26 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/vdb_repository.cc: Load HOMEPAGE, DESCRIPTION.
+	
+	* src/query.cc: Prefer installed packages over uninstalled packages,
+	even if there are newer versions of uninstalled packages, when
+	displaying query output.
+
+2006-04-26 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/environment.cc: Handle || ( ) in LICENSE properly.
+
+2006-04-26 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* ebuild/digests/Makefile.am, ebuild/digests/dormd160,
+	ebuild/digests/dormd160.cc, ebuild/digests/dormd160_TEST.cc,
+	ebuild/digests/rmd160.cc, ebuild/digests/rmd160.hh: Implement our own
+	RMD160 too, to avoid an OpenSSL dependency.
+
+2006-04-26 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* src/install.cc: Display keywords for masked packages, like we do for
+	licences.
+
+2006-04-26 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* src/paludis.cc: Show whether sandbox is enabled with --version.
+
+2006-04-25 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* doc/Makefile.am: Don't tinker with Doxygen niceness.
+
+	* doc/doc_bootstrap_howto.doxygen: Update with information about
+	avoiding sandbox and test issues with Python, avoiding test issues
+	with various packages, apr's pickiness and various wording and
+	formatting tweaks.
+
+	* configure.ac, ebuild/Makefile.am, ebuild/builtin_fetch.bash,
+	ebuild/builtin_init.bash, ebuild/builtin_merge.bash,
+	ebuild/builtin_strip.bash, ebuild/builtin_unmerge.bash,
+	ebuild/ebuild.bash, ebuild/pkg_postinst.bash, ebuild/pkg_postrm.bash,
+	ebuild/pkg_preinst.bash, ebuild/pkg_prerm.bash,
+	ebuild/sandbox_stubs.bash, ebuild/utils/doconfd, ebuild/utils/doenvd,
+	ebuild/utils/doinitd, ebuild/utils/doins, ebuild/utils/dolib.a,
+	ebuild/utils/dolib.so, ebuild/utils/donewins, ebuild/utils/newbin,
+	ebuild/utils/newconfd, ebuild/utils/newdoc, ebuild/utils/newenvd,
+	ebuild/utils/newexe, ebuild/utils/newinitd, ebuild/utils/newins,
+	ebuild/utils/newlib.a, ebuild/utils/newlib.so, ebuild/utils/newman,
+	ebuild/utils/newsbin, paludis/ebuild.cc, paludis/ebuild.hh,
+	paludis/util/system.cc, paludis/util/system.hh, ebuild/sandbox.bash:
+	Support sandbox.
+
+2006-04-25 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* doc/doc_bootstrap_howto.doxygen: Our list of required licences was
+	slightly too short. Extend it.
+
+2006-04-24 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* Makefile.am, configure.ac, ebuild/Makefile.am,
+	ebuild/builtin_merge.bash, ebuild/builtin_updateenv.bash,
+	ebuild/depend.bash, ebuild/ebuild.bash, hooks, hooks/Makefile.am,
+	hooks/eselect_env_update.bash, hooks/find_config_updates.bash,
+	hooks/gnu_info_index.bash, paludis/Makefile.am.m4,
+	paludis/default_config.cc, paludis/default_config.hh,
+	paludis/default_environment.cc, paludis/default_environment.hh,
+	paludis/ebuild.cc, paludis/environment.hh,
+	paludis/test_environment.hh, src/install.cc, src/sync.cc,
+	src/uninstall.cc, ebuild/builtin_metadata.bash: Rename depend ebuild
+	action to metadata and remove updateenv action. Add a hooks framework.
+	Use hooks for running eselect env update, updating GNU info
+	directories and checking for configuration files.
+
+	* ebuild/echo_functions.bash: Fix log output when redirected.
+
+	* doc/doc_portage_differences: We have hooks.
+
+2006-04-24 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/util/fs_entry_TEST.cc, paludis/util/fs_entry_TEST_setup.sh:
+	Add further symlink behaviour checks.
+
+	* paludis/util/is_file_with_extension.cc: Also allow symlinks to
+	files.
+
+2006-04-24 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* ebuild/utils/merge: Name CONFIG_PROTECTed files in the same way
+	Portage does.
+
+2006-04-24 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* doc/doc_references.doxygen, doc/doxygen.conf.in,
+	paludis/util/files.m4, paludis/util/random.cc, paludis/util/random.hh,
+	paludis/util/random_TEST.cc: Don't use the c random number functions
+	that have global state, use our own instead.
+
+2006-04-23 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* doc/Makefile.am, doc/doc_mainpage.doxygen,
+	doc/doc_portage_differences.doxygen: Extend documentation to include how
+	we differ from Portage.
+
+2006-04-23 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/default_environment.cc, paludis/dep_atom.cc,
+	paludis/dep_atom.hh, paludis/dep_atom_TEST.cc, paludis/dep_list_TEST.cc,
+	paludis/match_package.cc, paludis/portage_repository.cc: Enable [use]
+	dependencies (library only, no nice user interface to them at present).
+	Enhance priority of use.mask. Add circular detection for per package use
+	masking when [use] deps are used, to avoid infinite recursion.
+
+2006-04-23 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* configure.ac: Don't enable QA ever, for now.
+
+2006-04-23 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* configure.ac, ebuild/Makefile.am, ebuild/builtin_fetch.bash,
+	ebuild/digests, ebuild/digests/Makefile.am, ebuild/digests/domd5,
+	ebuild/digests/dormd160, ebuild/digests/dosha256.cc,
+	ebuild/digests/dosha256_TEST.cc, ebuild/digests/sha256.cc,
+	ebuild/digests/sha256.hh: Split out digest checks into separate
+	programs, to make ferringb happy. Add our own SHA-256 implementation
+	to avoid pulling in nasty dependencies.
+
+2006-04-23 Stephen Bennett <spb@gentoo.org>
+
+	* paludis/repository.hh, paludis/portage_repository.hh,
+	paludis/fake_repository.hh, paludis/vdb_repository.hh,
+	paludis/portage_repository.cc, paludis/portage_repository_TEST.cc,
+	paludis/portage_repository_TEST_setup.sh, paludis/fake_repository.cc,
+	paludis/vdb_repository.cc, src_install.cc: Per-package USE masking
+	support.
+
+2006-04-21 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/default_environment.cc, paludis/dep_list.cc,
+	paludis/match_package.cc, paludis/match_package.hh,
+	paludis/package_database.cc, paludis/package_database.hh,
+	paludis/package_database_TEST.cc, paludis/portage_repository.cc,
+	paludis/test_environment.cc: Switch match_package to take Environment
+	rather than PackageDatabase as its first argument, since we're not
+	using multiple DBs per environment any more.
+
+2006-04-20 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/version_spec.cc: Don't do silly things when given "0" as a
+	version.
+
+2006-04-20 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/util/smart_record.hh.m4: Intel's compiler handles partial
+	specialisation slightly differently. Make the char * to string type
+	conversion work.
+
+2006-04-20 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/version_spec.cc: Fix STL usage issues that can cause
+	segfaults with Intel's compiler.
+
+2006-04-20 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* doc/doc_main.doxygen, paludis/args/args.cc, paludis/args/args.hh,
+	paludis/args/args_TEST.cc, paludis/args/args_dumper.cc,
+	paludis/args/args_dumper.hh, paludis/args/args_error.cc,
+	paludis/args/args_error.hh, paludis/args/args_group.cc,
+	paludis/args/args_group.hh, paludis/args/args_handler.cc,
+	paludis/args/args_handler.hh, paludis/args/args_option.cc,
+	paludis/args/args_option.hh, paludis/args/args_visitor.cc,
+	paludis/args/args_visitor.hh, paludis/dep_atom.hh,
+	paludis/dep_atom_flattener.hh, paludis/dep_list.hh,
+	paludis/dep_parser.cc, paludis/dep_tag.hh, paludis/ebuild.hh,
+	paludis/environment.cc, paludis/fake_repository.hh,
+	paludis/hashed_containers.cc, paludis/portage_repository.cc,
+	paludis/repository.hh, paludis/syncer.hh, paludis/test_extras.cc,
+	paludis/version_operator.hh, src/command_line.hh, src/install.cc,
+	src/paludis.cc: Last batch of code docs changes for now.
+
+2006-04-20 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* doc/doc_main.doxygen, paludis/util/attributes.hh,
+	paludis/util/collection.hh, paludis/util/compare.hh,
+	paludis/util/composite_pattern.hh, paludis/util/container_entry.hh,
+	paludis/util/counted_ptr.hh, paludis/util/counted_ptr_TEST.cc,
+	paludis/util/deleter.cc, paludis/util/deleter.hh,
+	paludis/util/deleter_TEST.cc, paludis/util/destringify.cc,
+	paludis/util/destringify.hh, paludis/util/destringify_TEST.cc,
+	paludis/util/dir_iterator.cc, paludis/util/dir_iterator.hh,
+	paludis/util/dir_iterator_TEST.cc, paludis/util/exception.cc,
+	paludis/util/exception.hh, paludis/util/files.m4,
+	paludis/util/fs_entry.cc, paludis/util/fs_entry.hh,
+	paludis/util/fs_entry_TEST.cc, paludis/util/instantiation_policy.cc,
+	paludis/util/instantiation_policy.hh,
+	paludis/util/instantiation_policy_TEST.cc, paludis/util/is_const.cc,
+	paludis/util/is_const.hh, paludis/util/is_const_TEST.cc,
+	paludis/util/is_file_with_extension.cc,
+	paludis/util/is_file_with_extension.hh,
+	paludis/util/is_file_with_extension_TEST.cc, paludis/util/iterator.hh,
+	paludis/util/iterator_TEST.cc, paludis/util/join.cc,
+	paludis/util/join.hh, paludis/util/join_TEST.cc, paludis/util/log.cc,
+	paludis/util/log.hh, paludis/util/log_TEST.cc,
+	paludis/util/match_sequence.cc, paludis/util/match_sequence.hh,
+	paludis/util/match_sequence_TEST.cc,
+	paludis/util/private_implementation_pattern.cc,
+	paludis/util/private_implementation_pattern.hh,
+	paludis/util/pstream.cc, paludis/util/pstream.hh,
+	paludis/util/pstream_TEST.cc, paludis/util/random.cc,
+	paludis/util/random.hh, paludis/util/save.cc, paludis/util/save.hh,
+	paludis/util/save_TEST.cc, paludis/util/smart_record.hh.m4,
+	paludis/util/smart_record_TEST.cc, paludis/util/stringify.hh,
+	paludis/util/stringify_TEST.cc, paludis/util/strip.cc,
+	paludis/util/strip.hh, paludis/util/strip_TEST.cc,
+	paludis/util/system.cc, paludis/util/system.hh,
+	paludis/util/system_TEST.cc, paludis/util/test_extras.cc,
+	paludis/util/tokeniser.hh, paludis/util/tokeniser_TEST.cc,
+	paludis/util/validated.hh, paludis/util/validated_TEST.cc,
+	paludis/util/virtual_constructor.hh,
+	paludis/util/virtual_constructor_TEST.cc, paludis/util/visitor.hh,
+	paludis/util/visitor_TEST.cc: Fix up docs for paludis/util/ .
+
+2006-04-19 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* doc/doc_main.doxygen, paludis/package_database.cc,
+	paludis/package_database.hh, paludis/package_database_TEST.cc,
+	paludis/portage_repository.cc, paludis/portage_repository.hh,
+	paludis/portage_repository_TEST.cc, paludis/repository.cc,
+	paludis/repository.hh, paludis/syncer.cc, paludis/syncer.hh,
+	paludis/test_environment.cc, paludis/test_environment.hh,
+	paludis/test_extras.cc, paludis/vdb_repository.cc,
+	paludis/vdb_repository.hh, paludis/vdb_repository_TEST.cc,
+	paludis/version_metadata.cc, paludis/version_metadata.hh,
+	paludis/version_operator.cc, paludis/version_operator.hh,
+	paludis/version_operator_TEST.cc, paludis/version_spec.cc,
+	paludis/version_spec.hh, paludis/version_spec_TEST.cc: And the rest of
+	the docs for paludis/.
+
+2006-04-19 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* ebuild/utils/merge_TEST.bash, ebuild/utils/unmerge_TEST.bash:
+	Support autotools "build somewhere else" mode.
+
+2006-04-19 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* src/install.cc, src/sync.cc, src/uninstall.cc: Stop relying upon
+	namespaces being pulled in magically.
+
+2006-04-19 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* doc/doc_main.doxygen, paludis/ebuild.cc, paludis/ebuild.hh,
+	paludis/environment.cc, paludis/environment.hh,
+	paludis/fake_repository.cc, paludis/fake_repository.hh,
+	paludis/hashed_containers.cc, paludis/hashed_containers.hh.in,
+	paludis/hashed_containers_TEST.cc, paludis/mask_reasons.cc,
+	paludis/mask_reasons.hh, paludis/match_package.cc,
+	paludis/match_package.hh, paludis/name.cc, paludis/name.hh,
+	paludis/name_TEST.cc: Some more progress on the documentation rework.
+
+2006-04-19 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* ebuild/ebuild.bash, ebuild/echo_functions.bash, paludis/util/log.cc,
+	paludis/util/log.hh, src/paludis.cc: Add program name and time to log
+	messages.
+
+	* paludis/vdb_repository.cc: Add debug messages for operations that
+	are expected to be slow.
+
+2006-04-19 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* doc/doc_main.doxygen, doc/doc_namespaces.doxygen,
+	paludis/about.hh.in, paludis/about_TEST.cc, paludis/config_file.cc,
+	paludis/config_file.hh, paludis/config_file_TEST.cc,
+	paludis/default_config.cc, paludis/default_config.hh,
+	paludis/dep_atom.cc, paludis/dep_atom.hh, paludis/dep_atom_TEST.cc,
+	paludis/dep_atom_dumper.cc, paludis/dep_atom_dumper.hh,
+	paludis/dep_atom_dumper_TEST.cc, paludis/dep_atom_flattener.cc,
+	paludis/dep_atom_flattener.hh, paludis/dep_atom_pretty_printer.cc,
+	paludis/dep_atom_pretty_printer.hh, paludis/dep_lexer.cc,
+	paludis/dep_lexer.hh, paludis/dep_lexer_TEST.cc,
+	paludis/dep_parser.cc, paludis/dep_parser.hh,
+	paludis/dep_parser_TEST.cc, paludis/dep_tag.cc, paludis/dep_tag.hh:
+	First part of the documentation rework, plus minor formatting and code
+	style fixes. More to come.
+
+2006-04-19 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* src/Makefile.am, src/applets.cc, src/applets.hh,
+	src/command_line.cc, src/command_line.hh, src/paludis.cc: Add
+	--list-dep-tag-categories and related test.
+
+2006-04-19 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* doc/doc_mainpage.doxygen, doc/HOWTO.rst, doc/doc_changelog.doxygen,
+	doc/Makefile.am, doc/doc_bootstrap_howto.doxygen, Makefile.am,
+	README: Rework the documentation.
+
+2006-04-19 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/version_spec_TEST.cc, paludis/version_spec.cc,
+	paludis/version_spec.hh: Add support for -scm versions. Rework
+	version spec internals to be substantially cleaner. Make the tests a
+	lot more extensive.
+
+2006-04-19 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/util/compare.hh, paludis/util/smart_record_TEST.cc: Make
+	CompareByAll comparisons work correctly.
+
+2006-04-18 Stephen Bennett <spb@gentoo.org>
+
+	* paludis/portage_repository.cc: Fix compiler warning.
+
+2006-04-18 Stephen Bennett <spb@gentoo.org>
+
+	* paludis/fake_repository.cc, paludis/vdb_repository.cc,
+	paludis/default_environment.cc, paludis/fake_repository.hh,
+	paludis/vdb_repository.hh, paludis/repository.hh,
+	paludis/portage_repository.cc, paludis/vdb_repository_TEST.cc,
+	paludis/vdb_repository_TEST_setup.sh, paludis/package_database.hh,
+	paludis/portage_repository.hh, paludis/package_database_entry.hh:
+	Support querying of USE from VDBRepository.
+
+2006-04-18 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/portage_repository_TEST.cc, paludis/portage_repository.cc,
+	paludis/portage_repository_TEST_setup.sh: Ignore any weird version specs
+	with a warning, rather than bombing out.
+
+2006-04-18 Stephen Bennett <spb@gentoo.org>
+
+	* ebuild/build_functions.bash: Replace non-existant ${PREFIX} with /usr.
+
+2006-04-18 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* src/install.cc: Fix (5 of 4) style counts caused by incrementing the
+	package counter when cleaning.
+
+2006-04-18 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/vdb_repository.hh: Explicitly include fs_entry, rather than
+	relying upon magic.
+
+	* paludis/files.m4, paludis/vdb_repository_TEST_cleanup.sh,
+	paludis/vdb_repository_TEST_setup.sh, paludis/vdb_repository_TEST.cc:
+	Some very crude VDB repo tests.
+
+2006-04-18 Stephen Bennett <spb@gentoo.org>
+
+	* ebuild/ebuild.bash: Export variables set in make.defaults.
+
+2006-04-18 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/ebuild.hh, paludis/portage_repository.cc, paludis/ebuild.cc:
+	Provide A during the ebuild build phase.
+
+2006-04-18 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* doc/HOWTO.rst: Add a note about the backslashes being for cat.
+
+2006-04-18 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/portage_repository.cc: Fix SLOT being set to an empty string
+	for some non-default virtual providers.
+
+2006-04-18 Danny van Dyk <kugelfang@gentoo.org>
+
+	* paludis/config_file.cc, paludis/config_file.hh: Fix typo.
+
+	* paludis/portage_repository.cc: Fix return value for an empty
+	security package set. Fix whitespaces.
+
+2006-04-17 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/dep_tag.cc, paludis/dep_list.cc, paludis/vdb_repository.cc,
+	paludis/files.m4, paludis/dep_atom.hh, paludis/dep_list.hh,
+	paludis/dep_tag.hh, paludis/portage_repository.cc, paludis/dep_atom.cc:
+	Turn dep tags into a proper class. Associate some basic GLSA information
+	with GLSA tags (future expansion expected).
+
+	* src/install.cc: Display new style dep tags.
+
+2006-04-17 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/util/iterator.hh: Add convenience indirect_iterator generation
+	function.
+
+2006-04-17 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/ebuild.cc, paludis/ebuild.hh, paludis/files.m4,
+	paludis/portage_repository.cc, paludis/repository.cc,
+	paludis/repository.hh, paludis/vdb_repository.cc: Split ebuild
+	execution code out into its own EbuildCommand classes.
+
+2006-04-17 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/config_file.cc: Typo fix.
+
+2006-04-17 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/util/fs_entry.hh, paludis/util/fs_entry.cc,
+	paludis/util/fs_entry_TEST.cc: Remove automatic cast from FSEntry to
+	std::string, since all it does is lead to silly bugs going undetected
+	at compile time.
+
+	* paludis/vdb_repository.cc, paludis/portage_repository.cc: Don't rely
+	upon automatic casts from FSEntry to std::string.
+
+	* paludis/config_file.cc, paludis/config_file.hh,
+	paludis/config_file_TEST.cc: Provide overloaded constructors that take
+	an FSEntry rather than a std::string.
+
+2006-04-17 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/portage_repository.hh: Sync is a string, not a filesystem
+	entry.
+
+2005-04-17 Danny van Dyk <kugelfang@gentoo.org>
+
+	* paludis/config_file.cc, paludis/config_file.hh,
+	paludis/dep_parser.cc, paludis/dep_parser.hh,
+	paludis/portage_repository.cc, paludis/portage_repository.hh:
+	Implement built-in 'security' package set.
+
+2006-04-17 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/vdb_repository.cc: Fix VDBEntry's operator< to return false
+	rather than an undefined value on equality.
+
+2006-04-16 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/vdb_repository.cc, paludis/vdb_repository.hh,
+	paludis/portage_repository.cc, paludis/portage_repository.hh: Use a
+	smart record for the constructor, allowing named parameters to be
+	provided, rather than passing around huge parameter lists containing
+	lots of things of the same type
+
+2006-04-16 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/util/smart_record.hh.m4, paludis/util/smart_record_TEST.cc:
+	Add support for named parameters to smart records.
+
+2006-04-16 Stephen Bennett <spb@gentoo.org>
+
+	* paludis/portage_repository.cc, ebuild/ebuild.bash: Support multiple
+	inheritance in profiles.
+
+2006-04-16 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* ebuild/builtin_fetch.bash: After a failed fetch, wget has a tendency
+	to leave zero byte files lying around. When checking for existing
+	files in DISTDIR in builtin_fetch, if the file is zero bytes in size
+	then delete and refetch it.
+
+	+ Fixes: Berlios#7163.
+
+2006-04-16 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/portage_repository.cc: Remove iostream include, it was only
+	there for early debugging code and adds overhead (see TC++SL 13.2.3).
+
+2006-04-16 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/portage_repository.cc, ebuild/builtin_tidyup.bash,
+	ebuild/ebuild.bash, ebuild/builtin_updateenv.bash, ebuild/Makefile.am:
+	Split out the eselect env update call from builtin_tidyup into a new
+	builtin_updateenv, making SKIP_FUNCTIONS="tidyup" a lot more sensible.
+
+2006-04-16 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+
+	* paludis/portage_repository.cc: Expand mirror:// components that have
+	a path before the filename correctly.
+
+	+ Fixes: Berlios#7161.
+
