@@ -1,0 +1,147 @@
+News for Paludis
+================
+
+This file lists the major changes between versions. For a more detailed list
+of every change, see the ChangeLog.
+
+0.4.0:
+    * Lots of internal code cleanup.
+
+    * Doxygen generated documentation is much cleaner. Documentation about
+    configuration file formats is now provided.
+
+    * The build directory for Portage format repositories is now configurable
+    using a parameter named 'buildroot'.
+
+    * --pretend --install now displays detailed counts ('1 upgrade, 3 new')
+    rather than just a raw number. USE_EXPAND flags are displayed in a much
+    more useful manner.
+
+    * As part of the test suite, various full installs of test packages are
+    now performed.
+
+    * Multiple eclass directories and multiple profile directories can now
+    be specified for Portage format repositories. The 'eclassdir' and
+    'profiledir' keys are now deprecated in favour of 'eclassdirs' and
+    'profiledirs'.
+
+    * New commandline options: --list-vulnerabilities, mostly for use by
+    tree maintainers; --dl-no-unnecessary-upgrades, for avoiding upgrades of
+    dependencies; --environment-variable which can be used to print
+    the value of an environment variable for an installed or uninstalled
+    package; similarly, --configuration-variable can be used to get a repository
+    configuration variable; --info, as per portage.
+
+    * A new repository format named "nothing" is available. It does not
+    contain any packages, but supports a sync parameter to make automatically
+    syncing other directories simpler.
+
+    * Fetching is now handled via wrapper scripts. Support for file:/// URLs
+    has been added.
+
+    * If the user mirrors.conf file contains an entry with a mirror named '*',
+    first try fetching everything from that location.
+
+    * A warning is now emitted when dropping circular dependencies.
+
+    * The merge / unmerge code is now written in C++ rather than bash, and the
+    MD5 implementation is now internal rather than relying upon 'md5sum', which
+    works around problems when upgrading libc. When upgrading and downgrading,
+    sh breakages due to library version changes are less likely to be a problem.
+
+    * xterm titles are now updated for syncing, similar to previous behaviour
+    for installing.
+
+    * Syncing via Subversion over HTTP (svn+http://) has been enabled.
+
+    * Improved Portage compatibility: .tar.Z files are now unpacked correctly;
+    the 'date' command in ebuild global scope now works with a warning, rather
+    than being a hard failure; use of * with operators other than equals in dep
+    atoms is now a QA warning rather than a fatal error; PVR and AA are
+    supported, and A and AA do not include extra whitespace; dosym now calls
+    dodir as necessary as per Portage 2.1; elog is available.
+
+    * Some log messages include program context, to make finding the cause
+    of the problem simpler.
+
+    * The repository whence a package originates is saved in VDB. Portage
+    compatible environment saving is now used. VDB_FORMAT is now "paludis-2".
+
+    * SELinux is supported.
+
+    * Backtraces are now displayed from 'die'.
+
+    * World file updates are now carried out for packages that are unrestricted
+    except where --preserve-world is specified, regardless of whether the
+    package was previously installed. World updates are carried out after
+    packages are installed rather than before.
+
+    * Dependency errors due to [use] requirements now have more friendly error
+    messages.
+
+0.2.5:
+    * Syncing via Git is possible (git://, git+http://, git+ssh://).
+
+    * A new mirrors.conf configuration file can be used by the user to specify
+    favourite mirrors. It has the same format as thirdpartymirrors from the
+    repository.
+
+    * Error condition handling is improved in many places.
+
+    * Versions can now include -try.
+
+    * Initial work towards FreeBSD support has been started.
+
+0.2.4:
+    * An ebuild metadata generation bug has been fixed.
+
+    * For Portage format repositories, the location of security advisories is
+    now a configuration option.
+
+0.2.3:
+    * Added support for repository-level global and per-package USE forcing.
+
+    * Added --repository, --category, and --package filter options for --list
+      actions.
+
+    * Added an eselect-based newsreader. Paludis now provides a reference
+      implementation of GLEP 42.
+
+    * Various bugfixes -- reinstalling glibc and coreutils should work now,
+      amongst others.
+
+0.2.2:
+    * Deplist tags are now used for all package sets.
+
+    * The --query output now includes a key explaining the mask symbols.
+
+    * News items can now be delivered via repositories (GLEP 42).
+
+    * Various sandbox issues have been fixed.
+
+    * Various bugfixes.
+
+0.2.1:
+    * Build issues caused by trying to invoke sandbox from inside sandbox have
+      been fixed.
+
+    * The value of EAPI is now shown in the --install mask reasons.
+
+    * User and repository defined package sets are supported.
+
+    * The hook script interface has been enhanced. A hook script for logging
+      important actions to paludis.log is included.
+
+    * The --best-version output no longer includes the ::repository suffix.
+
+    * VDB reading is more tolerant of missing and malformed files.
+
+    * Using --query on a package set produces a better error.
+
+    * Ebuilds using fetch restrict will now have pkg_nofetch called where
+      appropriate.
+
+0.2.0:
+    Initial public release.
+
+.. vim: set tw=80 spell spelllang=en :
