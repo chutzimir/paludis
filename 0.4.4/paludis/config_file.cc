@@ -1,0 +1,540 @@
+/* vim: set sw=4 sts=4 et foldmethod=syntax : */
+
+/*
+ * Copyright (c) 2006 Ciaran McCreesh <ciaran.mccreesh@blueyonder.co.uk>
+ * Copyright (c) 2006 Danny van Dyk <kugelfang@gentoo.org>
+ *
+ * This file is part of the Paludis package manager. Paludis is free software;
+ * you can redistribute it and/or modify it under the terms of the GNU General
+ * Public License version 2, as published by the Free Software Foundation.
+ *
+ * Paludis is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
+#include <paludis/config_file.hh>
+#include <paludis/util/exception.hh>
+#include <paludis/util/fs_entry.hh>
+#include <paludis/util/log.hh>
+#include <paludis/util/stringify.hh>
+#include <paludis/util/strip.hh>
+#include <paludis/util/tokeniser.hh>
+
+#include <fstream>
+#include <istream>
+
+/** \file
+ * Implementation for config_file.hh classes.
+ *
+ * \ingroup grpconfigfile
+ */
+
+using namespace paludis;
+
+ConfigFileError::ConfigFileError(const std::string & message) throw () :
+    ConfigurationError("Config file error: " + message)
+{
+}
+
+ConfigFile::ConfigFile(std::istream * const stream) :
+    _stream(stream),
+    _has_lines(false),
+    _destroy_stream(false)
+{
+}
+
+ConfigFile::ConfigFile(const std::string & filename) try :
+    _stream(_make_stream(filename)),
+    _has_lines(false),
+    _filename(filename),
+    _destroy_stream(true)
+{
+}
+catch (...)
+{
+    _destroy_stream = false;
+    throw;
+}
+
+ConfigFile::ConfigFile(const FSEntry & filename) try :
+    _stream(_make_stream(stringify(filename))),
+    _has_lines(false),
+    _filename(stringify(filename)),
+    _destroy_stream(true)
+{
+}
+catch (...)
+{
+    _destroy_stream = false;
+    throw;
+}
+
+ConfigFile::~ConfigFile()
+{
+    if (_stream && _destroy_stream)
+        delete _stream;
+}
+
+std::istream *
+ConfigFile::_make_stream(const std::string & filename)
+{
+    Context context("When creating the filestream for a ConfigFile from file '" + filename + "':");
+
+    std::ifstream * result(new std::ifstream(filename.c_str()));
+    if (! *result)
+    {
+        delete result;
+        throw ConfigFileError("Could not open '" + filename + "'");
+    }
+
+    return result;
+}
+
+void
+ConfigFile::need_lines() const
+{
+    if (_has_lines)
+        return;
+
+    std::string line, accum;
+    unsigned line_number(0);
+    while (std::getline(*_stream, line))
+    {
+        Context c("When handling line " + stringify(++line_number) +
+                (_filename.empty() ? std::string(":") : " in file '" + _filename + "':"));
+        normalise_line(line);
+
+        if (line.empty() || skip_line(line))
+        {
+            if (!accum.empty())
+                throw ConfigFileError("Line-continuation followed by a blank line or comment is invalid.");
+
+            continue;
+        }
+        if ('\\' == line.at(line.length() - 1))
+        {
+            line.erase(line.length() - 1);
+            accum += line;
+            continue;
+        }
+
+        accept_line(accum + line);
+        accum.clear();
+    }
+    if (! _stream->eof())
+        throw ConfigFileError("Error reading from file");
+    if (! accum.empty())
+        throw ConfigFileError("Line-continuation needs a continuation.");
+
+    _has_lines = true;
+    done_reading_lines();
+}
+
+void
+ConfigFile::done_reading_lines() const
+{
+}
+
+void
+ConfigFile::normalise_line(std::string & s) const
+{
+    s = strip_leading(strip_trailing(s, " \t\n"), " \t\n");
+}
+
+bool
+ConfigFile::skip_line(const std::string & s) const
+{
+    return (s.empty() || '#' == s.at(0));
+}
+
+LineConfigFile::LineConfigFile(std::istream * const s) :
+    ConfigFile(s)
+{
+    need_lines();
+}
+
+LineConfigFile::LineConfigFile(const std::string & filename) :
+    ConfigFile(filename)
+{
+    need_lines();
+}
+
+LineConfigFile::LineConfigFile(const FSEntry & filename) :
+    ConfigFile(filename)
+{
+    need_lines();
+}
+
+void
+LineConfigFile::accept_line(const std::string & s) const
+{
+    _lines.push_back(s);
+}
+
+KeyValueConfigFileError::KeyValueConfigFileError(const std::string & msg,
+        const std::string & filename) throw () :
+    ConfigurationError("Key/Value config file error" +
+            (filename.empty() ? ": " : " in file '" + filename + "': ") + msg)
+{
+}
+
+KeyValueConfigFile::KeyValueConfigFile(std::istream * const s) :
+    ConfigFile(s)
+{
+    need_lines();
+}
+
+KeyValueConfigFile::KeyValueConfigFile(const std::string & filename) :
+    ConfigFile(filename)
+{
+    need_lines();
+}
+
+KeyValueConfigFile::KeyValueConfigFile(const FSEntry & filename) :
+    ConfigFile(filename)
+{
+    need_lines();
+}
+
+KeyValueConfigFile::KeyValueConfigFile(std::istream * const s,
+        const std::map<std::string, std::string> & m) :
+    ConfigFile(s),
+    _entries(m.begin(), m.end())
+{
+    need_lines();
+}
+
+KeyValueConfigFile::KeyValueConfigFile(const std::string & filename,
+        const std::map<std::string, std::string> & m) :
+    ConfigFile(filename),
+    _entries(m.begin(), m.end())
+{
+    need_lines();
+}
+
+KeyValueConfigFile::KeyValueConfigFile(const FSEntry & filename,
+        const std::map<std::string, std::string> & m) :
+    ConfigFile(filename),
+    _entries(m.begin(), m.end())
+{
+    need_lines();
+}
+
+KeyValueConfigFile::~KeyValueConfigFile()
+{
+}
+
+void
+KeyValueConfigFile::accept_line(const std::string & line) const
+{
+    if (! _accum.empty())
+    {
+        std::string value(line);
+        normalise_line(value);
+
+        if (value.empty())
+            return;
+
+        _accum += " ";
+        _accum += value;
+
+        if (value.at(value.length() - 1) == _accum.at(0))
+        {
+            _entries[_accum_key] = replace_variables(strip_quotes(_accum));
+            _accum.clear();
+            _accum_key.clear();
+        }
+    }
+    else
+    {
+        std::string::size_type p(line.find('='));
+        if (std::string::npos == p)
+            _entries[line] = "";
+        else
+        {
+            std::string key(line.substr(0, p)), value(line.substr(p + 1));
+            normalise_line(key);
+            normalise_line(value);
+            if (quotes_are_balanced(value))
+                _entries[key] = replace_variables(strip_quotes(value));
+            else
+            {
+                Log::get_instance()->message(ll_warning, lc_context, "Line continuations should "
+                        "be indicated with a backslash");
+                _accum = value;
+                _accum_key = key;
+            }
+        }
+    }
+}
+
+void
+KeyValueConfigFile::done_reading_lines() const
+{
+    if (! _accum.empty())
+        throw KeyValueConfigFileError("Unterminated multiline quoted string");
+}
+
+std::string
+KeyValueConfigFile::replace_variables(const std::string & s) const
+{
+    std::string r;
+    std::string::size_type p(0), old_p(0);
+
+    while (p < s.length())
+    {
+        old_p = p;
+
+        if ('\\' == s[p])
+        {
+            if (++p >= s.length())
+                throw KeyValueConfigFileError("Backslash not followed by a character", filename());
+            r += s[p++];
+        }
+        else if ('$' != s[p])
+            r += s[p++];
+        else
+        {
+            std::string name;
+            if (++p >= s.length())
+                throw KeyValueConfigFileError("Dollar not followed by a character", filename());
+
+            if ('{' == s[p])
+            {
+                std::string::size_type q;
+                if (std::string::npos == ((q = s.find("}", p))))
+                    throw KeyValueConfigFileError("Closing } not found", filename());
+
+                name = s.substr(p + 1, q - p - 1);
+                p = q + 1;
+            }
+            else
+            {
+                std::string::size_type q;
+                if (std::string::npos == ((q = s.find_first_not_of(
+                                    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                    "abcdefghijklmnopqrstuvwxyz"
+                                    "_0123456789", p))))
+                    q = s.length();
+
+                name = s.substr(p, q - p);
+                p = q;
+            }
+
+            if (name.empty())
+                throw KeyValueConfigFileError("Empty variable name", filename());
+            r += get(name);
+        }
+
+        if (p <= old_p)
+            throw InternalError(PALUDIS_HERE, "Infinite loop");
+    }
+
+    return r;
+}
+
+std::string
+KeyValueConfigFile::strip_quotes(const std::string & s) const
+{
+    if (s.empty())
+        return s;
+    if (std::string::npos != std::string("'\"").find(s[0]))
+    {
+        if (s.length() < 2)
+            throw KeyValueConfigFileError("Unterminated quote", filename());
+        if (s[s.length() - 1] != s[0])
+            throw KeyValueConfigFileError("Mismatched quote", filename());
+        return s.substr(1, s.length() - 2);
+    }
+    else
+        return s;
+}
+
+bool
+KeyValueConfigFile::quotes_are_balanced(const std::string & s) const
+{
+    if (s.empty())
+        return false;
+
+    if (std::string::npos != std::string("'\"").find(s[0]))
+    {
+        if (s.length() < 2)
+            return false;
+        if (s[s.length() - 1] != s[0])
+            return false;
+        return true;
+    }
+    else
+        return true;
+}
+
+AdvisoryFileError::AdvisoryFileError(const std::string & msg,
+        const std::string & filename) throw () :
+    ConfigurationError("Advisory file error" +
+            (filename.empty() ? ": " : "in file '" + filename + "': ") + msg)
+{
+}
+
+AdvisoryFile::AdvisoryFile(std::istream * const s) :
+    ConfigFile(s),
+    _end_of_header(false)
+{
+    need_lines();
+    sanitise();
+}
+
+AdvisoryFile::AdvisoryFile(const std::string & filename) :
+    ConfigFile(filename),
+    _end_of_header(false)
+{
+    need_lines();
+    sanitise();
+}
+
+AdvisoryFile::AdvisoryFile(const FSEntry & filename) :
+    ConfigFile(filename),
+    _end_of_header(false)
+{
+    need_lines();
+    sanitise();
+}
+
+AdvisoryFile::AdvisoryFile(std::istream * const s,
+        const std::map<std::string, std::string> & m) :
+    ConfigFile(s),
+    _entries(m.begin(), m.end()),
+    _end_of_header(false)
+{
+    need_lines();
+    sanitise();
+}
+
+AdvisoryFile::AdvisoryFile(const std::string & filename,
+        const std::map<std::string, std::string> & m) :
+    ConfigFile(filename),
+    _entries(m.begin(), m.end()),
+    _end_of_header(false)
+{
+    need_lines();
+    sanitise();
+}
+
+AdvisoryFile::AdvisoryFile(const FSEntry & filename,
+        const std::map<std::string, std::string> & m) :
+    ConfigFile(filename),
+    _entries(m.begin(), m.end()),
+    _end_of_header(false)
+{
+    need_lines();
+    sanitise();
+}
+
+AdvisoryFile::~AdvisoryFile()
+{
+}
+
+void
+AdvisoryFile::accept_line(const std::string & line) const
+{
+    std::string::size_type p(line.find(':'));
+
+    if ((std::string::npos == p) || (_end_of_header))
+    {
+        _entries["Description"] += line + "\n";
+        _end_of_header = true;
+    }
+    else
+    {
+        std::string key(line.substr(0, p)), value(line.substr(p + 1));
+        normalise_line(key);
+        normalise_line(value);
+        if ((key == "Affected") || (key == "Bug-Id") || (key == "CVE") || (key == "Reference")
+            || (key == "Restart") || (key == "Unaffected"))
+        {
+            if (key == "Affected")
+                _affected.push_back(value);
+            else if (key == "Unaffected")
+                _unaffected.push_back(value);
+            else
+            {
+                if (! _entries[key].empty())
+                    value = "\n" + value;
+                _entries[key] += value;
+            }
+        }
+        else
+        {
+            if (_entries[key].empty())
+                _entries[key] = value;
+            else
+                throw AdvisoryFileError("When adding value for key '" + key + "': Duplicate key found.");
+        }
+    }
+}
+
+void
+AdvisoryFile::sanitise()
+{
+    if (_entries["Id"].empty())
+        throw AdvisoryFileError("Missing mandatory key: 'Id'.");
+
+    if (_entries["Title"].empty())
+            throw AdvisoryFileError("Missing mandatory key: 'Title'.");
+
+    if (_entries["Access"].empty())
+            throw AdvisoryFileError("Missing mandatory key: 'Access'.");
+
+    if (_entries["Last-Modified"].empty())
+            throw AdvisoryFileError("Missing mandatory key: 'Last-Modified'.");
+
+    if (_entries["Revision"].empty())
+            throw AdvisoryFileError("Missing mandatory key: 'Revision'.");
+
+    if (_entries["Severity"].empty())
+            throw AdvisoryFileError("Missing mandatory key: 'Severity'.");
+
+    if (_entries["Spec-Version"].empty())
+            throw AdvisoryFileError("Missing mandatory key: 'Spec-Version'.");
+}
+
+NewsFile::NewsFile(const FSEntry & filename) :
+    ConfigFile(filename),
+    _in_header(true)
+{
+    need_lines();
+}
+
+void
+NewsFile::accept_line(const std::string & line) const
+{
+    if (_in_header)
+    {
+        std::string::size_type p(line.find(':'));
+        if (std::string::npos == p)
+            _in_header = false;
+        else
+        {
+            std::string k(strip_leading(strip_trailing(line.substr(0, p), " \t\n"), " \t\n"));
+            std::string v(strip_leading(strip_trailing(line.substr(p + 1), " \t\n"), " \t\n"));
+            if (k == "Display-If-Installed")
+                _display_if_installed.push_back(v);
+            else if (k == "Display-If-Keyword")
+                _display_if_keyword.push_back(v);
+            if (k == "Display-If-Profile")
+                _display_if_profile.push_back(v);
+        }
+    }
+}
+
+std::string
+KeyValueConfigFile::get(const std::string & key) const
+{
+    return _entries[key];
+}
+
