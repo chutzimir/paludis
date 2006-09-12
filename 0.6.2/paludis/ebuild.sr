@@ -1,0 +1,93 @@
+#!/bin/bash
+# vim: set sw=4 sts=4 et :
+
+make_class_EbuildCommandParams()
+{
+    key environment "const Environment *"
+    key db_entry "const PackageDatabaseEntry *"
+    key ebuild_dir FSEntry
+    key files_dir FSEntry
+    key eclassdirs FSEntryCollection::ConstPointer
+    key portdir FSEntry
+    key distdir FSEntry
+    key buildroot FSEntry
+
+    doxygen_comment << "END"
+        /**
+         * Parameters for an EbuildCommand.
+         *
+         * \see EbuildCommand
+         * \ingroup grpebuildinterface
+         */
+END
+
+    allow_named_args
+}
+
+make_class_EbuildFetchCommandParams()
+{
+    key a std::string
+    key aa std::string
+    key use std::string
+    key use_expand std::string
+    key flat_src_uri std::string
+    key root std::string
+    key profiles FSEntryCollection::ConstPointer
+    key expand_vars "AssociativeCollection<std::string, std::string>::ConstPointer"
+    key no_fetch bool
+
+    doxygen_comment << "END"
+        /**
+         * Parameters for an EbuildFetchCommand.
+         *
+         * \see EbuildFetchCommand
+         * \ingroup grpebuildinterface
+         */
+END
+
+    allow_named_args
+}
+
+make_class_EbuildInstallCommandParams()
+{
+    key a std::string
+    key aa std::string
+    key use std::string
+    key use_expand std::string
+    key root std::string
+    key profiles FSEntryCollection::ConstPointer
+    key expand_vars "AssociativeCollection<std::string, std::string>::ConstPointer"
+    key disable_cfgpro bool
+    key slot SlotName
+
+    doxygen_comment << "END"
+        /**
+         * Parameters for an EbuildInstallCommand.
+         *
+         * \see EbuildInstallCommand
+         * \ingroup grpebuildinterface
+         */
+END
+
+    allow_named_args
+}
+
+make_class_EbuildUninstallCommandParams()
+{
+    key root std::string
+    key disable_cfgpro bool
+    key unmerge_only bool
+    key load_environment "const FSEntry *"
+
+    doxygen_comment << "END"
+        /**
+         * Parameters for an EbuildUninstallCommand.
+         *
+         * \see EbuildUninstallCommand
+         * \ingroup grpebuildinterface
+         */
+END
+
+    allow_named_args
+}
+
