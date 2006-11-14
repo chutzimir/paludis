@@ -1,0 +1,330 @@
+News for Paludis
+================
+
+This file lists the major changes between versions. For a more detailed list
+of every change, see the ChangeLog.
+
+0.8.3:
+    * More work on the Ruby interface.
+
+    * paludis --query now always shows SLOT information.
+
+    * qualudis now has a --quiet option and checks for certain illegal variable
+    assignments.
+
+    * Old-style virtual packages are no longer displayed in dep lists.
+
+    * Bash 3.2's different =~ syntax is now supported.
+
+    * PALUDIS_OPTIONS now only applies to paludis. ADJUTRIX_OPTIONS etc can be
+    used for other clients.
+
+0.8.2:
+    * Lots of documentation updates. A new "Programming with Paludis" document
+    is available.
+
+    * NoConfigEnvironment, and by extension adjutrix, can now work with VDB
+    repositories where appropriate.
+
+    * More work on the Ruby interface.
+
+    * Various minor Portage compatibility tweaks.
+
+0.8.1:
+    * Various autotools-related bugs are fixed. The Ruby Paludis.so should now
+    be built and installed correctly on most systems.
+
+    * A -blah in profile files now removes all blah lines, rather than just the
+    first.
+
+    * Pre-0.8 command line options are now available again, marked as
+    deprecated.
+
+0.8.0:
+    * A Ruby interface is now available.
+
+    * qualudis: Various deprecated functions are flagged. Maintainer
+    information is now included in the output.
+
+    * The deplist has been rewritten to be much cleaner and much more sensible
+    in its handling of virtuals. It can now reinstall packages if USE flags have
+    changed, and can display why a package is being installed.
+
+    * The security set for Portage format repositories no longer requires an
+    external preprocessor. paludis -pi security will now work off a raw sync.
+
+0.6.7:
+    * The qualudis client now checks that Manifest files are signed.
+
+    * Various minor bug fixes.
+
+    * We now define a PKGMANAGER environment variable and vdb entry.
+
+0.6.6:
+    * Using * -* in use.conf no longer implies -* for USE_EXPAND variables.
+
+    * A new NoConfigEnvironment is provided to make things easier for tool
+    writers.
+
+    * The adjutrix client now has a reverse dependencies search facility.
+
+0.6.5:
+    * The USE_EXPAND code has been simplified, and numerous bugs fixed in the
+    process.
+
+    * A new --list-sets action is available.
+
+    * For --query, visible packages are now chosen over invisible packages.
+
+    * When a package install fails, the paludis client now displays a command
+    that can be used to resume the current task.
+
+0.6.4:
+    * A bug that could cause highly strange behaviour with virtuals when using
+    multiple profiles is fixed.
+
+    * All package sets are now composite. Previously some were instead selected
+    from only one repository, which was confusing behaviour and not as useful as
+    originally suspected.
+
+0.6.3:
+    * -* now works properly.
+
+    * The adjutrix keywords graph is now SLOT aware.
+
+0.6.2:
+    * A bug preventing recursion from behaving correctly in dohtml is fixed.
+
+    * Ebuild hooks can now use 'die'.
+
+    * The eselect news client has several new options.
+
+    * Portage doesn't always add a newline to the last line in world. We now
+    work around this.
+
+    * use.conf now supports -*, to prevent inheriting profile defaults.
+
+    * CONFIG_PROTECT and CONFIG_PROTECT_MASK now recognise -target and -*.
+
+    * The adjutrix client has several new actions that will be of use to arch
+    and release teams.
+
+0.6.1:
+    * A bug in dosym is fixed, meaning that Java packages, amongst others, can
+    now be installed.
+
+    * Profile package.mask files can now remove entries from inherited profiles.
+
+    * libdir is now set properly by econf when an ebuild specifies --prefix.
+    This should fix installing of KDE, amongst others.
+
+    * More sanity checking is now done both of the build environment and at
+    runtime.
+
+0.6.0:
+    * elog will now write to PALUDIS_ELOG_FILE, if defined, as well as
+    displaying on screen.
+
+    * Virtuals are now handled entirely dynamically and are not written to vdb.
+
+    * Support for CRAN (the Comprehensive R Archive Network) repositories is now
+    available.
+
+    * Manual (man) pages are now provided.
+
+    * Logic for complex operations such as installing and uninstalling has been
+    moved out of the client code and into separate task classes.
+
+    * Repository formats are now dynamically loaded from .so files rather than
+    being compiled in.
+
+    * libwrapiter is now used to simplify iterator interfaces and reduce compile
+    times.
+
+    * Much better handling of Portage-generated VDB entries.
+
+    * For VDB repository entries, all USE flags are marked as masked / forced.
+
+    * --query on virtuals is more useful. USE flags are displayed for --query.
+    Sets can be shown with --query.
+
+    * New client: adjutrix, a tool for developers and arch teams.
+
+0.4.4:
+    * In key/value configuration files, line continuations inside a quoted
+    string with no backslash is now a warning, not an error.
+
+    * REAL_CHOST is now exported automatically, to avoid problems with
+    gcc-config when Portage is not installed.
+
+    * Support for newer libselinux /proc voodoo.
+
+    * svn+https:// is recognised for syncing.
+
+    * Huge speed improvements when merging.
+
+    * portageq vdb_path is now emulated.
+
+    * Fail hooks for ebuild phases are available.
+
+0.4.3:
+    * An infinite loop on unmerge bug has been fixed.
+
+0.4.2:
+    * CONFIG_PROTECT now works as expected for ROOT=/.
+
+    * Unmerging Portage-installed packages with ROOT=/ will no longer have
+    strange eclass issues.
+
+0.4.1:
+    * Unmerging Portage-installed packages with ROOT=/ will no longer trigger
+    sandbox problems.
+
+    * Category names can now include dot characters (crossdev requires this for
+    some CHOST values).
+
+    * Use of colour is more consistent.
+
+    * Lots of doxygen and code cleanup.
+
+0.4.0:
+    * Lots of internal code cleanup.
+
+    * Doxygen generated documentation is much cleaner. Documentation about
+    configuration file formats is now provided.
+
+    * The build directory for Portage format repositories is now configurable
+    using a parameter named 'buildroot'.
+
+    * --pretend --install now displays detailed counts ('1 upgrade, 3 new')
+    rather than just a raw number. USE_EXPAND flags are displayed in a much
+    more useful manner.
+
+    * As part of the test suite, various full installs of test packages are
+    now performed.
+
+    * Multiple eclass directories and multiple profile directories can now
+    be specified for Portage format repositories. The 'eclassdir' and
+    'profiledir' keys are now deprecated in favour of 'eclassdirs' and
+    'profiledirs'.
+
+    * New commandline options: --list-vulnerabilities, mostly for use by
+    tree maintainers; --dl-no-unnecessary-upgrades, for avoiding upgrades of
+    dependencies; --environment-variable which can be used to print
+    the value of an environment variable for an installed or uninstalled
+    package; similarly, --configuration-variable can be used to get a repository
+    configuration variable; --info, as per portage.
+
+    * A new repository format named "nothing" is available. It does not
+    contain any packages, but supports a sync parameter to make automatically
+    syncing other directories simpler.
+
+    * Fetching is now handled via wrapper scripts. Support for file:/// URLs
+    has been added.
+
+    * If the user mirrors.conf file contains an entry with a mirror named '*',
+    first try fetching everything from that location.
+
+    * A warning is now emitted when dropping circular dependencies.
+
+    * The merge / unmerge code is now written in C++ rather than bash, and the
+    MD5 implementation is now internal rather than relying upon 'md5sum', which
+    works around problems when upgrading libc. When upgrading and downgrading,
+    sh breakages due to library version changes are less likely to be a problem.
+
+    * xterm titles are now updated for syncing, similar to previous behaviour
+    for installing.
+
+    * Syncing via Subversion over HTTP (svn+http://) has been enabled.
+
+    * Improved Portage compatibility: .tar.Z files are now unpacked correctly;
+    the 'date' command in ebuild global scope now works with a warning, rather
+    than being a hard failure; use of * with operators other than equals in dep
+    atoms is now a QA warning rather than a fatal error; PVR and AA are
+    supported, and A and AA do not include extra whitespace; dosym now calls
+    dodir as necessary as per Portage 2.1; elog is available.
+
+    * Some log messages include program context, to make finding the cause
+    of the problem simpler.
+
+    * The repository whence a package originates is saved in VDB. Portage
+    compatible environment saving is now used. VDB_FORMAT is now "paludis-2".
+
+    * SELinux is supported.
+
+    * Backtraces are now displayed from 'die'.
+
+    * World file updates are now carried out for packages that are unrestricted
+    except where --preserve-world is specified, regardless of whether the
+    package was previously installed. World updates are carried out after
+    packages are installed rather than before.
+
+    * Dependency errors due to [use] requirements now have more friendly error
+    messages.
+
+0.2.5:
+    * Syncing via Git is possible (git://, git+http://, git+ssh://).
+
+    * A new mirrors.conf configuration file can be used by the user to specify
+    favourite mirrors. It has the same format as thirdpartymirrors from the
+    repository.
+
+    * Error condition handling is improved in many places.
+
+    * Versions can now include -try.
+
+    * Initial work towards FreeBSD support has been started.
+
+0.2.4:
+    * An ebuild metadata generation bug has been fixed.
+
+    * For Portage format repositories, the location of security advisories is
+    now a configuration option.
+
+0.2.3:
+    * Added support for repository-level global and per-package USE forcing.
+
+    * Added --repository, --category, and --package filter options for --list
+      actions.
+
+    * Added an eselect-based newsreader. Paludis now provides a reference
+      implementation of GLEP 42.
+
+    * Various bugfixes -- reinstalling glibc and coreutils should work now,
+      amongst others.
+
+0.2.2:
+    * Deplist tags are now used for all package sets.
+
+    * The --query output now includes a key explaining the mask symbols.
+
+    * News items can now be delivered via repositories (GLEP 42).
+
+    * Various sandbox issues have been fixed.
+
+    * Various bugfixes.
+
+0.2.1:
+    * Build issues caused by trying to invoke sandbox from inside sandbox have
+      been fixed.
+
+    * The value of EAPI is now shown in the --install mask reasons.
+
+    * User and repository defined package sets are supported.
+
+    * The hook script interface has been enhanced. A hook script for logging
+      important actions to paludis.log is included.
+
+    * The --best-version output no longer includes the ::repository suffix.
+
+    * VDB reading is more tolerant of missing and malformed files.
+
+    * Using --query on a package set produces a better error.
+
+    * Ebuilds using fetch restrict will now have pkg_nofetch called where
+      appropriate.
+
+0.2.0:
+    Initial public release.
+
+.. vim: set tw=80 spell spelllang=en :
