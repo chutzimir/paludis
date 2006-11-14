@@ -1,0 +1,4231 @@
+ChangeLog for Paludis
+=====================
+
+This file lists every change made except typo and formatting fixes, which are
+only listed in SVN log. For a summary of what has changed between releases,
+see the NEWS file.
+
+2006-11-14 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* NEWS, configure.ac: Preparation for 0.8.4.
+
+	+ Release: 0.8.4
+
+2006-11-14 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* bash-completion/Makefile.am: Fix 'make doxygen' at the top level.
+
+2006-11-14 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* NEWS, configure.ac: Preparation for 0.8.3.
+
+	+ Release: 0.8.3
+
+2006-11-14 Mike Kelly <pioto@gentoo.org>
+
+	* ebuild/utils/doman: Fix doman to work properly with >=bash-3.2.
+
+2006-11-14 Marco Matthies
+
+	* paludis/args/args_handler.cc, paludis/args/args_handler.hh,
+	src/adjutrix/Makefile.am, src/adjutrix/adjutrix.cc,
+	src/adjutrix/args_from_environment_TEST, src/adjutrix/command_line.cc,
+	src/gtkpaludis/command_line.cc, src/gtkpaludis/gtkpaludis.cc,
+	src/paludis/Makefile.am, src/paludis/args_from_environment_TEST,
+	src/paludis/command_line.cc, src/paludis/paludis.cc,
+	src/qualudis/qualudis.cc, src/qualudis/qualudis_command_line.cc: Only
+	use PALUDIS_OPTIONS for paludis. Add ADJUTRIX_OPTIONS etc for other
+	clients.
+
+2006-11-13 Richard Brown <mynamewasgone@gmail.com>
+
+	* configure.ac, ruby/demos/find_unused_distfiles.rb,
+	ruby/demos/version_spec_distributions.rb, ruby/dep_atom_TEST.rb,
+	ruby/environment_TEST.rb, ruby/log_TEST.rb, ruby/Makefile.am,
+	ruby/mask_reasons_TEST.rb, ruby/package_database_entry_TEST.rb,
+	ruby/package_database_TEST.rb, ruby/portage_dep_parser_TEST.rb,
+	ruby/qualified_package_name_TEST.rb, ruby/repository_TEST.rb,
+	ruby/version_metadata_TEST.rb, ruby/version_spec_TEST.rb: Don't hard
+	code the location of the ruby interpreter in .rb files. Allow the
+	environment to override the ruby interpreter the bindings are compiled
+	against.
+
+2006-11-12 Mike Kelly <pioto@gentoo.org>
+
+	* bash-completion/Makefile.am, bash-completion/qualudis: Add a
+	bashcomp script for qualudis.
+
+2006-11-12 Mike Kelly <pioto@gentoo.org>
+
+	* bash-completion/adjutrix: Clean the adjutrix bashcomp script up a
+	bit.
+
+2006-11-12 Mike Kelly <pioto@gentoo.org>
+
+	* bash-completion/adjutrix, bash-completion/Makefile.am, configure.ac,
+	Makefile.am: Distribute the bash-completion scripts. Add an adjutrix
+	script.
+
+2006-11-12 Richard Brown <mynamewasgone@gmail.com>
+
+	* ruby/environment.cc, ruby/package_database_entry.cc,
+	ruby/paludis_ruby.cc, ruby/paludis_ruby.hh, ruby/paludis_ruby_TEST.rb:
+	Type check all Data_Get_Structs except for self.
+
+2006-11-12 Richard Brown <mynamewasgone@gmail.com>
+
+	* ruby/dep_atom.cc, ruby/dep_atom_TEST.rb,
+	ruby/qualified_package_name.cc, ruby/qualified_package_name_TEST.rb,
+	ruby/repository_TEST.rb, ruby/version_metadata.cc,
+	ruby/version_spec.cc: Add type checking to value_to functions in ruby
+	bindings.
+
+2006-11-12 Richard Brown <mynamewasgone@gmail.com>
+
+	* ruby/dep_atom.cc, ruby/environment.cc, ruby/log.cc,
+	ruby/package_database.cc, ruby/package_database_entry.cc,
+	ruby/portage_dep_parser.cc, ruby/qualified_package_name.cc,
+	ruby/repository.cc, ruby/version_spec.cc: Change STR2CSTR to
+	StringValuePtr in ruby bindings.
+
+2006-11-12 Richard Brown <mynamewasgone@gmail.com>
+
+	* ruby/environment.cc, ruby/environment_TEST.rb, ruby/paludis_ruby.cc:
+	Add environment->package_set to ruby bindings.
+
+2006-11-12 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/environment.cc, paludis/environment.hh,
+	paludis/environment/default/default_environment.cc,
+	paludis/environment/default/default_environment.hh,
+	src/gtkpaludis/sets_list.cc, src/paludis/list.cc: Include environment
+	sets in set lists.
+
+2006-11-12 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/portage/portage_repository.cc,
+	paludis/repositories/portage/portage_repository_profile.cc,
+	paludis/repositories/portage/portage_repository_profile.hh: Switch to
+	the new cascade rules.
+
+2006-11-11 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/dep_list.cc, paludis/dep_list.sr,
+	paludis/tasks/install_task.cc, src/gtkpaludis/queue_list.cc,
+	src/paludis/install.cc: Mark virtual packages as to be skipped.
+
+2006-11-11 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/gtkpaludis/queue_list.cc: More informative queue list.
+
+2006-11-11 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/gtkpaludis/main_window.cc, src/gtkpaludis/main_window.hh,
+	src/gtkpaludis/queue_list.cc, src/gtkpaludis/queue_options.cc,
+	src/gtkpaludis/queue_page.cc, src/gtkpaludis/queue_page.hh,
+	src/gtkpaludis/repositories_list.cc,
+	src/gtkpaludis/repositories_page.cc,
+	src/gtkpaludis/repositories_page.hh, src/gtkpaludis/tasks_page.cc,
+	src/gtkpaludis/tasks_page.hh: Stop using CellRendererButton for now.
+	Make Tasks work.
+
+2006-11-11 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/gtkpaludis/cellrendererbutton/cellrendererbutton.cc,
+	src/gtkpaludis/cellrendererbutton/cellrendererbutton.hh,
+	src/gtkpaludis/queue_list.cc, src/gtkpaludis/queue_options.cc,
+	src/gtkpaludis/tasks_page.cc: More work on CellRendererButton.
+
+2006-11-10 Richard Brown <mynamewasgone@gmail.com>
+
+	* ruby/Makefile.am, ruby/package_database_entry.cc,
+	ruby/package_database_entry_TEST.rb, ruby/paludis_ruby.cc,
+	ruby/paludis_ruby.hh, ruby/qualified_package_name.cc,
+	ruby/qualified_package_name_TEST.rb, ruby/repository.cc: Add
+	QualifiedPackageName to ruby bindings.
+
+2006-11-09 Richard Brown <mynamewasgone@gmail.com>
+
+	* src/paludis/query.cc: Fix segfault after paludis --query throws a
+	SetNameError.
+
+2006-11-05 Fernando J. Pereda <ferdy@gentoo.org>
+
+	* paludis/qa/gpg_check.cc: Simplify detection of bad, unsigned and unknown
+	Manifest signatures.
+
+2006-11-05 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/gtkpaludis/cellrendererbutton/cellrendererbutton.cc,
+	src/gtkpaludis/queue_list.cc, src/gtkpaludis/tasks_page.cc: Improve
+	CellRendererButton somewhat.
+
+2006-11-04 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/tasks/install_task.cc, src/gtkpaludis/queue_page.cc,
+	src/gtkpaludis/queue_page.hh: Make the Clear button work.
+
+2006-11-04 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/qa/gpg_check.cc: Distinguish between bad, unsigned and unknown
+	signatures.
+
+2006-11-04 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/qa/files.m4, paludis/qa/variable_assigns_check.cc,
+	paludis/qa/variable_assigns_check.hh: Check for naughty variable
+	assignments.
+
+2006-11-04 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/qualudis/qualudis.cc, src/qualudis/qualudis_command_line.cc,
+	src/qualudis/qualudis_command_line.hh: Add --quiet option to qualudis.
+
+2006-11-03 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/args/args_TEST.cc,
+	paludis/repositories/nothing/nothing_repository.cc,
+	paludis/repositories/portage/make_ebin_repository.cc,
+	paludis/repositories/portage/make_ebuild_repository.cc: Silence some
+	g++-4.2 warnings.
+
+2006-11-03 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/dep_list.cc, paludis/dep_list.hh, paludis/dep_list_TEST.cc,
+	paludis/tasks/install_task.cc, paludis/tasks/install_task.hh,
+	src/gtkpaludis/Makefile.am, src/gtkpaludis/install.cc,
+	src/gtkpaludis/install.hh, src/gtkpaludis/main_window.cc,
+	src/gtkpaludis/main_window.hh, src/gtkpaludis/messages.cc,
+	src/gtkpaludis/messages.hh, src/gtkpaludis/package_info.cc,
+	src/gtkpaludis/package_info.hh, src/gtkpaludis/queue_list.cc,
+	src/gtkpaludis/queue_list.hh, src/gtkpaludis/queue_options.cc,
+	src/gtkpaludis/queue_options.hh, src/gtkpaludis/queue_page.cc,
+	src/gtkpaludis/queue_page.hh, src/gtkpaludis/sets_page.cc,
+	src/gtkpaludis/sets_page.hh: Start of basic queue functionality.
+
+2006-11-01 Richard Brown <mynamewasgone@gmail.com>
+
+	* ruby/paludis_ruby.cc, ruby/package_database_TEST.rb,
+	ruby/package_database_TEST_setup.sh: Add AmbiguousPackageNameError and
+	test for NoSuchPackageName to ruby bindings
+
+2006-10-31 Richard Brown <mynamewasgone@gmail.com>
+
+	* ruby/paludis_ruby_TEST_cleanup.sh, ruby/paludis_ruby_TEST.rb,
+	ruby/paludis_ruby.cc, ruby/paludis_ruby_TEST_setup.sh: Add
+	match_package to ruby Paludis module. 
+
+2006-10-31 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac, src/gtkpaludis/Makefile.am,
+	src/gtkpaludis/cellrendererbutton,
+	src/gtkpaludis/cellrendererbutton/Makefile.am,
+	src/gtkpaludis/cellrendererbutton/cellrendererbutton.cc,
+	src/gtkpaludis/cellrendererbutton/cellrendererbutton.hh,
+	src/gtkpaludis/main_window.cc, src/gtkpaludis/main_window.hh,
+	src/gtkpaludis/tasks_page.cc, src/gtkpaludis/tasks_page.hh: Add tasks
+	window basics.
+
+2006-10-30 Richard Brown <mynamewasgone@gmail.com>
+
+	* ruby/(lots): master_class -> paludis_module.
+
+2006-10-29 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/tasks/install_task.cc, paludis/tasks/install_task.hh,
+	src/paludis/install.cc: Don't go through the clean sequence if there
+	are no packages to clean.
+
+2006-10-27 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/paludis/command_line.cc, src/paludis/command_line.hh,
+	src/paludis/query.cc: Remove -S / --show-slot option for --query.
+	Always show slots.
+
+2006-10-27 Richard Brown
+
+	* ruby/package_database.cc, ruby/package_database_TEST.rb: Add
+	PackageDatabase.better_repository.
+
+2006-10-27 Richard Brown
+
+	* ruby/paludis_ruby.cc, ruby/version_spec.cc,
+	ruby/version_spec_TEST.rb: Extend VersionSpec.
+
+2006-10-26 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/dep_tag.cc, paludis/dep_tag.hh, paludis/environment.cc,
+	paludis/environment.hh,
+	paludis/environment/default/default_environment.cc,
+	paludis/environment/default/default_environment.hh, paludis/name.cc,
+	paludis/name.hh,
+	paludis/repositories/cran/cran_installed_repository.cc,
+	paludis/repositories/cran/cran_installed_repository.hh,
+	paludis/repositories/cran/cran_repository.cc,
+	paludis/repositories/cran/cran_repository.hh,
+	paludis/repositories/portage/portage_repository.cc,
+	paludis/repositories/portage/portage_repository.hh,
+	paludis/repositories/portage/portage_repository_profile.cc,
+	paludis/repositories/portage/portage_repository_sets.cc,
+	paludis/repositories/portage/portage_repository_sets.hh,
+	paludis/repositories/vdb/vdb_repository.cc,
+	paludis/repositories/vdb/vdb_repository.hh, paludis/repository.hh,
+	paludis/tasks/install_task.cc, src/adjutrix/Makefile.am,
+	src/adjutrix/display_default_system_resolution.cc,
+	src/adjutrix/find_insecure_packages.cc,
+	src/gtkpaludis/set_overview.cc, src/gtkpaludis/sets_list.cc,
+	src/paludis/list.cc, src/paludis/query.cc: Make a SetName class.
+
+2006-10-26 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ruby/version_metadata.cc, ruby/version_metadata_TEST.rb,
+	ruby/version_metadata_TEST_setup.sh: Add dep string support.
+
+2006-10-26 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/fs_entry_TEST.cc, paludis/util/fs_entry_TEST_setup.sh:
+	Work around potential filesystem screwiness that could cause a test to
+	fail.
+
+2006-10-26 Richard Brown
+
+	* ruby/paludis_ruby.cc, ruby/portage_dep_parser_TEST.rb: More dep
+	parser exception handling.
+
+2006-10-25 Richard Brown
+
+	* ruby/demos/find_unused_distfiles.rb,
+	ruby/demos/version_spec_distributions.rb, ruby/log.cc,
+	ruby/log_TEST.rb: Allow Log::program_name=.
+
+2006-10-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/dep_atom.hh, ruby/dep_atom.cc: Allow UseDepAtom.flag and
+	UseDepAtom.inverse?.
+
+2006-10-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ruby/version_metadata.cc, ruby/version_metadata_TEST.rb: Allow access
+	to deps through VersionMetadata.
+
+2006-10-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/dep_atom.cc, paludis/dep_atom.hh, ruby/Makefile.am,
+	ruby/dep_atom.cc, ruby/dep_atom_TEST.rb, ruby/paludis_ruby.cc,
+	ruby/portage_dep_parser.cc, ruby/portage_dep_parser_TEST.rb: Extend dep
+	atom support, add PortageDepParser support to Ruby.
+
+2006-10-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* NEWS, configure.ac: Preparation for 0.8.2.
+
+	+ Release: 0.8.2
+
+2006-10-25 Richard Brown
+
+	* doc/doc_configuration_files.doxygen: Various updates.
+
+2006-10-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac, doc/Makefile.am,
+	doc/doc_programming_with_paludis.doxygen, doc/doxygen.conf.in,
+	doc/examples, doc/examples/Makefile.am,
+	doc/examples/pwp_basic_cplusplus_app.cc,
+	doc/examples/pwp_basic_ruby_app.rb: More Programming with Paludis
+	work.
+
+2006-10-25 Richard Brown
+
+	* ruby/environment_TEST.rb, ruby/package_database_TEST.rb,
+	ruby/paludis_ruby.cc: Extend Paludis to Ruby exception conversion.
+
+2006-10-25 Richard Brown
+
+	* ruby/package_database_entry.cc, ruby/package_database_entry_TEST.rb:
+	Allow access to PackageDatabaseEntry members.
+
+2006-10-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* Makefile.am, cran/Makefile.am, doc/Makefile.am,
+	doc/doc_mainpage.doxygen, doc/doc_programming_with_paludis.doxygen,
+	doc/header.html, doc/paludis.css, ebuild/Makefile.am,
+	ebuild/digests/Makefile.am, ebuild/fetchers/Makefile.am,
+	ebuild/utils/Makefile.am, eselect/Makefile.am, hooks/Makefile.am.m4,
+	misc/Makefile.am, misc/make_sr.bash, paludis/Makefile.am.m4,
+	paludis/args/Makefile.am, paludis/digests/Makefile.am,
+	paludis/environment/Makefile.am,
+	paludis/environment/default/Makefile.am,
+	paludis/environment/no_config/Makefile.am,
+	paludis/environment/test/Makefile.am, paludis/libxml/Makefile.am,
+	paludis/qa/Makefile.am.m4, paludis/repositories/Makefile.am,
+	paludis/repositories/cran/Makefile.am,
+	paludis/repositories/fake/Makefile.am,
+	paludis/repositories/nothing/Makefile.am,
+	paludis/repositories/portage/Makefile.am,
+	paludis/repositories/vdb/Makefile.am,
+	paludis/repositories/virtuals/Makefile.am, paludis/repository.hh,
+	paludis/repository.sr, paludis/selinux/Makefile.am,
+	paludis/tasks/Makefile.am, paludis/util/Makefile.am.m4,
+	ruby/Makefile.am, ruby/demos/Makefile.am, src/Makefile.am,
+	src/adjutrix/Makefile.am, src/gtkpaludis/Makefile.am,
+	src/gtkpaludis/vtemm/Makefile.am,
+	src/gtkpaludis/vtemm/converts/Makefile.am,
+	src/gtkpaludis/vtemm/defs/Makefile.am, src/paludis/Makefile.am,
+	src/qualudis/Makefile.am, test/Makefile.am: More Doxygen work,
+	including the start of "Programming with Paludis".
+
+2006-10-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/dep_atom.cc, paludis/dep_atom.hh: Provide a copy
+	constructor for PackageDepAtom.
+
+2006-10-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/environment/default/Makefile.am: Fix header install dir.
+
+2006-10-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_main.doxygen: Update Doxygen tags.
+
+2006-10-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/Makefile.am.m4, paludis/dep_tag.sr,
+	paludis/environment/no_config/Makefile.am, paludis/qa/Makefile.am.m4,
+	paludis/qa/message.sr, paludis/version_metadata.sr: More Doxygen
+	tweaks.
+
+2006-10-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/Makefile.am, doc/doc_bootstrap_howto.doxygen,
+	doc/doc_known_issues.doxygen, doc/doc_mainpage.doxygen,
+	-doc/doc_security_advisories.doxygen: Docs updates.
+
+2006-10-24 Bo Ørsted Andresen
+
+	* ebuild/src_compile.bash, ebuild/src_install.bash: Be like Portage:
+	don't create ${S}, and don't cd ${S} if ${S} doesn't exist.
+
+2006-10-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/portage/portage_repository_sets.cc: Include the
+	insecurity set in set lists.
+
+2006-10-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/gtkpaludis/package_overview.cc: Display mask reasons.
+
+2006-10-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/paludis/install.cc: Display more tag information.
+
+2006-10-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/gtkpaludis/Makefile.am, src/gtkpaludis/main_window.cc,
+	src/gtkpaludis/set_overview.cc, src/gtkpaludis/set_overview.hh,
+	src/gtkpaludis/sets_list.cc, src/gtkpaludis/sets_list.hh,
+	src/gtkpaludis/sets_page.cc, src/gtkpaludis/sets_page.hh: Sets page.
+
+2006-10-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/gtkpaludis/Makefile.am, src/gtkpaludis/package_overview.cc,
+	src/gtkpaludis/packages_list.cc, src/gtkpaludis/packages_list.sr:
+	Display more information about packages.
+
+2006-10-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/virtuals/installed_virtuals_repository.cc,
+	paludis/repositories/virtuals/virtuals_repository.cc: Make category
+	loading faster.
+
+2006-10-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/gtkpaludis/Makefile.am, src/gtkpaludis/gtkpaludis.cc,
+	src/gtkpaludis/package_overview.cc,
+	src/gtkpaludis/repositories_page.cc: Display repository info.
+
+2006-10-22 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/gtkpaludis/Makefile.am, src/gtkpaludis/categories_list.cc,
+	src/gtkpaludis/gtkpaludis.cc, src/gtkpaludis/main_window.cc,
+	src/gtkpaludis/main_window.hh, src/gtkpaludis/messages.cc,
+	src/gtkpaludis/messages.hh, src/gtkpaludis/package_overview.cc,
+	src/gtkpaludis/packages_list.cc, src/gtkpaludis/paludis_thread.cc,
+	src/gtkpaludis/paludis_thread.hh, src/gtkpaludis/repositories_list.cc,
+	src/gtkpaludis/repositories_page.cc, src/gtkpaludis/sync.cc,
+	src/gtkpaludis/sync.hh: Make gtkpaludis more useful.
+
+2006-10-21 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/dep_tag.cc, paludis/dep_tag.hh,
+	paludis/environment/default/default_environment.cc,
+	paludis/repositories/portage/portage_repository.cc,
+	paludis/repositories/portage/portage_repository_profile.cc,
+	paludis/repositories/portage/portage_repository_profile.hh,
+	paludis/repositories/portage/portage_repository_sets.cc,
+	paludis/repositories/vdb/vdb_repository.cc: Add more information to
+	general set tags.
+
+2006-10-21 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/gtkpaludis/Makefile.am, src/gtkpaludis/categories_list.cc,
+	src/gtkpaludis/main_window.cc, src/gtkpaludis/main_window.hh,
+	src/gtkpaludis/messages.cc, src/gtkpaludis/messages.hh,
+	src/gtkpaludis/packages_page.cc, src/gtkpaludis/packages_page.hh,
+	src/gtkpaludis/paludis_thread.cc, src/gtkpaludis/repositories_list.hh,
+	src/gtkpaludis/repositories_page.cc,
+	src/gtkpaludis/repositories_page.hh: More gtkpaludis work.
+
+2006-10-21 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac, src/gtkpaludis/Makefile.am,
+	src/gtkpaludis/categories_list.cc, src/gtkpaludis/categories_list.hh,
+	src/gtkpaludis/command_line.cc, src/gtkpaludis/command_line.hh,
+	src/gtkpaludis/gtkpaludis.cc, src/gtkpaludis/main_window.cc,
+	src/gtkpaludis/main_window.hh, src/gtkpaludis/package_info.cc,
+	src/gtkpaludis/package_info.hh, src/gtkpaludis/package_overview.cc,
+	src/gtkpaludis/package_overview.hh, src/gtkpaludis/packages_list.cc,
+	src/gtkpaludis/packages_list.hh, src/gtkpaludis/paludis_thread.cc,
+	src/gtkpaludis/paludis_thread.hh, -src/gtkpaludis/browse_tree.cc,
+	-src/gtkpaludis/browse_tree.hh, -src/gtkpaludis/information_tree.cc,
+	-src/gtkpaludis/information_tree.hh,
+	-src/gtkpaludis/message_window.cc, -src/gtkpaludis/message_window.hh,
+	-src/gtkpaludis/sync.cc, -src/gtkpaludis/sync.hh,
+	-src/gtkpaludis/vte_message_window.cc,
+	-src/gtkpaludis/vte_message_window.hh: Start of the gtkpaludis
+	rewrite.
+
+2006-10-19 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/environment/no_config/Makefile.am,
+	paludis/environment/no_config/no_config_environment.cc,
+	paludis/environment/no_config/no_config_environment.hh,
+	paludis/environment/no_config/no_config_environment.sr,
+	ruby/environment.cc: Allow NoConfigEnvironment to work with VDB
+	repositories.
+	
+	* src/adjutrix/adjutrix.cc, src/adjutrix/find_reverse_deps.cc: Be VDB
+	friendly.
+
+2006-10-18 Mike Kelly <pioto@gentoo.org>
+
+	* bash-completion/paludis: Refresh the bash completeion script for the
+	new --dl-* options.
+
+2006-10-18 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ruby/demos/Makefile.am, ruby/demos/find_unused_distfiles.rb,
+	ruby/repository.cc, ruby/repository_TEST.rb,
+	ruby/version_metadata_TEST.rb, ruby/version_metadata_TEST_setup.sh: Add
+	a demo Ruby app that finds unused distfiles.
+
+2006-10-18 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/vdb/vdb_repository.cc: Allow SRC_URI queries on
+	VDB.
+
+2006-10-18 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ruby/Makefile.am, ruby/dep_atom.cc, ruby/environment.cc,
+	ruby/mask_reasons.cc, ruby/package_database.cc,
+	ruby/package_database_entry.cc, ruby/paludis_ruby.hh,
+	ruby/repository.cc, ruby/version_metadata.cc,
+	ruby/version_metadata_TEST.rb, ruby/version_metadata_TEST_cleanup.sh,
+	ruby/version_metadata_TEST_setup.sh, ruby/version_spec.cc: Add basic
+	VersionMetadata support to Ruby.
+
+2006-10-18 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/Makefile.am, doc/doxygen.conf.in, paludis/dep_list.sr: More
+	Doxygen tweaks.
+
+2006-10-15 Mike Kelly <pioto@gentoo.org>
+
+	* doc/doc_migration_howto.doxygen: Fix a spelling mistake.
+
+2006-10-15 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/qa/metadata_file_TEST.cc: Skip metadata tests when built
+	without GLSA support.
+
+2006-10-13 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* NEWS, configure.ac: Paludis 0.8.1.
+
+	+ Release: 0.8.1
+
+2006-10-13 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/paludis/command_line.cc, src/paludis/command_line.hh,
+	src/paludis/paludis.cc: Add in pre-0.8 command line options, marked as
+	deprecated.
+
+	* (lots): Doxygen updates.
+
+	* ruby/Makefile.am: Fix Ruby Paludis.so install when DESTDIR is set.
+
+	* paludis/repositories/portage/portage_repository_profile_file.cc:
+	Don't be confused by multiple identical lines when handling -lines in
+	profile files.
+
+	+ Backport: r1597 through r1601 (trunk/).
+
+2006-10-11 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	+ Release: 0.8.0
+
+2006-10-11 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac: Forcibly disable gtk in this branch.
+
+2006-10-11 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* NEWS, configure.ac: Prepare for the 0.8 branch.
+
+2006-10-11 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/dep_list.cc, src/paludis/command_line.cc,
+	src/paludis/install.cc, src/paludis/use.cc, src/paludis/use.hh:
+	Implement --dl-reinstall if-use-changed. Show USE flag changes
+	visually.
+
+2006-10-11 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* (lots): More visibility work. Force disable visibility for now,
+	since we're triggering a ld.so bug.
+
+2006-10-11 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/adjutrix/find_reverse_deps.cc: Be three thousand billion times
+	faster than the so-called competition.
+
+2006-10-11 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/match_package.hh, paludis/repositories/portage/Makefile.am,
+	paludis/util/counted_ptr.hh, paludis/util/counted_ptr_TEST.cc,
+	paludis/util/files.m4, paludis/util/stringify.hh,
+	src/adjutrix/Makefile.am, -paludis/util/counted_ptr.cc: Nuke some
+	unused code.
+
+2006-10-11 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/portage/portage_repository_profile.cc,
+	paludis/repositories/portage/portage_repository_profile_file.cc:
+	Support -flags in package.use.{mask,force}.
+
+2006-10-11 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/portage/portage_repository.cc: Fake a
+	categories file if one is not available.
+
+2006-10-11 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/portage/make_ebuild_repository.cc: Don't expect
+	a cache for PortageRepository instances if the default cache directory
+	doesn't exist.
+
+2006-10-11 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac, paludis/Makefile.am.m4, paludis/config_file.cc,
+	paludis/config_file.hh, paludis/environment.cc,
+	paludis/environment.hh,
+	paludis/environment/default/default_environment.cc,
+	paludis/environment/default/default_environment.hh, paludis/libxml,
+	paludis/libxml/Makefile.am, paludis/qa/Makefile.am.m4,
+	paludis/qa/files.m4, paludis/qa/metadata_check.cc,
+	paludis/qa/metadata_file.cc,
+	paludis/repositories/cran/cran_installed_repository.cc,
+	paludis/repositories/cran/cran_installed_repository.hh,
+	paludis/repositories/cran/cran_repository.cc,
+	paludis/repositories/cran/cran_repository.hh,
+	paludis/repositories/portage/Makefile.am,
+	paludis/repositories/portage/glsa.cc,
+	paludis/repositories/portage/glsa.hh,
+	paludis/repositories/portage/glsa.sr,
+	paludis/repositories/portage/make_ebin_repository.cc,
+	paludis/repositories/portage/make_ebuild_repository.cc,
+	paludis/repositories/portage/portage_repository.cc,
+	paludis/repositories/portage/portage_repository.hh,
+	paludis/repositories/portage/portage_repository_sets.cc,
+	paludis/repositories/portage/portage_repository_sets.hh,
+	paludis/repositories/portage/xml_things.cc,
+	paludis/repositories/portage/xml_things_TEST.cc,
+	paludis/repositories/portage/xml_things_TEST_cleanup.sh,
+	paludis/repositories/portage/xml_things_TEST_setup.sh,
+	paludis/repositories/vdb/vdb_repository.cc,
+	paludis/repositories/vdb/vdb_repository.hh, paludis/repository.hh,
+	paludis/repository.sr, paludis/tasks/install_task.cc,
+	paludis/util/collection.hh, paludis/util/exception.cc,
+	paludis/util/exception.hh, paludis/version_spec.hh,
+	src/adjutrix/Makefile.am, src/adjutrix/adjutrix.cc,
+	src/adjutrix/command_line.cc, src/adjutrix/command_line.hh,
+	src/adjutrix/find_insecure_packages.cc,
+	src/adjutrix/find_insecure_packages.hh, src/paludis/command_line.cc,
+	src/paludis/command_line.hh, src/paludis/list.cc, src/paludis/list.hh,
+	src/paludis/paludis.cc, +paludis/libxml/libxml.cc,
+	+paludis/libxml/libxml.hh, -paludis/qa/libxml_utils.cc,
+	-paludis/qa/libxml_utils.hh: Rework security code. An external
+	preprocessor is no longer required. The paludis 'all' security list is
+	now part of adjutrix.
+
+2006-10-10 Stephen Bennett <spb@gentoo.org>
+
+	* paludis/repositories/portage/portage_repository_ebuild_entries.cc:
+	Allow mirror:// URIs in repositories that don't contain
+	thirdpartymirrors if a mirrors.conf entry for the mirror in question
+	exists.
+
+2006-10-08 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/paludis/install.cc: Fix resume command.
+
+2006-10-08 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/dep_list.cc, paludis/dep_list.sr, paludis/dep_tag.cc,
+	paludis/dep_tag.hh, paludis/tasks/install_task.cc, src/colour.hh,
+	src/paludis/command_line.cc, src/paludis/command_line.hh,
+	src/paludis/install.cc: Add --show-install-reasons paludis option.
+
+2006-10-07 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* misc/make_sr.bash, paludis/dep_list.cc, paludis/dep_list.hh,
+	paludis/dep_tag.cc, paludis/dep_tag.hh, paludis/dep_tag.sr,
+	paludis/files.m4, src/paludis/install.cc: Tag support for the new
+	deplist.
+
+2006-10-06 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/vdb/vdb_repository.cc: Slight performance
+	tweaks.
+
+2006-10-06 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/Makefile.am.m4, paludis/dep_list.cc, paludis/dep_list.hh,
+	paludis/dep_list.sr, paludis/dep_list_TEST.cc, paludis/files.m4,
+	paludis/match_package.cc,
+	paludis/repositories/virtuals/virtuals_repository.cc,
+	paludis/tasks/install_task.cc, paludis/tasks/install_task.hh,
+	paludis/util/counted_ptr.hh,
+	src/adjutrix/display_default_system_resolution.cc,
+	src/paludis/command_line.cc, src/paludis/command_line.hh,
+	src/paludis/install.cc, -paludis/dep_list_entry.sr: New deplist code.
+	Much cleaner than before. No support for tags yet.
+
+2006-10-05 Mike Kelly <pioto@gentoo.org>
+
+	* hooks/update_config_protect_list.bash, AUTHORS, ChangeLog: Change my
+	email address.
+
+2006-10-05 Mike Kelly <pioto@gentoo.org>
+
+	* ebuild/ebuild.bash: Die if PALUDIS_TMPDIR doesn't exist when we try
+	to load an ebuild.
+
+2006-10-05 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/qa/files.m4, paludis/qa/libxml_utils.hh,
+	paludis/qa/metadata_file.cc: Don't barf on empty herd elements.
+
+2006-10-05 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/qa/files.m4, paludis/qa/libxml_utils.hh,
+	paludis/qa/metadata_check.cc, paludis/qa/metadata_file.cc,
+	paludis/qa/metadata_file.hh, paludis/qa/metadata_file_TEST.cc,
+	src/qualudis/qualudis.cc: Include maintainer information in qualudis
+	output.
+
+2006-10-04 Richard Brown
+
+	* doc/doc_configuration_files.doxygen: Mention package_mask.conf and
+	package_unmask.conf.
+
+2006-10-04 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/qa/deprecated_functions_check.cc,
+	paludis/qa/deprecated_functions_check.hh, paludis/qa/files.m4: Add a
+	deprecated functions QA check.
+
+2006-10-01 Fernando J. Pereda <ferdy@gentoo.org>
+
+	* paludis/qa/gpg_check_TEST.cc: Skip gpg_check tests if gnupg is not
+	installed.
+
+2006-10-01 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/builtin_merge.bash, paludis/ebuild.cc: Define PKGMANAGER
+	environment variable and VDB entry.
+
+2006-10-01 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/environment/default/default_environment.cc,
+	paludis/environment/default/default_environment_TEST.cc: Yet another
+	USE_EXPAND fix.
+
+2006-10-01 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/package_database.hh,
+	paludis/repositories/portage/Makefile.am,
+	paludis/repositories/portage/portage_repository_profile.cc,
+	paludis/repositories/portage/portage_repository_profile_file.cc,
+	paludis/repositories/portage/portage_repository_profile_file.hh: Split
+	up PortageRepository some more.
+
+2006-09-30 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/Makefile.am.m4, paludis/util/collection.hh,
+	paludis/util/collection_concrete.hh, paludis/util/counted_ptr.hh,
+	paludis/util/destringify.hh, paludis/util/dir_iterator.hh,
+	paludis/util/exception.hh, paludis/util/fd_holder.hh,
+	paludis/util/fd_output_stream.hh, paludis/util/fs_entry.hh,
+	paludis/util/is_file_with_extension.hh, paludis/util/pipe.hh,
+	paludis/util/pstream.hh, paludis/util/random.hh,
+	paludis/util/strip.hh, paludis/util/system.hh,
+	paludis/util/tokeniser.hh: More visibility work.
+
+2006-09-30 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/virtuals/installed_virtuals_repository.cc,
+	paludis/repositories/virtuals/virtuals_repository.cc: Slight
+	performance tweaks.
+
+2006-09-30 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/instantiation_policy.hh, paludis/util/log.hh,
+	paludis/util/virtual_constructor.hh: Make visibility less likely to do
+	weird things.
+
+2006-09-28 Fernando J. Pereda <ferdy@gentoo.org>
+
+	* +paludis/util/fd_holder.hh, ebuild/utils/merge.cc,
+	paludis/util/files.m4: Move FDHolder to its own file.
+
+	* paludis/util/system.cc, paludis/util/system_TEST.cc: Make
+	real_run_command return the exit status of the process rather than the
+	whole status returned by wait. Add a test for it.
+
+	* +paludis/qa/gpg_check.cc, +paludis/qa/gpg_check.hh,
+	+paludis/qa/gpg_check_TEST.cc, +paludis/qa/gpg_check_TEST_setup.sh,
+	+paludis/qa/gpg_check_TEST_cleanup.sh, paludis/qa/files.m4: Add a QA check
+	to test Manifest signatures. minor if not signed and major if a bad
+	signature is found.
+
+2006-09-28 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac, misc/make_sr.bash, paludis/args/Makefile.am,
+	paludis/args/args_TEST.cc, paludis/args/args_dumper.hh,
+	paludis/args/args_error.cc, paludis/args/args_error.hh,
+	paludis/args/args_group.hh, paludis/args/args_handler.hh,
+	paludis/args/args_option.cc, paludis/args/args_option.hh,
+	paludis/args/args_visitor.cc, paludis/args/args_visitor.hh,
+	paludis/args/bad_argument.hh, paludis/args/man.hh,
+	paludis/digests/Makefile.am, paludis/digests/md5.hh,
+	paludis/digests/rmd160.hh, paludis/digests/sha256.hh,
+	paludis/repositories/virtuals/Makefile.am,
+	paludis/repositories/virtuals/installed_virtuals_repository.cc,
+	paludis/repositories/virtuals/installed_virtuals_repository.hh,
+	paludis/repositories/virtuals/virtuals_repository.cc,
+	paludis/repositories/virtuals/virtuals_repository.hh,
+	paludis/repositories/virtuals/vr_entry.hh, paludis/selinux/Makefile.am,
+	paludis/selinux/security_context.hh, paludis/tasks/Makefile.am,
+	paludis/tasks/install_task.hh, paludis/tasks/sync_task.hh,
+	paludis/tasks/uninstall_task.hh, paludis/util/Makefile.am.m4,
+	+paludis/util/attributes.hh.in, -paludis/args/bad_value.cc,
+	-paludis/args/bad_value.hh, -paludis/args/missing_value.cc,
+	-paludis/args/missing_value.hh, -paludis/util/attributes.hh: Add
+	visibility support to some of the smaller libraries.
+
+2006-09-27 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/paludis/install.cc: Display the nice error message with resume
+	command for fetch failures too.
+
+2006-09-27 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/environment/default/Makefile.am,
+	paludis/environment/default/default_environment.cc,
+	paludis/environment/default/default_environment_TEST.cc: Ignore "* -*"
+	in use.conf for USE_EXPAND things.
+
+2006-09-27 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ruby/Makefile.am, ruby/demos/version_spec_distributions.rb,
+	+ruby/environment.cc, +ruby/environment_TEST.rb,
+	+ruby/environment_TEST_cleanup.sh, +ruby/environment_TEST_setup.sh,
+	-ruby/default_environment.cc, -ruby/default_environment_TEST.rb,
+	-ruby/default_environment_TEST_cleanup.sh,
+	-ruby/default_environment_TEST_setup.sh: Rubyify NoConfigEnvironment.
+	Move demo code over to using NoConfigEnvironment.
+
+2006-09-27 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/environment/no_config/no_config_environment.cc,
+	paludis/environment/no_config/no_config_environment.hh,
+	paludis/environment/no_config/no_config_environment.sr,
+	src/adjutrix/display_default_system_resolution.cc,
+	src/adjutrix/display_profiles_use.cc: Move profiles.desc code into
+	NoConfigEnvironment.
+
+2006-09-27 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac, ebuild/Makefile.am, paludis/Makefile.am.m4,
+	paludis/args/Makefile.am, paludis/dep_list_TEST.cc,
+	paludis/environment, paludis/environment/Makefile.am,
+	paludis/environment/default, paludis/environment/default/Makefile.am,
+	paludis/environment/no_config,
+	paludis/environment/no_config/Makefile.am,
+	paludis/environment/no_config/no_config_environment.sr,
+	paludis/environment/test, paludis/environment/test/Makefile.am,
+	paludis/files.m4, paludis/package_database_TEST.cc,
+	paludis/repositories/cran/Makefile.am,
+	paludis/repositories/cran/cran_dep_parser_TEST.cc,
+	paludis/repositories/cran/cran_repository_TEST.cc,
+	paludis/repositories/portage/Makefile.am,
+	paludis/repositories/portage/portage_repository_TEST.cc,
+	paludis/repositories/vdb/Makefile.am,
+	paludis/repositories/vdb/vdb_repository_TEST.cc, ruby/Makefile.am,
+	ruby/default_environment.cc, src/adjutrix/Makefile.am,
+	src/adjutrix/adjutrix.cc,
+	src/adjutrix/display_default_system_resolution.cc,
+	src/adjutrix/display_default_system_resolution.hh,
+	src/adjutrix/display_profiles_use.cc,
+	src/adjutrix/display_profiles_use.hh,
+	src/adjutrix/find_reverse_deps.cc, src/adjutrix/find_reverse_deps.hh,
+	src/gtkpaludis/Makefile.am, src/gtkpaludis/browse_tree.cc,
+	src/gtkpaludis/gtkpaludis.cc, src/gtkpaludis/information_tree.cc,
+	src/gtkpaludis/sync.cc, src/paludis/Makefile.am,
+	src/paludis/applets.cc, src/paludis/contents.cc,
+	src/paludis/install.cc, src/paludis/list.cc, src/paludis/news.cc,
+	src/paludis/owner.cc, src/paludis/paludis.cc, src/paludis/query.cc,
+	src/paludis/sync.cc, src/paludis/uninstall.cc, test/run_test.sh,
+	+paludis/environment/default/default_config.cc,
+	+paludis/environment/default/default_config.hh,
+	+paludis/environment/default/default_environment.cc,
+	+paludis/environment/default/default_environment.hh,
+	+paludis/environment/default/default_environment_TEST.cc,
+	+paludis/environment/default/default_environment_TEST_cleanup.sh,
+	+paludis/environment/default/default_environment_TEST_setup.sh,
+	+paludis/environment/no_config/no_config_environment.cc,
+	+paludis/environment/no_config/no_config_environment.hh,
+	+paludis/environment/test/test_environment.cc,
+	+paludis/environment/test/test_environment.hh,
+	-paludis/default_config.cc, -paludis/default_config.hh,
+	-paludis/default_environment.cc, -paludis/default_environment.hh,
+	-paludis/default_environment_TEST.cc,
+	-paludis/default_environment_TEST_cleanup.sh,
+	-paludis/default_environment_TEST_setup.sh,
+	-paludis/test_environment.cc, -paludis/test_environment.hh,
+	-src/adjutrix/adjutrix_environment.cc,
+	-src/adjutrix/adjutrix_environment.hh: Split out environment
+	implementations into their own subdirs and libraries. Make a
+	NoConfigEnvironment out of what used to be AdjutrixEnvironment.
+
+2006-09-26 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/adjutrix/find_reverse_deps.cc: Allow adjutrix -r pkgname.
+
+2006-09-26 Danny van Dyk <kugelfang@gentoo.org>
+
+	* src/adjutrix/command_line.hh, src/adjutrix/find_reverse_deps.hh,
+	src/adjutrix/Makefile.am, src/adjutrix/command_line.cc,
+	src/adjutrix/find_reverse_deps.cc, src/adjutrix/adjutrix.cc: Add
+	action to find all packages depending on a given atom.
+
+2006-09-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac, ruby/Makefile.am, ruby/default_environment.cc,
+	ruby/demos, ruby/demos/Makefile.am,
+	ruby/demos/version_spec_distributions.rb, ruby/paludis_ruby.cc: Add
+	some demo Ruby code.
+
+2006-09-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ruby/Makefile.am, ruby/package_database.cc,
+	ruby/package_database_TEST.rb, ruby/paludis_ruby.hh,
+	ruby/repository.cc, ruby/repository_TEST.rb,
+	ruby/repository_TEST_cleanup.sh, ruby/repository_TEST_setup.sh,
+	ruby/version_spec.cc: More Ruby work.
+
+2006-09-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/package_database.cc, paludis/package_database.hh,
+	ruby/Makefile.am, ruby/default_environment_TEST.rb, ruby/dep_atom.cc,
+	ruby/dep_atom_TEST.rb, ruby/log.cc, ruby/log_TEST.rb,
+	ruby/package_database.cc, ruby/package_database_TEST.rb,
+	ruby/package_database_TEST_cleanup.sh,
+	ruby/package_database_TEST_setup.sh, ruby/package_database_entry.cc,
+	ruby/paludis_ruby.cc, ruby/paludis_ruby.hh: More Ruby work.
+
+2006-09-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ruby/Makefile.am, ruby/default_environment.cc,
+	ruby/default_environment_TEST.rb, ruby/package_database.cc,
+	ruby/package_database_entry.cc, ruby/package_database_entry_TEST.rb,
+	ruby/paludis_ruby.cc, ruby/paludis_ruby.hh, ruby/version_spec.cc,
+	-ruby/name.cc, -ruby/name_TEST.rb: Rework Ruby code to avoid using
+	most Name classes.
+
+2006-09-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/default_environment.cc,
+	paludis/repositories/portage/portage_repository_ebuild_entries.cc:
+	More USE_EXPAND fixes.
+
+2006-09-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac: Don't try -Wsequence-point.
+
+2006-09-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/ebuild.bash, ebuild/builtin_merge.bash: A bit more debug
+	info.
+
+2006-09-24 Mike Kelly <pioto@gentoo.org>
+
+	* bash-completion/paludis: Update with most recent options. It now
+	only will complete on set names in the default (installing, etc)
+	context (since --list-packages is still slooow).
+
+2006-09-24 Mike Kelly <pioto@gentoo.org>
+
+	* eselect/repo.eselect: Fix the default template root.
+
+2006-09-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ruby/Makefile.am, ruby/default_environment.cc,
+	ruby/default_environment_TEST.rb, ruby/log.cc, ruby/log_TEST.rb,
+	ruby/mask_reasons.cc, ruby/name.cc, ruby/package_database.cc,
+	ruby/package_database_TEST.rb, ruby/paludis_ruby.hh: More Ruby work.
+
+2006-09-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ruby/default_environment.cc, ruby/default_environment_TEST.rb,
+	ruby/log.cc, ruby/log_TEST.rb, ruby/mask_reasons.cc,
+	ruby/mask_reasons_TEST.rb, ruby/name.cc, ruby/name_TEST.rb,
+	ruby/package_database_entry.cc, ruby/package_database_entry_TEST.rb,
+	ruby/paludis_ruby.cc, ruby/paludis_ruby.hh, ruby/version_spec.cc,
+	ruby/version_spec_TEST.rb: Move all Ruby classes under a new Paludis
+	master class.
+
+2006-09-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/default_environment.cc, paludis/ebin.cc, paludis/ebuild.cc,
+	paludis/repositories/cran/cran_repository.cc, paludis/util/log.cc,
+	paludis/util/log.hh: Make LogLevel stringifiable. Remove
+	log_level_string method.
+
+	* ruby/Makefile.am, ruby/default_environment.cc,
+	ruby/default_environment_TEST.rb,
+	ruby/default_environment_TEST_setup.sh, ruby/log.cc, ruby/log_TEST.rb,
+	ruby/mask_reasons.cc, ruby/mask_reasons_TEST.rb, ruby/paludis_ruby.cc,
+	ruby/paludis_ruby.hh, ruby/version_spec_TEST.rb: More Ruby work.
+
+2006-09-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* Makefile.am, configure.ac, ruby/Makefile.am,
+	ruby/default_environment.cc, ruby/default_environment_TEST.rb,
+	ruby/default_environment_TEST_setup.sh: More Ruby work. Distcheck should
+	now work.
+
+2006-09-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ruby/default_environment.cc, ruby/default_environment_TEST_setup.sh:
+	Support optional PDE parameter for query_use.
+
+2006-09-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ruby/Makefile.am, ruby/default_environment.cc,
+	ruby/default_environment_TEST_cleanup.sh,
+	ruby/default_environment_TEST_setup.sh, ruby/name.cc, ruby/name_TEST.rb,
+	ruby/package_database_entry.cc, ruby/package_database_entry_TEST.rb,
+	ruby/paludis_ruby.cc, ruby/paludis_ruby.hh, ruby/paludis_ruby_TEST.rb,
+	ruby/version_spec.cc, test/run_test.sh: More Ruby interface.
+
+2006-09-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repository_so_loader.cc: Don't use RTLD_LOCAL. g++ is over
+	happy when it comes to template instantiations, and it can lead to
+	multiple singleton instances.
+
+2006-09-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* Makefile.am, configure.ac, paludis/files.m4, paludis/paludis.cc,
+	paludis/paludis.hh.m4, paludis/repositories/cran/Makefile.am,
+	paludis/repositories/fake/Makefile.am,
+	paludis/repositories/nothing/Makefile.am,
+	paludis/repositories/portage/Makefile.am,
+	paludis/repositories/vdb/Makefile.am,
+	paludis/repositories/virtuals/Makefile.am, ruby, ruby/Makefile.am,
+	ruby/name.cc, ruby/name_TEST.rb, ruby/paludis_ruby.cc,
+	ruby/paludis_ruby.hh, ruby/paludis_ruby_TEST.rb,
+	src/gtkpaludis/Makefile.am, src/gtkpaludis/browse_tree.cc: Add the
+	start of a Ruby interface. Tidy up some of the makefiles.
+
+2006-09-23 Mike Kelly <pioto@gentoo.org>
+
+	* src/paludis/command_line.hh, src/paludis/command_line.cc,
+	src/paludis/list.hh, src/paludis/list.cc, src/paludis/paludis.cc,
+	paludis/repositories/portage/portage_repository.cc,
+	paludis/repositories/portage/portage_repository.hh,
+	paludis/repositories/portage/portage_repository_sets.cc,
+	paludis/repositories/portage/portage_repository_sets.hh,
+	paludis/repositories/cran/cran_installed_repository.hh,
+	paludis/repositories/cran/cran_installed_repository.cc,
+	paludis/repositories/cran/cran_repository.cc,
+	paludis/repositories/cran/cran_repository.cc,
+	paludis/repositories/vdb/vdb_repository.hh,
+	paludis/repositories/vdb/vdb_repository.cc, paludis/repository.hh: Add
+	a --list-sets option, to list package sets, and the --set option, to
+	specify a limited set of sets to list.
+
+2006-09-22 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/paludis/query.cc: Prefer visible packages over masked packages
+	for --query metadata selection.
+
+	+ Fixes: Berlios#8848.
+
+2006-09-22 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/ebuild.bash, paludis/default_environment.cc,
+	paludis/default_environment.hh, paludis/environment.cc,
+	paludis/environment.hh, paludis/qa/dep_flags_check.cc,
+	paludis/repositories/fake/fake_repository_base.cc,
+	paludis/repositories/fake/fake_repository_base.hh,
+	paludis/repositories/portage/portage_repository.cc,
+	paludis/repositories/portage/portage_repository.hh,
+	paludis/repositories/portage/portage_repository_ebin_entries.cc,
+	paludis/repositories/portage/portage_repository_ebuild_entries.cc,
+	paludis/repositories/vdb/vdb_repository.cc,
+	paludis/repositories/vdb/vdb_repository.hh, paludis/repository.cc,
+	paludis/repository.hh, paludis/test_environment.cc,
+	paludis/test_environment.hh, paludis/util/collection.hh,
+	paludis/util/collection_concrete.hh, src/paludis/use.cc: New
+	USE_EXPAND code.
+
+2006-09-21 Stephen Bennett <spb@gentoo.org>
+
+	* eselect/repo.eselect: Various fixes to show and set.
+
+2006-09-21 Stephen Bennett <spb@gentoo.org>
+
+	* paludis/syncer.cc: Add file:// syncer, using rsync.
+
+2006-09-21 Stephen Bennett <spb@gentoo.org>
+
+	* src/paludis/install.cc: sighandler_t -> sig_t change from arachnist.
+
+2006-09-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* (lots): Take advantage of g++-4.1 code diagnostic utilities.
+
+2006-09-16 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/paludis/install.cc: Experimental resume command support on
+	interrupt too. Should also deal more cleanly with child processes.
+
+2006-09-16 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/tasks/install_task.cc, paludis/tasks/install_task.hh,
+	src/paludis/install.cc: Experimental resume command support.
+
+2006-09-15 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/adjutrix/Makefile.am, src/colour.cc, src/paludis/Makefile.am,
+	src/qualudis/Makefile.am: Don't display xterm titles for testcases.
+
+2006-09-15 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac: Use AS_HELP_STRING throughout.
+
+2006-09-14 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/default_environment.cc, paludis/default_environment.hh,
+	paludis/environment.cc, paludis/environment.hh: Replace the "select
+	one" behaviour present on certain sets with a universal "merge all".
+
+2006-09-14 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/virtuals/virtuals_repository.cc: Maybe fix
+	possible virtuals bug.
+
+2006-09-13 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/package_database.cc, src/paludis/query.cc: More context for
+	certain error messages.
+
+2006-09-13 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/default_config.cc, paludis/default_environment_TEST.cc,
+	paludis/default_environment_TEST_setup.sh: Make -* work. Really, this
+	time.
+
+2006-09-12 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/adjutrix/keywords_graph.cc: Make the adjutrix keywords graph
+	SLOT aware.
+
+2006-09-12 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* misc/Makefile.am: Add svn-version-filter.bash to dist to shut
+	Doxygen up.
+
+2006-09-12 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/adjutrix/adjutrix_environment.cc, src/adjutrix/command_line.cc,
+	src/adjutrix/command_line.hh: Add --unstable option for adjutrix,
+	mainly for --display-default-system-resolution.
+
+2006-09-12 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/adjutrix/Makefile.am, src/adjutrix/adjutrix.cc,
+	src/adjutrix/adjutrix_environment.cc,
+	src/adjutrix/adjutrix_environment.hh, src/adjutrix/command_line.cc,
+	src/adjutrix/command_line.hh,
+	src/adjutrix/display_default_system_resolution.cc,
+	src/adjutrix/display_default_system_resolution.hh,
+	src/adjutrix/find_dropped_keywords.cc,
+	src/adjutrix/find_stable_candidates.cc,
+	src/adjutrix/keywords_graph.cc: Add a
+	--display-default-system-resolution action to adjutrix.
+
+2006-09-12 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/environment.cc, paludis/environment.hh: Better default
+	behaviour for Environment.
+
+2006-09-12 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/adjutrix/command_line.cc, src/adjutrix/command_line.hh,
+	src/adjutrix/display_profiles_use.cc: Allow selective profile
+	querying.
+
+2006-09-11 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/utils/merge_common.cc: Support -item and -* in CONFIG_PROTECT
+	variables.
+
+2006-09-10 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/adjutrix/Makefile.am, src/adjutrix/adjutrix.cc,
+	src/adjutrix/adjutrix_environment.cc,
+	src/adjutrix/adjutrix_environment.hh, src/adjutrix/command_line.cc,
+	src/adjutrix/command_line.hh, src/adjutrix/display_profiles_use.cc,
+	src/adjutrix/display_profiles_use.hh: Add --display-profiles-use
+	action to adjutrix.
+
+2006-09-10 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/default_environment.cc, paludis/environment.cc,
+	paludis/environment.hh: Make the default environment query_use more
+	useful.
+
+2006-09-10 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/default_config.cc, paludis/default_config.hh,
+	paludis/default_environment.cc, paludis/default_environment_TEST.cc,
+	paludis/default_environment_TEST_cleanup.sh,
+	paludis/default_environment_TEST_setup.sh, paludis/files.m4: Add use -*
+	support, and some tests for default environment.
+
+	* doc/doc_bootstrap_howto.doxygen,
+	doc/doc_configuration_files.doxygen: Update docs with -*.
+
+2006-09-09 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/instantiation_policy.hh,
+	paludis/util/instantiation_policy_TEST.cc: Extend singleton
+	capabilities.
+
+2006-09-09 Fernando J. Pereda <ferdy@gentoo.org>
+
+	* paludis/util/fs_entry.cc paludis/util/fs_entry.hh
+	paludis/util/fs_entry_TEST.cc: Second argument of FSEntry::chmod defaults
+	to -1. Added test coverage for FSEntry methods: permissions, chmod, chown,
+	readlink, group, owner and operator<<.
+
+2006-09-08 Stephen Bennett <spb@gentoo.org>
+
+	* eselect/repo.eselect, eselect/Makefile.am: Add repo.eselect, for
+	installing repository config files.
+
+2006-09-06 Mike Kelly <pioto@gentoo.org>
+
+	* paludis/syncer.cc: Exclude /local from rsync as well, to be
+	consistent w/ portage.
+
+2006-09-06 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/vdb/vdb_repository.cc,
+	paludis/repositories/vdb/vdb_repository_TEST.cc,
+	paludis/repositories/vdb/vdb_repository_TEST_setup.sh: Portage doesn't
+	always add a newline to the end of the world file. Work with this
+	stupidity.
+
+2006-09-05 Mike Kelly <pioto@gentoo.org>
+
+	* eselect/news.eselect: Add an "all" option for the read and unread
+	actions, to allow reading all news items, or marking all read items as
+	unread.
+
+2006-09-05 Mike Kelly <pioto@gentoo.org>
+
+	* eselect/news.eselect: Add an option for the read action to show all
+	new news items.
+
+2006-09-05 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/ebuild.bash: Ignore comments and blanks in parent files.
+
+2006-09-05 Mike Kelly <pioto@gentoo.org>
+
+	* ebuild/ebuild.bash: Source hooks called by perform_hook, rather than
+	start another shell to run them. This means that hooks will be able to
+	see all variables defined in an ebuild.
+
+2006-09-05 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/utils/Makefile.am: Generate skeleton prepdocs, prepalldocs.
+
+2006-09-04 Mike Kelly <pioto@gentoo.org>
+
+	* ebuild/utils/dohtml: Should now work properly in recursive mode.
+	Added support for the -f option (allowed files). Fixed a potential bug
+	with allowed extension matching.
+	
+	+ Fixes: berlios#8655.
+
+2006-09-03 Stephen Bennett <spb@gentoo.org>
+
+	* ebuild/build_functions.bash: Set --libdir in econf based on --prefix
+	if this is passed in by the ebuild. Should allow KDE to be installed.
+
+2006-09-02 Stephen Bennett <spb@gentoo.org>
+
+	* ebuild/utils/dosym: Fix dosym's directory existence check.
+
+2006-09-01 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repository_so_loader.cc: Be more picky about which
+	repository .so files we load.
+
+2006-09-01 Mike Kelly <pioto@gentoo.org>
+
+	* doc/doc_migration_howto.doxygen: Add a description of an automated
+	method for migrating a portage to a paludis config (using the
+	portage2paludis.bash script).
+
+2006-09-01 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/portage/portage_repository_TEST.cc,
+	paludis/repositories/portage/portage_repository_TEST_setup.sh,
+	paludis/repositories/portage/portage_repository_profile.cc: Allow
+	-lines in profile package.mask. Be more tolerant of malformed profile
+	files.
+
+2006-09-01 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac: More build environment sanity testing.
+
+2006-08-31 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/Makefile.am, doc/doc_bootstrap_howto.doxygen,
+	doc/doc_known_issues.doxygen, doc/doc_mainpage.doxygen,
+	doc/doc_migration_howto.doxygen, doc/header.html: Extend the user
+	documentation.
+
+2006-08-31 Mike Kelly <pioto@gentoo.org>
+
+	* doc/doc_configuration_files.doxygen: Added brief documentation of
+	the "importance" key for repositories.
+
+2006-08-31 Mike Kelly <pioto@gentoo.org>
+
+	* bash-completion/, bash-completion/paludis: Add initial bash
+	completion script for paludis. It isn't in EXTRA_DIST anywhere yet,
+	and it isn't really complete, particularly the package name matching.
+
+2006-08-29 Mike Kelly <pioto@gentoo.org>
+
+	* hooks/Makefile.am.m4: Fix distcheck, forgot to update EXTRA_DIST.
+
+2006-08-29 Mike Kelly <pioto@gentoo.org>
+
+	* src/paludis/install.cc: Fix the xterm title bar to show the proper
+	count of packages to be installed when virtuals must be installed.
+
+2006-08-29 Mike Kelly <pioto@gentoo.org>
+
+	* hooks/update_config_protect_list.bash: Whoops, fix some quoting.
+
+2006-08-28 Mike Kelly <pioto@gentoo.org>
+
+	* hooks/Makefile.am.m4, hooks/update_config_protect_list.bash: Add a
+	new hook to generate vdb_dir/.cache/all_CONFIG_PROTECT{,_MASK} files,
+	which contain a list of all CONFIG_PROTECT and CONFIG_PROTECT_MASK
+	directories from all packages. This is for use by things like
+	etc-update.
+
+2006-08-27 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* (lots): My email address is now ciaranm@ciaranm.org
+
+2006-08-26 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/qa/metadata_check.cc: Cleaner handling of libxml2 memory
+	deallocation.
+
+2006-08-26 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac: Provide better error messages for lack of libxml2,
+	gtkmm or vte.
+
+2006-08-26 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac, paludis/qa/Makefile.am.m4,
+	paludis/qa/metadata_check.cc, src/qualudis/Makefile.am: Use libxml2
+	directly rather than calling xmllint for QA checks.
+
+2006-08-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/adjutrix/find_dropped_keywords.cc: When detecting dropped
+	keywords, only consider slots that contain a keyworded version that is
+	better than the worst keyworded version on the target arch.
+
+2006-08-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/qa/metadata_check.cc: Use ~/.qualudis rather than ~/.paludis
+	for Qualudis temporary files.
+
+2006-08-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/qualudis/Makefile.am, src/qualudis/qualudis.cc: Enable xterm
+	titles in Qualudis.
+
+2006-08-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/portage/portage_repository.cc,
+	paludis/repositories/virtuals/virtuals_repository.cc,
+	paludis/repository.sr: Allow version-restricted virtuals.
+
+2006-08-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac, paludis/qa/Makefile.am.m4,
+	paludis/qa/defaults_check.cc, paludis/qa/defaults_check.hh,
+	paludis/qa/defaults_check_TEST.cc,
+	paludis/qa/defaults_check_TEST_cleanup.sh,
+	paludis/qa/defaults_check_TEST_setup.sh, paludis/qa/files.m4,
+	paludis/qa/whitespace_check.cc, src/gtkpaludis/Makefile.am,
+	src/gtkpaludis/vtemm/Makefile.am, src/qualudis/Makefile.am: QA now
+	needs pcre++. Make defaults_check work again.
+
+2006-08-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/ebuild.cc, paludis/qa/keywords_check.cc,
+	paludis/version_metadata.sr: Fix "keywords altered by eclass" check.
+
+2006-08-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/qa/src_uri_check.cc: Make output a bit more useful.
+
+2006-08-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/portage/portage_repository.cc: Fix
+	uninitialised has_mirrors.
+
+2006-08-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/qa/qa_environment.cc: Support virtuals.
+
+2006-08-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/qa/qa_environment.cc: Create repositories for each package
+	database.
+
+2006-08-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/qa/files.m4, paludis/qa/qa_environment.cc,
+	paludis/qa/qa_environment.hh, paludis/qa/qa_environment.sr,
+	paludis/qa/qa_environment_TEST_setup.sh: Use real profiles from
+	profiles.desc for QA environment.
+
+2006-08-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/qa/qa_environment.cc, paludis/qa/qa_environment.hh:
+	Restructure how QAEnvironment handles its package database to make
+	package database switching simpler.
+
+2006-08-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/test_extras.cc: Eliminate some of the noise made by
+	tests that intentionally fail (duff ebuilds etc).
+
+2006-08-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/qa/Makefile.am.m4, paludis/qa/create_metadata_check.cc,
+	paludis/qa/dep_any_check.cc, paludis/qa/dep_flags_check.cc,
+	paludis/qa/dep_packages_check.cc, paludis/qa/deps_exist_check.cc,
+	paludis/qa/deps_visible_check.cc, paludis/qa/description_check.cc,
+	paludis/qa/ebuild_check.hh, paludis/qa/extract_check.cc,
+	paludis/qa/files.m4, paludis/qa/homepage_check.cc,
+	paludis/qa/inherits_check.cc, paludis/qa/iuse_check.cc,
+	paludis/qa/keywords_check.cc, paludis/qa/license_check.cc,
+	paludis/qa/message.cc, paludis/qa/message.hh,
+	paludis/qa/parse_deps_check.cc, paludis/qa/pdepend_overlap_check.cc,
+	paludis/qa/qa_environment_TEST.cc,
+	paludis/qa/qa_environment_TEST_cleanup.sh,
+	paludis/qa/qa_environment_TEST_setup.sh, paludis/qa/restrict_check.cc,
+	paludis/qa/slot_check.cc, paludis/qa/src_uri_check.cc,
+	+paludis/qa/qa_environment.cc, +paludis/qa/qa_environment.hh,
+	-paludis/qa/environment.cc, -paludis/qa/environment.hh: Tidy up qa
+	somewhat. Add some tests for QAEnvironment.
+
+2006-08-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/adjutrix/Makefile.am, src/adjutrix/adjutrix.cc,
+	src/adjutrix/command_line.cc, src/adjutrix/command_line.hh,
+	src/adjutrix/keywords_graph.cc: Add colour to adjutrix.
+
+	* src/colour.hh: Add cl_bold_yellow.
+	
+	* src/paludis/command_line.cc: Remove -C alias to --no-colour.
+
+2006-08-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/Makefile.am, src/adjutrix/Makefile.am,
+	src/adjutrix/command_line.cc,
+	src/adjutrix/find_stable_candidates_TEST, src/adjutrix/help_TEST,
+	src/adjutrix/version_TEST, +src/adjutrix/adjutrix.cc,
+	+src/adjutrix/adjutrix_environment.cc,
+	+src/adjutrix/adjutrix_environment.hh, +src/adjutrix/man_adjutrix.cc,
+	-src/adjutrix/archtool.cc, -src/adjutrix/archtool_environment.cc,
+	-src/adjutrix/archtool_environment.hh, -src/adjutrix/man_archtool.cc:
+	archtool is now called adjutrix.
+
+2006-08-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/Makefile.am, src/paludis/Makefile.am, src/paludis/contents.cc,
+	src/paludis/list.cc, src/paludis/owner.cc, src/paludis/paludis.cc,
+	+src/colour.cc, +src/colour.hh, -src/paludis/colour.cc,
+	-src/paludis/colour.hh: Move colour code from src/paludis to src so
+	that it can be used by qualudis and archtool.
+
+2006-08-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac: More build environment sanity checking. Disable static
+	library builds unless they're explicitly requested.
+
+2006-08-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/builtin_unmerge.bash: Catalyst unsets CONFIG_PROTECT. Work
+	around this to avoid problems when upgrading Catalyst-generated
+	packages.
+
+2006-08-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/archtool/Makefile.am, src/archtool/archtool.cc,
+	src/archtool/command_line.cc, src/archtool/command_line.hh,
+	src/archtool/find_dropped_keywords.cc,
+	src/archtool/find_dropped_keywords.hh,
+	src/archtool/find_dropped_keywords.sr: Add --find-dropped-keywords
+	action to archtool.
+
+2006-08-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac, src/Makefile.am, src/archtool,
+	src/archtool/Makefile.am, src/archtool/archtool.cc,
+	src/archtool/archtool_environment.cc,
+	src/archtool/archtool_environment.hh, src/archtool/command_line.cc,
+	src/archtool/command_line.hh, src/archtool/find_stable_candidates.cc,
+	src/archtool/find_stable_candidates.hh,
+	src/archtool/find_stable_candidates.sr,
+	src/archtool/find_stable_candidates_TEST,
+	src/archtool/find_stable_candidates_TEST_cleanup.sh,
+	src/archtool/find_stable_candidates_TEST_setup.sh,
+	src/archtool/help_TEST, src/archtool/keywords_graph.cc,
+	src/archtool/keywords_graph.hh, src/archtool/man_archtool.cc,
+	src/archtool/version_TEST: Add archtool (temporary name, until we
+	come up with something better).
+
+2006-08-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/fake/fake_repository_base.cc,
+	paludis/repositories/fake/fake_repository_base.hh,
+	paludis/repositories/portage/portage_repository.cc,
+	paludis/repositories/portage/portage_repository.hh,
+	paludis/repositories/vdb/vdb_repository.cc,
+	paludis/repositories/vdb/vdb_repository.hh, paludis/repository.hh:
+	Make the Repository arch flags interface more useful.
+
+2006-08-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/ebuild.bash: Ensure that PALUDIS_HOME contains an absolute
+	path.
+
+2006-08-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/environment.cc, paludis/environment.hh: Provide default
+	implementations for most Environment virtual functions, to reduce the
+	amount of boilerplate code for special Environment implementations.
+
+2006-08-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/config_file.cc: Remove bogus quotes mismatch warning for
+	lines in the form 'key = '.
+
+2006-08-22 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_bootstrap_howto.doxygen,
+	doc/doc_configuration_files.doxygen, doc/doc_mainpage.doxygen,
+	doc/header.html: Update documentation to point to pioto.org rather
+	than berlios.org for now.
+
+2006-08-22 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/config_file.cc, paludis/config_file.hh,
+	paludis/config_file_TEST.cc: Allow (with a warning) line continuations
+	inside quoted strings without backslashes for KeyValueConfigFile.
+
+2006-08-22 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/ebuild.bash: Export REAL_CHOST=$CHOST to avoid gcc-config
+	stupidity.
+
+2006-08-21 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/paludis/install.cc: Get title counts right again.
+
+2006-08-20 Stephen Bennett <spb@gentoo.org>
+
+	* ebuild/ebuild.bash: Newer libselinux uses thread-specific attr files
+	in /proc, so update sandbox vars to allow this.
+
+2006-08-19 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/ebuild.cc: Be more verbose when ebuild cache generation
+	fails.
+
+2006-08-18 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/paludis/query.cc: Support package sets in --query.
+
+	+ Fixes: Berlios#FR2381.
+
+2006-08-18 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/paludis/Makefile.am, src/paludis/install.cc,
+	src/paludis/query.cc, src/paludis/use.cc, src/paludis/use.hh: Display
+	USE flags for --query.
+
+	+ Fixes: Berlios#FR2380.
+
+2006-08-18 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/paludis/query.cc: Display more information for virtuals with
+	--query.
+
+2006-08-18 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/vdb/vdb_repository.cc: Generate virtuals
+	metadata as VersionMetadata::Virtual rather than VersionMetadata.
+
+2006-08-18 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/vdb/vdb_repository.cc: Mark all USE flags as
+	masked / forced for VDB entries.
+
+2006-08-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/builtin_init.bash, ebuild/builtin_init_bin.bash,
+	ebuild/ebuild.bash: Make PALUDIS_HOME work for unmerge too.
+
+	* paludis/default_config.cc: More verbose errors.
+
+2006-08-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/paludis/paludis.cc: Include program arguments as part of the top
+	level context.
+
+2006-08-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/builtin_merge.bash: Make sure our VDB cache is present.
+
+2006-08-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/ebuild.bash: Filter LD_ variables from environment when
+	loading from VDB.
+
+2006-08-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/echo_functions.bash.in: Implement real elog support.
+
+2006-08-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/paludis/install.cc: Display virtual and real package total
+	counts separately.
+
+2006-08-16 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/portage/portage_repository.cc: Remove some left
+	over old style virtuals handling.
+
+2006-08-16 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/dep_list.cc: When PROVIDEing virtuals, make the dep list entry
+	for ::virtuals, not ::provider.
+
+2006-08-16 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/fake/Makefile.am,
+	paludis/repositories/fake/fake_installed_repository.cc,
+	paludis/repositories/fake/fake_installed_repository.hh,
+	paludis/repositories/fake/fake_repository.cc,
+	paludis/repositories/fake/fake_repository.hh,
+	+paludis/repositories/fake/fake_repository_base.cc,
+	+paludis/repositories/fake/fake_repository_base.hh: Move FakeRepository
+	code into a new FakeRepositoryBase class. Create FakeRepository and
+	FakeInstalledRepository.
+
+	* paludis/dep_list_TEST.cc: Add a test case for forced downgrades.
+
+2006-08-16 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/virtuals/installed_virtuals_repository.cc,
+	paludis/repositories/virtuals/installed_virtuals_repository.hh: Allow
+	uninstalling of virtuals.
+
+2006-08-16 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/package_database.cc,
+	paludis/repositories/virtuals/installed_virtuals_repository.hh,
+	paludis/repositories/virtuals/virtuals_repository.hh,
+	paludis/repository.hh: Exclude virtuals repos from favourite
+	repository candidates.
+
+2006-08-16 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/dep_list.cc, paludis/ebin.cc, paludis/ebin.sr,
+	paludis/ebuild.cc, paludis/ebuild.sr, paludis/environment.cc,
+	paludis/mask_reasons.cc, paludis/mask_reasons.hh,
+	paludis/package_database.cc, paludis/package_database.hh,
+	paludis/repositories/portage/portage_repository.cc,
+	paludis/repositories/portage/portage_repository_ebin_entries.cc,
+	paludis/repositories/portage/portage_repository_ebuild_entries.cc,
+	paludis/repositories/vdb/vdb_repository.cc,
+	paludis/version_metadata.cc, paludis/version_metadata.hh,
+	paludis/version_metadata.sr, src/paludis/query.cc: Create a separate
+	metadata interface for virtual packages. Handle masking of virtual
+	packages.
+
+2006-08-16 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/default_config.cc, paludis/package_database.cc,
+	paludis/repositories/portage/portage_repository.cc,
+	paludis/repositories/portage/portage_repository.hh,
+	paludis/repositories/virtuals/Makefile.am,
+	paludis/repositories/virtuals/installed_virtuals_repository.cc,
+	paludis/repositories/virtuals/virtuals_repository.cc,
+	paludis/repositories/virtuals/virtuals_repository.hh,
+	paludis/repositories/virtuals/vr_entry.cc,
+	paludis/repositories/virtuals/vr_entry.hh, paludis/repository.hh,
+	paludis/repository.sr, +paludis/repositories/virtuals/vr_entry.sr,
+	-paludis/repositories/virtuals/installed_virtuals_repository.sr: More
+	work on dynamic virtuals. Masking is not yet implemented, preventing
+	this from being sanely usable.
+
+2006-08-14 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/vdb/vdb_repository.cc: Use fast_unique_copy for
+	VDB too.
+
+2006-08-14 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/fast_unique_copy.hh,
+	paludis/util/fast_unique_copy_TEST.cc, paludis/util/files.m4: Add a
+	fast_unique_copy algorithm, like std::unique_copy for where the input is
+	sorted and randomly accessible and there are likely to be many
+	duplicates.
+
+	* paludis/repositories/virtuals/installed_virtuals_repository.cc: Use
+	fast_unique_copy for category and package name extractions.
+
+2006-08-14 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/default_config.cc, paludis/environment.cc,
+	paludis/environment.hh, paludis/repository.cc, paludis/repository.hh,
+	paludis/repository.sr, paludis/repository_config_entry.sr: Start work on
+	the new dynamic virtuals framework.
+
+	* paludis/repositories/cran/cran_installed_repository.cc,
+	paludis/repositories/cran/cran_installed_repository.hh,
+	paludis/repositories/cran/cran_repository.cc,
+	paludis/repositories/cran/cran_repository.hh: Convert CRAN over to
+	dynamic virtuals.
+
+	* paludis/repositories/fake/fake_repository.cc,
+	paludis/repositories/fake/fake_repository.hh: Convert FakeRepository
+	over to dynamic virtuals.
+
+	* paludis/repositories/nothing/nothing_repository.cc,
+	paludis/repositories/nothing/nothing_repository.hh: Convert
+	NothingRepository over to dynamic virtuals.
+	
+	* paludis/repositories/portage/portage_repository.cc,
+	paludis/repositories/portage/portage_repository.hh,
+	paludis/repositories/portage/portage_repository_ebin_entries.cc,
+	paludis/repositories/portage/portage_repository_ebuild_entries.cc:
+	Convert PortageRepository over to dynamic virtuals.
+	
+	* paludis/repositories/vdb/vdb_repository.cc,
+	paludis/repositories/vdb/vdb_repository.hh: Convert VDB over to dynamic
+	virtuals.
+
+	* configure.ac, paludis/repositories/Makefile.am,
+	paludis/repositories/virtuals,
+	paludis/repositories/virtuals/Makefile.am,
+	paludis/repositories/virtuals/installed_virtuals_repository.cc,
+	paludis/repositories/virtuals/installed_virtuals_repository.hh,
+	paludis/repositories/virtuals/installed_virtuals_repository.sr,
+	paludis/repositories/virtuals/virtuals_repository.cc,
+	paludis/repositories/virtuals/virtuals_repository.hh: Add start of
+	dynamic virtual repository classes.
+
+2006-08-12 Danny van Dyk <kugelfang@gentoo.org>
+
+	* doc/doc_configuration_files.doxygen: Update configuration files
+	documentation for CRAN repositories.
+
+2006-08-12 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* misc/make_sr.bash: Use compare rather than operator< for sr
+	comparisons, where possible.
+	
+	* paludis/default_config.cc, paludis/name.cc,
+	paludis/package_database.cc, paludis/version_spec.cc: Update includes
+	for the above.
+
+2006-08-12 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_main.doxygen, paludis/dep_list_entry.sr, paludis/ebin.sr,
+	paludis/ebuild.sr, paludis/package_database_entry.sr,
+	paludis/qualified_package_name.sr,
+	paludis/repositories/cran/cran_installed_repository.sr,
+	paludis/repositories/cran/cran_repository.sr,
+	paludis/repositories/portage/portage_repository_params.sr,
+	paludis/repositories/vdb/vdb_repository.sr, paludis/repository.sr,
+	paludis/repository_config_entry.sr, paludis/syncer.sr,
+	paludis/use_config_entry.sr: More docs tweaks.
+
+2006-08-12 Ahmed Ammar <b33fc0d3@gmail.com>
+
+	* paludis/syncer.cc: Add svn+https sync support.
+
+2006-08-12 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/Makefile.am, doc/doxygen.conf.in, misc/make_sr.bash,
+	paludis/digests/md5_TEST.cc, paludis/digests/rmd160_TEST.cc,
+	paludis/digests/sha256_TEST.cc,
+	paludis/repositories/nothing/nothing_repository.sr,
+	-doc/doc_directories.doxygen: Docs tweaks.
+
+2006-08-11 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* (lots): Stop using smart_record, start using sr.
+
+2006-08-09 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* test/test_framework.cc, test/test_framework.hh: Improve handling of
+	unexpected exceptions in test cases.
+
+2006-08-09 Danny van Dyk <kugelfang@gentoo.org>
+
+	* cran/cran.bash, cran/Makefile.am, src/paludis/query.cc,
+	paludis/environment.cc,
+	paludis/repositories/cran/cran_installed_repository.hh,
+	paludis/repositories/cran/cran_repository.hh,
+	paludis/repositories/cran/cran_repository_TEST_cleanup.sh,
+	paludis/repositories/cran/cran_description.hh,
+	paludis/repositories/cran/cran_dep_parser.hh,
+	paludis/repositories/cran/cran_installed_repository.cc,
+	paludis/repositories/cran/cran_repository_TEST.cc,
+	paludis/repositories/cran/cran_repository.cc,
+	paludis/repositories/cran/Makefile.am,
+	paludis/repositories/cran/cran_dep_parser_TEST.cc,
+	paludis/repositories/cran/cran_description.cc,
+	paludis/repositories/cran/cran_repository_TEST_setup.sh,
+	paludis/repositories/cran/cran_dep_parser.cc,
+	paludis/repositories/Makefile.am, paludis/version_metadata.cc,
+	paludis/version_metadata.hh, configure.ac, Makefile.am: Add
+	repositories to support CRAN (http://cran.r-project.org).
+
+	* paludis/portage_dep_lexer.hh, paludis/portage_dep_parser.hh: Fix
+	include guards.
+
+2006-08-06 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/gtkpaludis/vtemm/Makefile.am: Work around automake being a bit
+	silly with subdir dependencies.
+
+2006-08-06 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/utils/merge.cc: Make merge much faster.
+
+2006-08-05 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/files.m4, -paludis/util/comparison_policy_TEST.cc: Nuke
+	worthless comparison policy test.
+
+2006-08-04 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/builtin_merge.bash: Fake a Portage COUNTER file in VDB
+	entries.
+
+2006-08-03 Danny van Dyk <kugelfang@gentoo.org>
+
+	* src/qualudis/qualudis_command_line.cc: Fix default value for
+	--message-level.
+
+2006-08-02 Piotr Rak <piotr.rak@gmail.com>
+
+	* AUTHORS: Add self to AUTHORS.
+
+	* configure.ac, src/gtkpaludis/Makefile.am,
+	src/gtkpaludis/browse_tree.cc, src/gtkpaludis/browse_tree.hh,
+	src/gtkpaludis/main_window.cc, src/gtkpaludis/message_window.cc,
+	src/gtkpaludis/message_window.hh,
+	src/gtkpaludis/vte_message_window.cc,
+	src/gtkpaludis/vte_message_window.hh, src/gtkpaludis/vtemm,
+	src/gtkpaludis/vtemm/Makefile.am, src/gtkpaludis/vtemm/converts,
+	src/gtkpaludis/vtemm/converts/Makefile.am,
+	src/gtkpaludis/vtemm/converts/convert.m4,
+	src/gtkpaludis/vtemm/converts/convert_base.m4,
+	src/gtkpaludis/vtemm/defs, src/gtkpaludis/vtemm/defs/Makefile.am,
+	src/gtkpaludis/vtemm/defs/enum.pl,
+	src/gtkpaludis/vtemm/defs/generate_defs_vte.cc,
+	src/gtkpaludis/vtemm/reaper.ccg, src/gtkpaludis/vtemm/reaper.hg,
+	src/gtkpaludis/vtemm/terminal_widget.ccg,
+	src/gtkpaludis/vtemm/terminal_widget.hg: Use VTE for the message
+	window.
+
+2006-08-02 Mike Kelly <pioto@gentoo.org>
+
+	* hooks/Makefile.am.m4: We should be using _DATA for the .keep files,
+	not _SCRIPTS.
+
+2006-08-02 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/paludis/uninstall.cc: Typo in xterm titles: Installing ->
+	Uninstalling.
+
+2006-08-02 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* Makefile.am, src/qualudis/Makefile.am,
+	src/qualudis/qualudis_command_line.hh: Make 'make dist' work even when
+	'make' hasn't previously been run.
+
+2006-07-31 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/builtin_merge.bash, ebuild/builtin_unmerge.bash,
+	hooks/gnu_info_index.bash: Remove hard references to VDB directory.
+
+2006-07-31 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/ebin.cc,
+	paludis/repositories/portage/portage_repository_ebin_entries.cc: More
+	ebin work.
+
+2006-07-31 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repository_so_loader.cc: Be more helpful when .so loading
+	fails.
+
+2006-07-31 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/tasks/install_task.cc: Don't update world for fetch only.
+
+2006-07-31 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/portage_stubs.bash: Add portageq vdb_path emulation.
+
+2006-07-31 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_main.doxygen, ebuild/Makefile.am,
+	ebuild/builtin_fetch_bin.bash, ebuild/builtin_init_bin.bash,
+	ebuild/builtin_unpack_bin.bash, ebuild/ebuild.bash,
+	ebuild/utils/dounpack, paludis/ebin.cc, paludis/ebin.hh,
+	paludis/files.m4, paludis/repositories/portage/Makefile.am,
+	paludis/repositories/portage/make_ebin_repository.cc,
+	paludis/repositories/portage/make_ebin_repository.hh,
+	paludis/repositories/portage/make_ebuild_repository.cc,
+	paludis/repositories/portage/make_ebuild_repository.hh,
+	paludis/repositories/portage/portage_repository.cc,
+	paludis/repositories/portage/portage_repository.hh,
+	paludis/repositories/portage/portage_repository_TEST.cc,
+	paludis/repositories/portage/portage_repository_ebin_entries.hh,
+	paludis/repositories/portage/portage_repository_params.hh,
+	paludis/version_metadata.cc, paludis/version_metadata.hh,
+	src/paludis/query.cc: Initial support for installing, but not
+	creating, binary packages.
+
+2006-07-31 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/args/Makefile.am, paludis/args/args_handler.cc,
+	paludis/args/args_handler.hh, paludis/args/man.hh,
+	src/paludis/command_line.cc, src/paludis/man_paludis.cc,
+	src/qualudis/man_qualudis.cc: Move most of the man writing code into
+	args. Extend what can be included in a man page. Extend man pages.
+
+2006-07-30 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* test/test_framework.cc, test/test_framework.hh: Remove some STL
+	includes from the test framework headers.
+
+2006-07-30 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/tasks/install_task.hh, paludis/tasks/sync_task.hh,
+	paludis/tasks/uninstall_task.hh: Make task constructors protected.
+
+2006-07-30 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/tasks/Makefile.am, paludis/tasks/sync_task.cc,
+	paludis/tasks/sync_task.hh: Make a SyncTask.
+
+	* src/gtkpaludis/Makefile.am, src/gtkpaludis/browse_tree.cc,
+	src/gtkpaludis/gtkpaludis.cc, src/gtkpaludis/main_window.hh,
+	src/gtkpaludis/sync.cc, src/gtkpaludis/sync.hh, src/paludis/sync.cc: Use
+	it.
+
+2006-07-30 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/paludis/Makefile.am, src/qualudis/Makefile.am: Distribute man
+	pages as part of the dist tarball, to prevent problems when cross
+	compiling.
+
+	* src/paludis/command_line.cc: Tidy up --help slightly.
+
+2006-07-30 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/environment.hh: Add a change_package_database method to
+	Environment so that subclasses can implement package database switching.
+
+2006-07-30 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/args/args_group.cc, paludis/args/args_handler.cc,
+	paludis/args/args_option.cc, paludis/config_file.cc,
+	paludis/contents.cc, paludis/dep_atom.cc,
+	paludis/dep_atom_flattener.cc, paludis/environment.hh,
+	paludis/package_database.cc, paludis/portage_dep_lexer.cc,
+	paludis/repositories/portage/portage_repository.cc,
+	paludis/repositories/portage/portage_repository_ebuild_entries.cc,
+	paludis/repositories/portage/portage_repository_ebuild_entries.hh,
+	paludis/repositories/portage/portage_repository_entries.hh,
+	paludis/repositories/portage/portage_repository_news.cc,
+	paludis/repositories/portage/portage_repository_sets.cc,
+	paludis/repository.cc, paludis/util/dir_iterator.cc,
+	paludis/util/fd_output_stream.hh, paludis/util/pipe.hh: Doxygen
+	improvements.
+
+2006-07-30 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/portage/portage_repository.cc,
+	paludis/repositories/portage/portage_repository.hh,
+	paludis/repositories/portage/portage_repository_ebuild_entries.cc,
+	paludis/repositories/portage/portage_repository_ebuild_entries.hh,
+	paludis/repositories/portage/portage_repository_entries.cc,
+	paludis/repositories/portage/portage_repository_entries.hh,
+	paludis/repositories/portage/portage_repository_params.hh: Use a
+	virtual constructor for PortageRepositoryEntries.
+
+2006-07-29 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/portage/portage_repository.cc,
+	paludis/repositories/portage/portage_repository_ebuild_entries.cc,
+	paludis/repositories/portage/portage_repository_ebuild_entries.hh,
+	paludis/repositories/portage/portage_repository_entries.hh: Move
+	environment variable code out from PortageRepository to
+	PortageRepositoryEntries.
+
+2006-07-29 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/portage/portage_repository.cc,
+	paludis/repositories/portage/portage_repository_ebuild_entries.cc,
+	paludis/repositories/portage/portage_repository_ebuild_entries.hh,
+	paludis/repositories/portage/portage_repository_entries.hh: Move
+	install code out from PortageRepository to PortageRepositoryEntries.
+
+2006-07-29 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/qa/src_uri_check.cc,
+	paludis/repositories/fake/fake_repository.cc,
+	paludis/repositories/fake/fake_repository.hh,
+	paludis/repositories/nothing/nothing_repository.cc,
+	paludis/repositories/nothing/nothing_repository.hh,
+	paludis/repositories/portage/portage_repository.cc,
+	paludis/repositories/portage/portage_repository.hh,
+	paludis/repositories/vdb/vdb_repository.cc,
+	paludis/repositories/vdb/vdb_repository.hh, paludis/repository.hh:
+	Make a new MirrorsIterator for Repository classes.
+
+2006-07-29 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/hashed_containers.hh.in: Add MakeHashedMultiSet and
+	MakeHashedMultiMap classes.
+
+2006-07-29 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/portage/portage_repository.cc,
+	paludis/repositories/vdb/vdb_repository.cc: version_metadata now
+	throws rather than returning a dummy entry for packages that don't
+	exist.
+
+2006-07-29 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/portage/Makefile.am,
+	paludis/repositories/portage/portage_repository.cc,
+	+paludis/repositories/portage/portage_repository_ebuild_entries.cc,
+	+paludis/repositories/portage/portage_repository_ebuild_entries.hh,
+	+paludis/repositories/portage/portage_repository_entries.cc,
+	+paludis/repositories/portage/portage_repository_entries.hh,
+	-paludis/repositories/portage/portage_repository_ebuild_metadata.cc,
+	-paludis/repositories/portage/portage_repository_ebuild_metadata.hh,
+	-paludis/repositories/portage/portage_repository_metadata.cc,
+	-paludis/repositories/portage/portage_repository_metadata.hh: Rename
+	PortageRepository*Metadata to PortageRepository*Entries.
+
+2006-07-29 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/portage/portage_repository.cc: Switch to
+	storing params rather than copying them.
+
+2006-07-29 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/portage/portage_repository.cc,
+	paludis/repositories/portage/portage_repository.hh,
+	paludis/repositories/portage/portage_repository_news.cc: Remove some
+	unnecessary public functions from PortageRepository.
+
+2006-07-28 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_configuration_files.doxygen: Fix incorrect description for
+	NothingRepository.
+
+	+ Fixes: Berlios#8236.
+
+2006-07-28 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/paludis/colour.cc, src/paludis/colour.hh: Disable xterm titles for
+	dumb and linux terminals.
+
+	+ Fixes: Berlios#8235.
+
+2006-07-28 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/portage/Makefile.am,
+	paludis/repositories/portage/portage_repository.cc,
+	paludis/repositories/portage/portage_repository.hh,
+	paludis/repositories/portage/portage_repository_ebuild_metadata.cc,
+	paludis/repositories/portage/portage_repository_ebuild_metadata.hh,
+	paludis/repositories/portage/portage_repository_metadata.hh,
+	paludis/repositories/portage/portage_repository_news.cc,
+	paludis/repositories/portage/portage_repository_news.hh,
+	paludis/repositories/portage/portage_repository_params.hh,
+	paludis/repositories/portage/portage_repository_sets.cc,
+	paludis/repositories/portage/portage_repository_sets.hh: More work on
+	splitting up PortageRepository.
+
+2006-07-28 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/config_file.cc, paludis/config_file.hh,
+	paludis/repositories/portage/Makefile.am,
+	paludis/repositories/portage/portage_repository.cc,
+	paludis/repositories/portage/portage_repository.hh,
+	paludis/repositories/portage/portage_repository_news.cc,
+	paludis/repositories/portage/portage_repository_news.hh,
+	paludis/repositories/portage/portage_repository_sets.cc,
+	paludis/repositories/portage/portage_repository_sets.hh: Split up
+	PortageRepository some more. Move the news and advisory config file
+	implementations from the main library into the Portage repository
+	library.
+
+2006-07-28 Piotr Rak <piotr.rak@gmail.com>
+
+	* src/gtkpaludis/gtkpaludis.cc: Handle an unset DISPLAY more sanely.
+
+	+ Fixes: Berlios#8195.
+
+2006-07-27 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/tasks/install_task.cc: Don't update world for set targets.
+
+	+ Fixes: Berlios#8219.
+
+2006-07-27 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/ebuild.bash: Fix potential infinite loop on unmerge.
+
+2006-07-27 Mike Kelly <pioto@gentoo.org>
+
+	* hooks/Makefile.am.m4, src/paludis/sync.cc,
+	paludis/tasks/uninstall_task.cc, paludis/tasks/install_task.cc,
+	ebuild/ebuild.bash: Add failure hooks for all ebuild phases, and for
+	sync, install, and uninstall.
+
+2006-07-27 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/Makefile.am.m4, paludis/args/Makefile.am, paludis/files.m4,
+	paludis/qa/Makefile.am.m4, paludis/repositories/fake/Makefile.am,
+	paludis/repositories/nothing/Makefile.am,
+	paludis/repositories/portage/Makefile.am,
+	paludis/repositories/vdb/Makefile.am, paludis/repository_so_loader.cc,
+	src/gtkpaludis/Makefile.am, src/paludis/Makefile.am,
+	src/paludis/paludis.cc, src/qualudis/Makefile.am: Dynamically load
+	repositories from .so files in libdir/paludis/repositories/.
+
+	+ Fixes: Berlios#FR2423.
+
+2006-07-27 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/gtkpaludis/browse_tree.cc, src/gtkpaludis/browse_tree.hh,
+	src/gtkpaludis/main_window.cc, src/gtkpaludis/main_window.hh: Lock
+	controls when syncing.
+
+2006-07-26 Danny van Dyk <kugelfang@gentoo.org>
+
+	* paludis/default_environment.cc: Fix InternalError while workin on
+	repositories without UseInterface.
+
+2006-07-26 Piotr Rak <piotr.rak@gmail.com>
+
+	* paludis/defaul_config.cc: Allow configuration suffix to be changed
+	after DefaultConfig initialisation failure.
+
+2006-07-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/pstream.cc, paludis/util/pstream.hh: Allow stderr for
+	PStream commands to be redirected.
+
+	* paludis/util/system.cc, paludis/util/system.hh: Allow stdout and
+	stderr for run_command to be redirected.
+
+	* src/gtkpaludis/message_window.cc, src/gtkpaludis/message_window.hh:
+	Fancy auto-scrolling message window.
+
+2006-07-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/gtkpaludis/main_window.cc: Make the messages window resizeable.
+
+2006-07-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_main.doxygen, ebuild/utils/merge.cc,
+	paludis/util/fd_output_stream.hh, paludis/util/files.m4,
+	paludis/util/pipe.cc, paludis/util/pipe.hh,
+	src/gtkpaludis/message_window.cc: Unify fd output streams and pipe
+	handling.
+
+2006-07-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/gtkpaludis/Makefile.am, src/gtkpaludis/main_window.cc,
+	src/gtkpaludis/message_window.cc, src/gtkpaludis/message_window.hh:
+	Make the message window less useless.
+
+2006-07-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac, ebuild/digests/Makefile.am,
+	ebuild/fetchers/Makefile.am, ebuild/utils/Makefile.am,
+	paludis/Makefile.am.m4, paludis/args/Makefile.am,
+	paludis/digests/Makefile.am, paludis/qa/Makefile.am.m4,
+	paludis/repositories/fake/Makefile.am,
+	paludis/repositories/nothing/Makefile.am,
+	paludis/repositories/portage/Makefile.am,
+	paludis/repositories/vdb/Makefile.am, paludis/selinux/Makefile.am,
+	paludis/tasks/Makefile.am, paludis/util/Makefile.am.m4,
+	src/Makefile.am, src/paludis/Makefile.am, src/qualudis/Makefile.am,
+	test/Makefile.am: Change how we handle CXXFLAGS, to allow
+	configure-detected warning flags to be overridden in subdirectories.
+	
+	* src/gtkpaludis, src/gtkpaludis/Makefile.am,
+	src/gtkpaludis/browse_tree.cc, src/gtkpaludis/browse_tree.hh,
+	src/gtkpaludis/gtkpaludis.cc, src/gtkpaludis/information_tree.hh,
+	src/gtkpaludis/main_window.hh, src/gtkpaludis/command_line.cc,
+	src/gtkpaludis/command_line.hh: Start work on a Gtk+ interface.
+
+2006-07-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/exception.cc, paludis/util/exception.hh: Fix backtrace
+	contexts.
+
+2006-07-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/tasks/Makefile.am, paludis/tasks/uninstall_task.cc,
+	paludis/tasks/uninstall_task.hh, src/paludis/install.cc,
+	src/paludis/uninstall.cc: Move uninstalling to a task.
+
+2006-07-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac: Require libwrapiter-0.2.
+
+2006-07-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/args/args_handler.cc, paludis/args/args_handler.hh,
+	paludis/args/args_option.cc, paludis/args/args_option.hh,
+	paludis/args/args_visitor.cc, paludis/args/args_visitor.hh,
+	paludis/util/collection.hh, src/paludis/sync.cc: More header and
+	libwrapiter cleanups.
+
+2006-07-22 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/args/args_group.cc, paludis/args/args_group.hh,
+	paludis/args/args_handler.cc, paludis/args/args_handler.hh,
+	src/paludis/Makefile.am, src/paludis/command_line.cc,
+	src/paludis/command_line.hh, src/paludis/man_paludis.cc,
+	src/qualudis/Makefile.am, src/qualudis/man_qualudis.cc,
+	src/qualudis/qualudis_command_line.cc,
+	src/qualudis/qualudis_command_line.hh: Initial automatic man page
+	generation support. Rather crude.
+
+2006-07-22 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac, paludis/Makefile.am.m4, paludis/environment.cc,
+	paludis/environment.hh, paludis/tasks, paludis/tasks/Makefile.am,
+	paludis/tasks/install_task.cc, paludis/tasks/install_task.hh,
+	src/paludis/Makefile.am, src/paludis/install.cc,
+	src/paludis/uninstall.cc: Switch install action over to a tasks
+	interface. More to follow.
+
+2006-07-21 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/log.cc: Improve log context output format.
+
+2006-07-21 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/repositories/portage/portage_repository.cc,
+	paludis/repositories/portage/portage_repository_profile.cc,
+	paludis/repositories/portage/portage_repository_profile.hh: Add
+	profile package.mask support.
+
+2006-07-21 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doxygen.conf.in, paludis/repositories/portage/Makefile.am,
+	paludis/repositories/portage/portage_repository.cc,
+	paludis/repositories/portage/portage_repository.hh,
+	paludis/repositories/portage/portage_repository_exceptions.cc,
+	paludis/repositories/portage/portage_repository_exceptions.hh,
+	paludis/repositories/portage/portage_repository_profile.cc,
+	paludis/repositories/portage/portage_repository_profile.hh: Start work
+	on splitting up PortageRepository.
+
+2006-07-19 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/ebuild.bash: Warn if /proc is strange.
+
+2006-07-19 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/args/args_dumper.hh, paludis/args/args_group.cc,
+	paludis/args/args_group.hh, paludis/args/args_handler.cc,
+	paludis/args/args_option.cc: Tidy up args a bit.
+
+2006-07-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/dep_atom_flattener.cc, paludis/environment.cc,
+	paludis/package_database.cc, paludis/package_database.hh: More
+	libwrapiter conversions.
+
+2006-07-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac, ebuild/utils/unmerge.cc, paludis/dep_list.cc,
+	paludis/dep_list_TEST.cc,
+	paludis/repositories/portage/portage_repository.cc: Remove all uses of
+	deque in favour of lists. Although deque is theoretically potentially
+	faster, it's fairly broken in some standard library implementations.
+
+	+ Fixes: Berlios#8127.
+
+2006-07-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/Makefile.am.m4, paludis/config_file.cc,
+	paludis/config_file.hh, paludis/config_file_TEST.cc,
+	paludis/contents.hh, paludis/default_config.cc,
+	paludis/default_config.hh, paludis/dep_atom.hh,
+	paludis/dep_atom_flattener.hh, paludis/dep_list.cc,
+	paludis/dep_list.hh, paludis/ebuild.cc, paludis/ebuild.hh,
+	paludis/files.m4, paludis/portage_dep_lexer.hh,
+	paludis/qa/environment.cc,
+	paludis/repositories/nothing/nothing_repository.cc,
+	paludis/repositories/nothing/nothing_repository.hh,
+	paludis/repositories/portage/portage_repository.cc,
+	paludis/repositories/portage/portage_repository.hh,
+	paludis/repositories/portage/portage_repository_TEST.cc,
+	paludis/repositories/vdb/vdb_repository.cc,
+	paludis/repositories/vdb/vdb_repository.hh,
+	paludis/repositories/vdb/vdb_repository_TEST.cc,
+	paludis/repository.hh, paludis/util/Makefile.am.m4,
+	paludis/util/collection.hh, paludis/util/collection_concrete.hh,
+	paludis/util/exception.cc, paludis/util/exception.hh,
+	src/paludis/install.cc: More libwrapiter conversion.
+
+2006-07-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac: Re-enable --enable-qa.
+
+2006-07-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* (lots): Start using libwrapiter and smarter containers to avoid
+	including big scary STL files in our headers.
+
+2006-07-16 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* (lots): Switch from .a to .so files. Move each repository format
+	into its own subdirectory in paludis/repositories/.
+
+	* configure.ac: Move to 0.5 branch.
+
+2006-07-14 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/ebuild.bash: Display full filenames in die backtraces.
+
+2006-07-14 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* NEWS, configure.ac: Preparation for 0.4.2.
+
+	+ Release: 0.4.2
+
+2006-07-14 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/utils/merge_common.cc: Make CONFIG_PROTECT work as expected
+	when ROOT=/.
+
+	* ebuild/utils/merge_TEST.bash, ebuild/utils/merge_TEST_setup.sh: Add
+	tests for CONFIG_PROTECT behaviour.
+
+	+ Fixes: Berlios#8113.
+	+ Fixes: Berlios#FR2377.
+
+2006-07-13 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/ebuild.bash: More filtering of environment for
+	Portage-generated VDB entries.
+
+2006-07-13 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* NEWS, configure.ac: Preparation for 0.4.1.
+
+	+ Release: 0.4.1
+
+2006-07-13 Stephen Bennett <spb@gentoo.org>
+
+	* paludis/selinux/security_context.cc: Include stringify.hh to fix
+	breakage caused by other changes.
+
+2006-07-13 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/ebuild.bash: When ROOT=/ and unmerging a Portage-installed
+	package, avoid sandbox errors caused by the saved environment.
+
+2006-07-12 Stephen Bennett <spb@gentoo.org>
+
+	* paludis/name.cc: Allow . in category names to make crossdev happy.
+
+2006-07-12 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* autogen.bash: Make autogen more autoconf-2.60 friendly.
+
+2006-07-12 David Morgan <david.morgan@wadham.oxford.ac.uk>
+
+	* paludis/qa/create_metadata_check.cc, paludis/qa/dep_any_check.cc,
+	paludis/qa/dep_flags_check.cc, paludis/qa/dep_packages_check.cc,
+	paludis/qa/deps_exist_check.cc, paludis/qa/deps_visible_check.cc,
+	paludis/qa/digest_collisions_check.cc,
+	paludis/qa/ebuild_count_check.cc,
+	paludis/qa/file_permissions_check.cc,
+	paludis/qa/files_dir_size_check.cc, paludis/qa/glep_31_check.cc,
+	paludis/qa/has_ebuilds_check.cc, paludis/qa/has_misc_files_check.cc,
+	paludis/qa/package_dir_check.cc, paludis/qa/package_name_check.cc,
+	paludis/qa/parse_deps_check.cc, paludis/qa/pdepend_overlap_check.cc,
+	paludis/qa/src_uri_check.cc: s/ /_/ in check identifiers, and rename
+	file_name -> filename and ebuild_count -> ebuild_count_check.
+
+2006-07-12 David Morgan <david.morgan@wadham.oxford.ac.uk>
+
+	* paludis/qa/deps_exist_check.cc, paludis/qa/deps_visible_check.cc,
+	paludis/qa/iuse_check.cc, paludis/qa/keywords_check.cc,
+	paludis/qa/metadata_check.cc: Fix compilation errors.
+
+2006-07-12 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/paludis/applets.cc, src/paludis/colour.hh,
+	src/paludis/contents.cc, src/paludis/install.cc,
+	src/paludis/licence.cc, src/paludis/list.cc, src/paludis/paludis.cc,
+	src/paludis/query.cc, src/paludis/uninstall.cc: Be more consistent
+	with colours.
+
+2006-07-12 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/paludis/install.cc, src/paludis/uninstall.cc: Display package
+	names in colour when showing world file changes.
+
+2006-07-12 Danny van Dyk <kugelfang@gentoo.org>
+
+	* paludis/qa/files.m4, paludis/qa/dep_flags_check.cc: Fix dep_flags
+	check to compile and add it back to libpaludisqa.
+
+	* src/qualudis/qualudis_command_line.cc,
+	src/qualudis/qualudis_command_line.hh, src/qualudis/qualudis.c:
+	Removed '--check' commandline action. Qualudis now runs checks by
+	default. Added '--qa-check' commandline option to specify which checks
+	should be run.
+
+2006-07-11 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac, src/: move src/ to src/paludis/. In future we'll have
+	a src/ subdirectory for each client.
+
+2006-07-11 David Morgan <david.morgan@wadham.oxford.ac.uk>
+
+	* paludis/qa/create_metadata_check.cc, paludis/qa/dep_any_check.cc
+	paludis/qa/dep_flags_check.cc paludis/qa/dep_packages_check.cc
+	paludis/qa/deps_exist_check.cc paludis/qa/deps_visible_check.cc
+	paludis/qa/description_check.cc paludis/qa/extract_check.cc
+	paludis/qa/homepage_check.cc paludis/qa/inherits_check.cc
+	paludis/qa/iuse_check.cc paludis/qa/keywords_check.cc
+	paludis/qa/license_check.cc paludis/qa/parse_deps_check.cc
+	paludis/qa/pdepend_overlap_check.cc paludis/qa/restrict_check.cc
+	paludis/qa/slot_check.cc paludis/qa/src_uri_check.cc: Fixes for most
+	of the libqualudis problems. DepParser -> PortageDepParser, vmk_foo ->
+	correct new enumerations, get(foo) -> get<foo>() and do get metadata
+	correctly.
+
+2006-07-10 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_main.doxygen, paludis/config_file.hh, paludis/contents.hh,
+	paludis/default_config.hh, paludis/dep_atom.hh, paludis/files.m4,
+	paludis/portage_dep_parser_TEST.cc, -paludis/dep_atom_dumper.cc,
+	-paludis/dep_atom_dumper.hh, -paludis/dep_atom_dumper_TEST.cc,
+	-paludis/paludis.cc: More code and doxygen cleanups. Remove
+	DepAtomDumper class.
+
+2006-07-09 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/fs_entry.hh, paludis/util/instantiation_policy.hh,
+	paludis/util/is_file_with_extension.cc,
+	paludis/util/is_file_with_extension.hh, paludis/util/iterator.hh,
+	paludis/util/pstream.hh, paludis/util/random.hh, paludis/util/save.hh,
+	paludis/util/strip.hh, paludis/util/system.hh,
+	paludis/util/tokeniser.hh, paludis/util/validated.hh,
+	paludis/util/virtual_constructor.hh, paludis/util/visitor.hh: More
+	code and doxygen cleanups.
+
+2006-07-09 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/counted_ptr.hh: Use operator const void * rather than
+	operator bool for CountedPtr to avoid bool -> int conversion weirdness.
+
+2006-07-09 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/dep_list.cc, paludis/util/counted_ptr.hh,
+	paludis/util/destringify.hh, paludis/util/dir_iterator.cc,
+	paludis/util/dir_iterator.hh, paludis/util/exception.hh,
+	paludis/util/files.m4, paludis/util/iterator_TEST.cc,
+	paludis/util/strip.cc, paludis/util/visitor_TEST.cc,
+	paludis/version_spec.cc, -paludis/util/deleter.cc,
+	-paludis/util/deleter.hh, -paludis/util/deleter_TEST.cc: Remove deleter,
+	it's only used by test cases. Clean up some more public interfaces and
+	doxygen blocks.
+
+2006-07-09 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_main.doxygen, paludis/util/files.m4,
+	-paludis/util/container_entry.hh,
+	-paludis/util/container_entry_TEST.cc: Remove ContainerEntry class, it
+	is no longer required.
+
+2006-07-09 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_main.doxygen, paludis/dep_atom.hh,
+	paludis/util/collection.hh, paludis/util/files.m4,
+	-paludis/util/composite_pattern.hh: Remove Composite class, it is no
+	longer required. More doxygen cleanups.
+
+2006-07-09 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* autogen.bash, paludis/util/Makefile.am.m4,
+	+paludis/util/comparison_policy.hh,
+	-paludis/util/comparison_policy.hh.m4: Replace m4 voodoo with
+	preprocessor voodoo. Improve doxygenation.
+
+2006-07-08 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_main.doxygen, paludis/config_file.hh, paludis/contents.hh,
+	paludis/default_config.cc, paludis/dep_atom.hh,
+	paludis/digests/md5.hh, paludis/digests/rmd160.hh,
+	paludis/digests/sha256.hh, paludis/environment.cc,
+	paludis/environment.hh, paludis/fake_repository.cc,
+	paludis/nothing_repository.cc, paludis/portage_repository.cc,
+	paludis/portage_repository.hh, paludis/repository.hh,
+	paludis/selinux/security_context.hh,
+	paludis/util/instantiation_policy.hh, paludis/util/random.hh,
+	paludis/vdb_repository.cc, paludis/vdb_repository.hh: Doxygen
+	improvements.
+
+2006-07-08 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/config_file.cc, paludis/config_file.hh,
+	paludis/default_config.cc, paludis/default_environment.cc,
+	paludis/dep_atom.cc, paludis/dep_atom.hh, paludis/fake_repository.cc,
+	paludis/name.cc, paludis/name.hh, paludis/util/counted_ptr.hh,
+	paludis/util/smart_record.hh.m4, paludis/util/validated.hh,
+	paludis/util/visitor.hh: Remove some unnecessary inlining.
+
+2006-07-08 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/utils/Makefile.am: Fix maintainer-clean.
+
+2006-07-07 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* NEWS, configure.ac: Preparation for 0.4.0.
+
+	+ Release: 0.4.0
+
+2006-07-07 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_bootstrap_howto.doxygen,
+	doc/doc_configuration_files.doxygen, doc/doc_mainpage.doxygen,
+	doc/doxygen.conf.in: Doxygen updates in preparation for 0.4.
+
+2006-07-07 Stephen Bennett <spb@gentoo.org>
+
+	* ebuild/utils/prep.in, ebuild/utils/Makefile: Add dummy prep*
+	utilities that simply emit a QA notice warning against their use.
+
+2006-07-07 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/selinux/security_context.cc: Unbreak SELinux.
+
+2006-07-07 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/applets.cc, src/applets.hh, src/command_line.cc,
+	src/command_line.hh, src/paludis.cc: Add --configuration-variable
+	<repo> <var> commandline option.
+
+2006-07-07 Stephen Bennett <spb@gentoo.org>
+
+	* ebuild/utils/dosym: Add a QA notice when dosym is called without its
+	target directory existing. Also use dirname instead of bash
+	substitutions.
+
+2006-07-07 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/portage_stubs.bash: Add debug-print-section.
+
+2006-07-07 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/echo_functions.bash.in: Add elog. For now, it's just a forward
+	to einfo.
+
+2006-07-06 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/fake_repository.cc, paludis/fake_repository.hh,
+	paludis/portage_repository.cc, paludis/portage_repository.hh,
+	paludis/repository.cc, paludis/repository.hh, paludis/vdb_repository.cc,
+	paludis/vdb_repository.hh, src/install.cc: Make --pretend --install
+	output for USE_EXPAND things much cleaner.
+
+2006-07-06 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/dep_atom.cc, paludis/dep_atom.hh, paludis/dep_list.cc,
+	paludis/dep_list.hh, src/install.cc: Improve error message displayed
+	when [use] dependencies are not met.
+
+2006-07-06 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* hooks/eselect_env_update.bash, hooks/news.bash, src/uninstall.cc: Be
+	consistent with blank lines in output.
+
+2006-07-06 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/environment.cc, paludis/environment.hh, src/install.cc,
+	src/uninstall.cc: Packages are now added to world unless either a
+	restriction (slot, version) or --preserve-world is specified.
+
+2006-07-06 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/portage_repository.cc: g++ 4.1 is retarded.
+
+2006-07-06 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/command_line.cc, src/command_line.hh: Move --list-{categories,
+	packages,repositories} to being displayed as internal / script use.
+
+2006-07-06 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/fake_repository.cc, paludis/nothing_repository.cc,
+	paludis/portage_repository.cc, paludis/portage_repository.hh,
+	paludis/repository.cc, paludis/repository.hh, paludis/vdb_repository.cc:
+	Change how repository information is handled.
+
+	* src/command_line.cc, src/command_line.hh, src/list.cc, src/paludis.cc:
+	Add --info support. Update --list-repositories to the new repository
+	information interface.
+
+2006-07-06 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/ebuild.bash: Be a bit quieter.
+
+2006-07-06 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/digests/md5.hh, paludis/digests/rmd160.hh,
+	paludis/digests/sha256.hh: Remove always_inline, gcc is smart enough to
+	handle this correctly.
+
+2006-07-05 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/ebuild.bash: Add eselect style backtraces to die.
+
+2006-07-05 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/build_functions.bash, +ebuild/utils/dounpack,
+	-ebuild/utils/unpack: Change how unpack is handled.
+
+2006-07-05 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/ebuild.cc, paludis/ebuild.hh, paludis/portage_repository.cc,
+	src/install_TEST_setup.sh: Add ${AA} support. Strip trailing spaces
+	from ${A} and ${AA}, kde-meta.eclass relies upon this.
+
+2006-07-05 Stephen Bennett <spb@gentoo.org>
+
+	* ebuild/utils/dosym, ebuild/utils/donewins: Export PATH in dosym to
+	work around sandbox weirdness, and add a deprecation notice to
+	donewins since noone knows why it exists anyway.
+
+2006-07-05 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/utils/merge.cc, ebuild/utils/unmerge.cc,
+	paludis/default_config.cc, paludis/default_environment.cc,
+	paludis/dep_atom.cc, paludis/dep_list.cc, paludis/ebuild.cc,
+	paludis/environment.cc, paludis/nothing_repository.cc,
+	paludis/portage_repository.cc, paludis/util/log.cc,
+	paludis/util/log.hh, paludis/util/log_TEST.cc,
+	paludis/util/pstream.cc, paludis/util/system.cc,
+	paludis/vdb_repository.cc, src/install.cc, src/list.cc: Don't display
+	context with all log messages, only the ones where it's useful.
+
+2006-07-05 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/Makefile.am, ebuild/ebuild.bash, ebuild/utils/Makefile.am,
+	ebuild/utils/unpack, -ebuild/unpack_functions.bash: Move unpack into
+	an external script so that it can be used by non-ebuilds.
+
+2006-07-04 Stephen Bennett <spb@gentoo.org>
+
+	* paludis/selinux/security_context.cc: When built with selinux support
+	and the library exists, check whether kernel support is enabled before
+	attempting any SELinux operations. This fixes merge in the case where
+	the userland part of SELinux is complete but the kernel support is
+	missing, potentially common in recovery scenarios.
+
+2006-07-04 Stephen Bennett <spb@gentoo.org>
+
+	* ebuild/utils/dosym: Create any necessary directories in dosym if
+	they don't exist. Portage changed behaviour here, so we sync to it for
+	now.
+
+2006-07-04 Stephen Bennett <spb@gentoo.org>
+
+	* configure.ac, paludis/Makefile.am.m4,
+	paludis/selinux/security_context.hh,
+	paludis/selinux/security_context.cc, paludis/selinux/Makefile.am,
+	ebuild/ebuild.bash, ebuild/utils/merge.cc, ebuild/utils/Makefile.am:
+	Initial SELinux support for merge. Does not handle all corner cases as
+	yet, but should work for SELinux-enabled and SELinux-not-present.
+
+2006-07-03 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/builtin_merge.bash, ebuild/builtin_unmerge.bash,
+	ebuild/ebuild.bash, ebuild/eclass_functions.bash, paludis/ebuild.cc,
+	paludis/ebuild.hh: Switch to VDB_FORMAT paludis-2. Save the repository
+	whence the package originated. Use Portage compatible environment
+	saving.
+
+	* paludis/vdb_repository.cc, paludis/vdb_repository.hh: Add buildroot
+	configuration option.
+	
+	* src/upgrade_TEST_setup.sh: Test environment behaviour.
+
+2006-07-03 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/ebuild.cc: Fix behaviour of PVR.
+
+2006-07-03 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/Makefile.am, ebuild/ebuild.bash, paludis/ebuild.cc,
+	paludis/ebuild.hh, paludis/fake_repository.cc,
+	paludis/nothing_repository.cc, paludis/portage_repository.cc,
+	paludis/portage_repository.hh, paludis/repository.cc,
+	paludis/repository.hh, paludis/vdb_repository.cc,
+	paludis/vdb_repository.hh, src/applets.cc, src/applets.hh,
+	src/command_line.cc, src/command_line.hh, src/paludis.cc,
+	+ebuild/builtin_variable.bash: Add support for --environment-variable
+	on the commandline.
+
+2006-07-03 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/log.cc: Display context with log messages.
+
+2006-07-03 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/dep_atom.cc: Downgrade use of * with operators other than
+	equals from an error to a QA warning.
+
+2006-07-01 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/builtin_merge.bash, ebuild/builtin_unmerge.bash: Add code to
+	recover from sh breaking due to library downgrades.
+
+2006-06-30 Stephen Bennett <spb@gentoo.org>
+
+	* ebuild/utils/merge.cc: Better handle symlinks when merging.
+
+2006-06-30 Stephen Bennett <spb@gentoo.org>
+
+	* paludis/syncer.cc: Add svn+http syncer.
+
+2006-06-29 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/eclass_functions.bash: Fix eclassdirs.
+
+2006-06-29 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/sync.cc: Add xterm titles for syncing.
+
+2006-06-29 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/utils/Makefile.am, ebuild/utils/merge.cc,
+	ebuild/utils/unmerge.cc: Use internal md5 routines rather than calling
+	md5sum when merging and unmerging.
+
+2006-06-29 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac, ebuild/Makefile.am, ebuild/digests/Makefile.am,
+	ebuild/digests/domd5.cc, ebuild/digests/dormd160.cc,
+	ebuild/digests/dosha256.cc, paludis/Makefile.am.m4, paludis/digests,
+	paludis/digests/Makefile.am, +paludis/digests/md5.cc,
+	+paludis/digests/md5.hh, +paludis/digests/md5_TEST.cc,
+	+paludis/digests/rmd160.cc, +paludis/digests/rmd160.hh,
+	+paludis/digests/rmd160_TEST.cc, +paludis/digests/sha256.cc,
+	+paludis/digests/sha256.hh, +paludis/digests/sha256_TEST.cc,
+	-ebuild/digests/dormd160_TEST.cc, -ebuild/digests/dosha256_TEST.cc,
+	-ebuild/digests/md5.cc, -ebuild/digests/md5.hh,
+	-ebuild/digests/md5_TEST.cc, -ebuild/digests/rmd160.cc,
+	-ebuild/digests/rmd160.hh, -ebuild/digests/sha256.cc,
+	-ebuild/digests/sha256.hh: Split up digest tools and classes. Move
+	digest classes into paludis/digests/ so that they can be used
+	internally.
+
+2006-06-29 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/digests/Makefile.am, ebuild/digests/domd5,
+	ebuild/digests/domd5.cc, ebuild/digests/md5.cc, ebuild/digests/md5.hh,
+	ebuild/digests/md5_TEST.cc: Implement MD5 internally, to avoid linkage
+	problems with external md5sum on upgrade.
+
+2006-06-29 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/builtin_merge.bash, ebuild/builtin_unmerge.bash,
+	ebuild/ebuild.bash, src/Makefile.am: Nasty hack to make distcheck work
+	when autotools starts sticking things in different directories.
+
+2006-06-29 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/dep_list.cc, paludis/dep_list.hh, src/command_line.cc,
+	src/command_line.hh, src/install.cc: Add --dl-no-unnecessary-upgrades
+	commandline option.
+
+2006-06-28 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/utils/merge.cc: Fix merge to /.
+
+2006-06-28 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/utils/Makefile.am, ebuild/utils/merge.cc,
+	ebuild/utils/merge_common.cc, ebuild/utils/merge_common.hh,
+	ebuild/utils/unmerge.cc: Move some common merge / unmerge code into
+	separate files.
+
+2006-06-28 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/builtin_unmerge.bash, ebuild/utils/unmerge.cc: Re-enable
+	config protect support.
+
+2006-06-28 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/utils/merge.cc, ebuild/builtin_merge.bash: Fix set*id handling.
+	Re-enable config protect support.
+
+2006-06-28 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/fs_entry.cc, paludis/util/fs_entry.hh: Add chmod member
+	function to FSEntry.
+
+2006-06-28 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/builtin_tidyup.bash: Be more verbose.
+
+2006-06-28 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/builtin_fetch.bash: Fix bogus error message text.
+
+2006-06-28 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/utils/Makefile.am, ebuild/utils/unmerge,
+	ebuild/utils/unmerge.cc, ebuild/utils/unmerge_TEST.bash: Replace the
+	icky bash unmerge with a slightly less icky C++ unmerge.
+
+2006-06-28 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/fs_entry.cc, paludis/util/fs_entry.hh: Add rmdir member
+	function to FSEntry.
+
+2006-06-28 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/utils/Makefile.am, ebuild/utils/merge, ebuild/utils/merge.cc,
+	ebuild/utils/merge_TEST.bash, ebuild/utils/unmerge_TEST.bash: Replace
+	the icky bash merge with a slightly less icky C++ merge.
+
+2006-06-27 David Morgan <david.morgan@wadham.oxford.ac.uk>
+
+	* paludis/trunk/qa/environment.cc, paludis/trunk/environment.hh: Misc
+	fixes for things broken by changes elsewhere (mostly QAEnvironment).
+
+	* paludis/trunk/qa/files.m4: Temporarily commented out tests that are
+	broken.
+
+2006-06-27 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/fs_entry.cc, paludis/util/fs_entry.hh: Add chown,
+	owner, group member functions to FSEntry.
+
+2006-06-27 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/fs_entry.cc, paludis/util/fs_entry.hh: Add readlink
+	member function to FSEntry.
+
+2006-06-27 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/fs_entry.cc, paludis/util/fs_entry.hh: Add
+	permissions member function to FSEntry. Add optional mode argument
+	to FSEntry mkdir member function. Add unlink member function to
+	FSEntry.
+
+2006-06-22 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/Makefile.am, doc/header.html, doc/paludis.css,
+	paludis/args/args_option.cc, paludis/contents.hh,
+	paludis/default_config.cc, paludis/util/comparison_policy_TEST.cc,
+	paludis/util/counted_ptr_TEST.cc, paludis/util/destringify.hh,
+	paludis/util/smart_record.hh.m4, paludis/util/smart_record_TEST.cc,
+	paludis/util/stringify.hh, src/licence.hh: Documentation improvements.
+
+	* doc/doc_configuration_files.doxygen: Add documentation about our
+	config file formats.
+
+2006-06-18 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/builtin_fetch.bash: Give a better error if DISTDIR isn't a
+	directory.
+
+2006-06-18 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/dep_list.cc: Emit a warning when dropping circular
+	dependencies.
+
+2006-06-18 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/portage_repository.cc: If the user mirrors.conf file
+	contains an entry with a mirror named '*', first try fetching from
+	there.
+
+2006-06-18 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/fetchers/dofile: Make file:/// fetching work.
+
+2006-06-18 Fernando J. Pereda <ferdy@gentoo.org>
+
+	* paludis/util/files.m4: Add `testscript' to system.
+
+2006-06-17 Fernando J. Pereda <ferdy@gentoo.org>
+
+	* paludis/util/system.hh, paludis/util/system.cc,
+	paludis/util/system_TEST_setup.sh, paludis/util/system_TEST_cleanup.sh,
+	paludis/util/system_TEST.cc, paludis/syncer.cc: Introduce
+	run_command_in_directory and use it in GitSyncer::sync().
+
+2006-06-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/name.cc, paludis/name.hh, paludis/test_environment.hh,
+	paludis/version_metadata.hh, paludis/version_operator.cc,
+	paludis/version_operator.hh, paludis/version_spec.hh: Tidy up some
+	includes.
+
+2006-06-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/src_test.bash: Check for makefile and GNUmakefile.
+
+2006-06-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doxygen.conf.in: Generate include graphs.
+
+2006-06-15 Danny van Dyk <kugelfang@gentoo.org>
+
+	* doc/doc_security_advisories.doxygen, doc/Makefile.am: Add
+	specification for security advisories.
+
+	* utils/glsa2txt.py: Add python script to create security advisories
+	from GLSAs.
+
+	* paludis/config_file.cc: Change AdvisoryFile to parse new advisory
+	format.
+
+2006-06-15 Stephen Bennett <spb@gentoo.org>
+
+	* paludis/repository.hh: Add virtual destructors to interface classes
+	to get rid of some irritating compiler warnings.
+
+2006-06-12 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/config_file.cc, paludis/config_file.hh,
+	paludis/default_config.cc, paludis/default_config.hh: Tidy up some
+	includes and remove some unnecessary inlines.
+
+2006-06-11 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac, ebuild/Makefile.am, ebuild/builtin_fetch.bash,
+	ebuild/fetchers, ebuild/fetchers/Makefile.am, ebuild/fetchers/dofile,
+	ebuild/fetchers/dowget.in: Move fetching things out into wrapper scripts
+	rather than hardcoding wget. Add file:/// URL support.
+
+2006-06-11 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_main.doxygen, paludis/files.m4, paludis/nothing_repository.cc,
+	paludis/nothing_repository.hh: Add a NothingRepository that supports
+	sync= but does not contain any packages.
+
+2006-06-11 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/portage_repository.hh, paludis/portage_repository.cc: Remove
+	unnecessary do_contents implementation.
+
+2006-06-11 Danny van Dyk <kugelfang@gentoo.org>
+
+	* paludis/default_environment.cc, paludis/default_environment.hh,
+	paludis/environment.cc, paludis/environment.hh,
+	paludis/portage_repository.cc, paludis/portage_repository.hh,
+	paludis/repository.hh, paludis/vdb_repository.cc,
+	paludis/vdb_repository.hh, paludis/version_operator.hh: Add support
+	for PackageSetOptions.
+	
+	* paludis/config_file.cc, paludis/config_file.hh,
+	paludis/portage_repository.cc, paludis/portage_repository.hh: Revise
+	security algorithm.
+
+	* src/command_line.cc, src/command_line.hh, src/list.cc, src/list.hh,
+	src/paludis.cc: Add support for --list-vulnerabilities commandline
+	option.
+
+2006-06-11 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/portage_repository.cc: Show the location of the repository
+	config file rather than the repository in eclassdir / profiledir
+	deprecated notices.
+
+2006-06-11 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/builtin_merge.bash, ebuild/ebuild.bash,
+	ebuild/eclass_functions.bash, paludis/ebuild.cc, paludis/ebuild.hh,
+	paludis/portage_repository.cc, paludis/portage_repository.hh,
+	paludis/util/fs_entry.cc, paludis/util/fs_entry.hh,
+	paludis/vdb_repository.cc, src/install_TEST_setup.sh: Add support for
+	multiple eclass directories and multiple profile directories in
+	Portage repositories. The 'eclassdir' and 'profiledir' keys are now
+	deprecated, in favour of 'eclassdirs' and 'profiledirs'.
+
+2006-06-11 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/collection.hh: Add push_back method for
+	SequentialCollection, so that a std::back_insert_iterator can be used.
+	Include a const_reference typedef in SequentialCollection, for various
+	standard algorithms.
+
+2006-06-08 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/Makefile.am, src/exception_TEST, src/help_TEST,
+	src/install_TEST, src/list_dep_tag_categories_TEST,
+	src/list_repository_formats_TEST, src/list_sync_formats_TEST,
+	src/upgrade_TEST, src/version_TEST: Move the test scripts out of the
+	Makefile.
+
+	* src/upgrade_TEST_cleanup.sh, src/upgrade_TEST_setup.sh: Add a test
+	for installing then upgrading a package.
+
+2006-06-08 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/default_environment.cc: Add a PALUDIS_NO_GLOBAL_HOOKS env
+	var, mostly for test cases.
+
+	* src/Makefile.am, src/install_TEST_cleanup.sh,
+	src/install_TEST_setup.sh: Do a full package install as part of the
+	test cases.
+
+2006-06-06 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/install.cc: Display better counts for --install.
+
+2006-06-06 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/args/bad_argument.hh, paludis/args/bad_value.hh,
+	paludis/args/missing_value.hh, paludis/default_environment.hh,
+	paludis/dep_list.hh, paludis/util/comparison_policy.hh.m4,
+	test/test_framework.hh: Fix up Doxygen grouping.
+
+2006-06-06 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/files.m4, paludis/util/match_sequence.cc,
+	paludis/util/match_sequence.hh, paludis/util/match_sequence_TEST.cc:
+	Kill match_sequence. It's only used for one QA check, which is
+	probably better done using something more powerful anyway.
+
+2006-06-06 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/ebuild.bash, ebuild/echo_functions.bash.in: Handle date in
+	log code, global scope.
+
+2006-06-06 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac: Move us onto the 0.3 branch.
+
+2006-06-06 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/default_environment.cc, paludis/dep_list.cc,
+	paludis/environment.cc, paludis/fake_repository.cc,
+	paludis/fake_repository.hh, paludis/match_package.cc,
+	paludis/package_database.cc, paludis/package_database.hh,
+	paludis/portage_repository.cc, paludis/portage_repository.hh,
+	paludis/portage_repository_TEST.cc, paludis/repository.cc,
+	paludis/repository.hh, paludis/vdb_repository.cc,
+	paludis/vdb_repository.hh, src/contents.cc, src/install.cc,
+	src/news.cc, src/owner.cc, src/query.cc, src/sync.cc,
+	src/uninstall.cc: Switch to a new capabilities interface for
+	repositories.
+
+2006-06-06 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/smart_record.hh.m4: Export smart record key types, for
+	utility functions.
+
+2006-06-06 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/counted_ptr.hh: Allow upcasts on construction.
+
+2006-06-05 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/build_functions.bash, ebuild/utils/Makefile.am,
+	ebuild/utils/emake: Move emake to an external app, like it is in
+	Portage, so things like xargs emake work.
+
+2006-06-05 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/unpack_functions.bash: Unpack .tar.Z files correctly.
+
+2006-06-05 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/Makefile.am.m4, paludis/ebuild.cc, paludis/ebuild.hh,
+	paludis/portage_repository.cc, paludis/portage_repository.hh,
+	paludis/vdb_repository.cc, src/Makefile.am, src/paludis.cc: Stop
+	hardcoding BIGTEMPDIR. Make the build directory a repository
+	configuration parameter (buildroot) instead.
+
+2006-06-05 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/dep_list.cc, paludis/environment.cc,
+	paludis/fake_repository.cc, paludis/fake_repository.hh,
+	paludis/package_database.cc, paludis/package_database.hh,
+	paludis/package_database_TEST.cc, paludis/portage_repository.cc,
+	paludis/portage_repository.hh, paludis/repository.hh,
+	paludis/vdb_repository.cc, paludis/vdb_repository.hh,
+	paludis/vdb_repository_TEST.cc: Interface tidyup.
+
+2006-06-05 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/random_TEST.cc: Make chi squared test less prone to
+	occasional random failures.
+
+2006-06-04 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/version_operator.cc, paludis/version_operator.hh,
+	paludis/version_operator_TEST.cc: Typo tidle -> tilde.
+
+2006-06-04 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/default_environment.hh, paludis/dep_atom_flattener.hh,
+	paludis/dep_list.hh, paludis/test_environment.hh: Fix environment
+	includes.
+
+2006-05-29 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* NEWS, configure.ac: Tag for 0.2.5
+
+	+ Release: 0.2.5
+
+2006-05-27 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/hashed_containers.hh.in: Fix harmless compiler warning,
+	since people keep asking about it.
+
+2006-05-27 Stephen Bennett <spb@gentoo.org>
+
+	* ebuild/echo_functions.bash, ebuild/echo_functions.bash.in,
+	configure.ac, hooks/news.bash, hooks/eselect_env_update.bash,
+	hooks/find_config_updates.bash: Make bash and hook output pink when
+	appropriate.
+
+2006-05-26 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* hooks/gnu_info_index.bash, paludis/default_environment.cc: Fix up
+	remaining path issues.
+
+2006-05-26 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/utils/Makefile.am, ebuild/utils/sed, ebuild/utils/sed.in:
+	Move sed -> sed.in, and only generate sed wrapper when it's needed, to
+	avoid path issues.
+
+2006-05-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/Makefile.am, ebuild/Makefile.am, ebuild/builtin_init.bash,
+	ebuild/builtin_merge.bash, ebuild/builtin_unmerge.bash,
+	ebuild/ebuild.bash, ebuild/portage_stubs.bash,
+	ebuild/utils/Makefile.am, ebuild/utils/canonicalise,
+	ebuild/utils/merge, ebuild/utils/merge_TEST.bash,
+	ebuild/utils/unmerge, ebuild/utils/unmerge_TEST.bash: Make a
+	canonicalise wrapper, rather than using realpath or readlink -f.
+	Tinker with PATH ordering so that this actually works.
+
+2006-05-25 Robert Sebastian Gerus <arachnist@gmail.com>
+
+	* hooks/gnu_info_index.bash, ebuild/utils/merge, ebuild/utils/getmtime,
+	ebuild/utils/unmerge: Add a wrapper that will call stat -f '%m' on
+	FreeBSD and stat -c '%Y' everywhere else.
+
+2006-05-25 Robert Sebastian Gerus <arachnist@gmail.com>
+
+	* ebuild/ebuild.bash, ebuild/portage_stubs.bash, ebuild/utils/merge,
+	ebuild/utils/unmerge, ebuild/builtin_merge.bash, doc/Makefile.am,
+	ebuild/builtin_unmerge.bash: Replace readlink -f with realpath, for
+	portability.
+
+2006-05-24 Robert Sebastian Gerus <arachnist@gmail.com>
+
+	* configure.ac, ebuild/utils/Makefile.am, ebuild/utils/sed: Add sed
+	wrapper script which calls gsed, installed only if sed isn't gnu sed.
+
+2006-05-24 Robert Sebastian Gerus <arachnist@gmail.com>
+
+	* test/test_runner.cc: Skip glibc-specific backtrace call on non-glibc
+	systems.
+
+2006-05-24 Robert Sebastian Gerus <arachnist@gmail.com>
+
+	* paludis/util/system_TEST.cc: Added a check for FreeBSD.
+
+2006-05-24 Robert Sebastian Gerus <arachnist@gmail.com>
+
+	* /trunk/configure.ac: date --iso=seconds -> date +%Y-%m-%dT%H:%M:%S%z
+	for portability.
+
+2006-05-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/version_spec.cc, paludis/version_spec_TEST.cc: Add -try
+	support to version specs.
+
+	* doc/doc_portage_differences.cc: Bring up to date.
+
+2006-05-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/vdb_repository.cc, paludis/vdb_repository.hh: Improve error
+	condition handling.
+
+2006-05-22 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/system.cc: Improve error condition handling.
+
+2006-05-22 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/environment.cc: Improve error condition handling.
+
+	* paludis/portage_repository.cc: Use
+	PortageRepositoryConfigurationError rather than InternalError for
+	profiles where ARCH is unset. Clean up various small todo items.
+	
+	* paludis/portage_repository.cc: Don't hardcode mirror://gentoo/ as
+	the master mirror name.
+
+2006-05-22 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/default_config.cc, paludis/default_config.hh,
+	paludis/default_environment.cc, paludis/default_environment.hh,
+	paludis/environment.hh, paludis/portage_repository.cc,
+	paludis/test_environment.hh: Support a mirrors.conf file, with the
+	same format as thirdpartymirrors, in the config directory.
+
+2006-05-22 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/ebuild.bash, paludis/portage_repository_TEST.cc: Use EAPI="0"
+	when EAPI is unset. Improve version metadata generation tests.
+
+2006-05-22 Fernando J. Pereda <ferdy@gentoo.org>
+
+	* paludis/syncer.hh, paludis/syncer.cc: Add a Syncer to sync Git
+	repositories (GitSyncer).
+
+	* AUTHORS: Add myself as 'Contributor'.
+
+2006-05-21 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* NEWS, configure.ac: Tag for 0.2.4.
+
+	+ Release: 0.2.4
+
+2006-05-21 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/ebuild.cc: Fix ebuild metadata generation.
+
+2006-05-20 Danny van Dyk <kugelfang@gentoo.org>
+
+	* paludis/util/smart_record.hh.m4: Increase maximal number of smartrecord
+	entries to 15.
+
+	* paludis/portage_repository.cc, paludis/portage_repository.hh: Turn
+	the location of the security advisory directory into a config item.
+
+2006-05-19 Stephen Bennett <spb@gentoo.org>
+
+	* NEWS, configure.ac: Tag for 0.2.3.
+
+	+ Release: 0.2.3
+
+2006-05-19 Stephen Bennett <spb@gentoo.org>
+
+	* ebuild/kernel_functions.bash, ebuild/kernel_funtions_TEST.bash,
+	ebuild/ebuild.bash, ebuild/Makefile.am: Add KV_* functions imported
+	from functions.sh.
+
+2006-05-19 Stephen Bennett <spb@gentoo.org>
+
+	* paludis/portage_repository.cc: Support removal of packages from
+	system set in subprofiles.
+
+2006-05-19 Stephen Bennett <spb@gentoo.org>
+
+	* src/colour.hh, configure.ac: Allow a choice of colourschemes.
+
+2006-05-19 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* Makefile.am, configure.ac, eselect, eselect/Makefile.am,
+	eselect/news.eselect: Ship the news.eselect module as part of Paludis
+	for now.
+
+2006-05-18 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/Makefile.am, ebuild/digests/Makefile.am,
+	ebuild/utils/Makefile.am, ebuild/utils/merge_TEST_cleanup.sh,
+	ebuild/utils/merge_TEST_setup.sh,
+	ebuild/utils/unmerge_TEST_cleanup.sh,
+	ebuild/utils/unmerge_TEST_setup.sh, hooks/Makefile.am.m4,
+	paludis/Makefile.am.m4, paludis/args/Makefile.am,
+	paludis/config_file_TEST_cleanup.sh,
+	paludis/config_file_TEST_setup.sh,
+	paludis/portage_repository_TEST_cleanup.sh,
+	paludis/portage_repository_TEST_setup.sh, paludis/qa/Makefile.am.m4,
+	paludis/qa/file_permissions_check_TEST_cleanup.sh,
+	paludis/qa/file_permissions_check_TEST_setup.sh,
+	paludis/qa/has_ebuilds_check_TEST_cleanup.sh,
+	paludis/qa/has_ebuilds_check_TEST_setup.sh,
+	paludis/qa/has_misc_files_check_TEST_cleanup.sh,
+	paludis/qa/has_misc_files_check_TEST_setup.sh,
+	paludis/qa/package_name_check_TEST_cleanup.sh,
+	paludis/qa/package_name_check_TEST_setup.sh,
+	paludis/util/Makefile.am.m4,
+	paludis/util/dir_iterator_TEST_cleanup.sh,
+	paludis/util/dir_iterator_TEST_setup.sh,
+	paludis/util/fs_entry_TEST_cleanup.sh,
+	paludis/util/fs_entry_TEST_setup.sh,
+	paludis/util/is_file_with_extension_TEST_setup.sh,
+	paludis/vdb_repository_TEST_cleanup.sh,
+	paludis/vdb_repository_TEST_setup.sh, src/Makefile.am,
+	src/qualudis/Makefile.am, test/Makefile.am, test/run_test.sh: Use bash
+	rather than sh, since we already require it anyway and BSD sh sucks.
+
+2006-05-18 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/version_spec_TEST.cc: Check tilde comparison behaviour.
+
+2006-05-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/ebuild.cc, paludis/portage_repository_TEST.cc,
+	paludis/portage_repository_TEST_setup.sh: Handle ebuilds with really
+	broken metadata more gracefully.
+
+2006-05-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/install.cc: Fix text alignment issue when displaying tags.
+
+2006-05-17 Stephen Bennett <spb@gentoo.org>
+
+	* ebuild/echo_functions.bash: Add our own implementations of einfo and
+	friends to avoid depending on functions.sh.
+
+2006-05-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/ebuild.bash, paludis/ebuild.cc, paludis/ebuild.hh: Emulate
+	various Portage internals.
+
+2006-05-16 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/builtin_unmerge.bash: Don't sandbox unmerging from /, to work
+	around a sandbox 'feature'.
+
+2006-05-15 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/command_line.cc, src/command_line.hh, src/list.cc: Add
+	--repository, --category, --package filter options for the --list
+	actions.
+
+2006-05-14 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/Makefile.am: Fix distcheck.
+
+2006-05-14 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/dep_lexer.cc, paludis/dep_lexer.hh,
+	paludis/dep_lexer_TEST.cc, paludis/dep_list.cc,
+	paludis/dep_list_TEST.cc, paludis/dep_parser.cc,
+	paludis/dep_parser.hh, paludis/dep_parser_TEST.cc, paludis/ebuild.cc,
+	paludis/environment.cc, paludis/fake_repository.cc, paludis/files.m4,
+	paludis/portage_repository.cc, paludis/vdb_repository.cc,
+	paludis/version_metadata.cc, paludis/version_metadata.hh,
+	src/install.cc, src/query.cc, paludis/portage_dep_lexer.cc,
+	paludis/portage_dep_lexer.hh, paludis/portage_dep_lexer_TEST.cc,
+	paludis/portage_dep_parser.cc, paludis/portage_dep_parser.hh,
+	paludis/portage_dep_parser_TEST.cc: Move DepParser ->
+	PortageDepParser, DepLexer -> PortageDepLexer, abstract out remaining
+	parser calls into VersionMetadata.
+
+2006-05-13 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/tokeniser.cc: Generalise the WhitespaceTokeniser to
+	include newlines.
+
+	* paludis/config_file.cc, paludis/default_config.cc,
+	paludis/default_environment.cc, paludis/portage_repository.cc,
+	paludis/vdb_repository.cc: Switch to using WhitespaceTokeniser rather
+	than separate instances.
+
+2006-05-13 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/dep_list.cc, paludis/dep_list_TEST.cc, paludis/dep_parser.cc,
+	paludis/dep_parser.hh, paludis/ebuild.cc, paludis/ebuild.hh,
+	paludis/environment.cc, paludis/fake_repository.cc,
+	paludis/match_package.cc, paludis/portage_repository.cc,
+	paludis/portage_repository_TEST.cc, paludis/vdb_repository.cc,
+	paludis/version_metadata.cc, paludis/version_metadata.hh,
+	src/install.cc, src/query.cc: Rework VersionMetadata to be far less
+	ebuild-centric.
+
+	* paludis/util/compare.hh: Avoid using always_inline, it breaks in
+	various weird circumstances.
+	
+	* paludis/util/files.m4, paludis/util/tokeniser.cc,
+	paludis/util/tokeniser.hh: Add a singleton WhitespaceTokeniser class,
+	rather than declaring them all over the place.
+
+2006-05-08 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/utils/merge, ebuild/utils/unmerge: Avoid temporarily removing
+	symlinks where possible.
+
+2006-05-07 Danny van Dyk <kugelfang@gentoo.org>
+
+	* ebuild/utils/merge: Add 'hash -r' after removal of symlinks.
+
+	+ Fixes: Berlios#7414.
+
+2006-05-07 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/builtin_merge.bash: Switch off sandbox when merging to / to
+	avoid sandbox getting upset when its own files get replaced.
+
+	+ Fixes: Berlios#7402.
+
+2006-05-06 Stephen Bennett <spb@gentoo.org>
+
+	* src/install.cc: Display use.force info in --install output.
+
+2006-05-06 Stephen Bennett <spb@gentoo.org>
+
+	* paludis/repository.hh, paludis/vdb_repository.hh,
+	paludis/vdb_repository.cc, paludis/fake_repository.hh,
+	paludis/fake_repository.cc, paludis/portage_repository.hh,
+	paludis/portage_repository.cc, paludis/portage_repository_TEST.cc,
+	paludis/portage_repository_TEST_setup.sh: use.force, package.use.force
+	support.
+
+2006-05-05 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/Makefile.am: Make clean, maintainer-clean remove the html/
+	generated content.
+
+2006-05-05 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* NEWS, configure.ac: Update for 0.2.2.
+
+	+ Release: 0.2.2
+
+2006-05-05 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/default_environment.cc, paludis/dep_tag.cc,
+	paludis/dep_tag.hh, paludis/environment.cc,
+	paludis/portage_repository.cc, paludis/vdb_repository.cc,
+	src/install.cc: Rework dep tagging, and use it more heavily.
+
+2006-05-04 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/pkg_setup.bash: Allow extra pkg_ sandbox privs in pkg_setup.
+
+2006-05-04 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/query.cc: Explain the mask reasons shown with --query via a key.
+
+2006-05-04 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/portage_repository.cc: Don't try Gentoo mirrors for
+	RESTRICT=mirror packages.
+
+2006-05-04 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/ebuild.bash: Add /var/cache to the sandbox writelist.
+
+2006-05-04 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/build_functions.bash: Pass along quotes properly when calling
+	econf.
+
+	+ Fixes: Berlios#7358.
+
+2006-05-03 Ilya A. Volynets-Evenbakh <ilya@total-knowledge.com>
+
+	* ebuild/util/Makefile.am: use $< and $@ to refer to lib input and
+	output files, in order to avoid out-of-tree build breackage
+
+2006-05-03 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/portage_repository_TEST.cc, test/test_framework.cc,
+	test/test_framework.hh: Don't try to run tests that launch sandbox if
+	sandbox is already active.
+
+2006-05-02 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* hooks/Makefile.am.m4, hooks/news.bash: Add GLEP 42 (News items)
+	hooks.
+
+	* paludis/config_file.cc, paludis/config_file.hh: Add GLEP 42 news
+	item file class.
+
+	* paludis/portage_repository.cc, paludis/portage_repository.hh,
+	paludis/repository.hh: Add repository support for creating unread news
+	file lists.
+
+	* src/Makefile.am, src/command_line.cc, src/command_line.hh,
+	src/install.cc, src/news.cc, src/news.hh, src/paludis.cc: Add
+	--update-news internal action.
+
+2006-05-02 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/default_config.hh, paludis/default_environment.cc: Pass
+	HOOK_LOG_LEVEL, HOOK_CONFIG_SUFFIX to hooks.
+
+2006-05-02 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/sync.cc: Hooks now get called even if repository names aren't
+	passed on the commandline.
+
+2006-05-02 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/dep_atom.cc, paludis/dep_atom_TEST.cc: Parse =foo/bar-scm
+	and the like correctly.
+
+2006-05-02 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/fs_entry_TEST_setup.sh: Add a one second delay and an
+	extra touch, to try to avoid tests occasionally failing when checking
+	mtime / ctime.
+
+2006-05-02 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* NEWS, configure.ac: Update for 0.2.1.
+
+	+ Release: 0.2.1
+
+2006-05-02 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/Makefile.am, doc/doc_news.doxygen, doc/header.html: Add a NEWS
+	docs page.
+
+2006-05-01 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/pkg_nofetch.bash, paludis/ebuild.cc, paludis/ebuild.hh,
+	paludis/portage_repository.cc: Better nofetch support.
+
+2006-05-01 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/system.cc: Don't spawn sandbox if we're already
+	sandboxed.
+
+2006-05-01 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/query.cc: Tell the user if they try to query a set.
+
+2006-05-01 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/portage_repository.cc, paludis/portage_repository.hh,
+	paludis/util/smart_record.hh.m4: Add file package sets to Portage
+	format repositories.
+
+	+ Fixes: Berlios#FR2184.
+
+2006-05-01 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* hooks/Makefile.am.m4: Rework to avoid breaking distcheck's uninstall
+	checks.
+
+2006-05-01 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/vdb_repository.cc: Don't display the "key lookup failed"
+	warning for VDB entries where the file is missing.
+
+2006-05-01 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/vdb_repository.cc: USE may contain -flags. Ignore them.
+
+2006-05-01 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/applets.cc: Don't include the ::repo in --best-version output,
+	it confuses built_with_use.
+
+2006-05-01 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/default_environment.cc, paludis/default_environment.hh,
+	paludis/environment.cc, paludis/environment.hh,
+	paludis/test_environment.hh: Allow hooks to have additional associated
+	environment variables.
+
+	* src/install.cc, src/sync.cc, src/uninstall.cc: Provide appropriate
+	environment variables for hooks.
+
+	* hooks/Makefile.am.m4, hooks/log.bash: Add hook script for creating
+	paludis.log entries.
+
+2006-05-01 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_bootstrap_howto.doxygen: Use cat <<"END" to avoid having to
+	escape the dollar signs. Thanks to ecatmur.
+
+2006-05-01 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_portage_differences.doxygen, paludis/default_environment.cc,
+	paludis/default_environment.hh, paludis/environment.cc,
+	paludis/environment.hh: Support user defined package sets.
+
+2006-05-01 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/install.cc: Display EAPI in mask reasons, like we do for licence
+	and keywords.
+
+2006-05-01 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_bootstrap_howto.doxygen: Update with new overlay URL.
+
+2006-05-01 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	+ Release: 0.2.0
+
+2006-05-01 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/install.cc: Don't add to world if --fetch is specified.
+
+2006-05-01 Stephen Bennett <spb@gentoo.org>
+
+	* NEWS, configure.ac: Paludis 0.2.0.
+
+2006-04-30 Stephen Bennett <spb@gentoo.org>
+
+	* ebuild/build_functions.bash: Killed some overzealous quoting in
+	einstall that was breaking some packages.
+
+2006-04-30 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/utils/Makefile.am, ebuild/utils/dolib.a,
+	ebuild/utils/dolib.so, ebuild/utils/newlib.a, ebuild/utils/newlib.so,
+	ebuild/utils/dolib.a.in, ebuild/utils/dolib.so.in,
+	ebuild/utils/newlib.a.in, ebuild/utils/newlib.so.in: Try to work
+	around svn ignoring things.
+
+2006-04-30 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* hooks/Makefile.am.m4: Fix EXTRA_DIST for distribution tarballs.
+
+2006-04-30 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/digests/Makefile.am: Fix include path.
+
+2006-04-30 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/Makefile.am, doc/doxygen.conf.in, doc/footer.html,
+	doc/header.html, doc/paludis.css: Replace the icky default Doxygen
+	style with a marginally less icky style stolen from libebt.
+
+2006-04-30 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* autogen.bash, ebuild/utils/dobin_TEST.bash, hooks/Makefile.am ->
+	hooks/Makefile.am.m4: Restructure hooks Makefile and dobin tests to
+	avoid breaking distcheck.
+
+	+ Fixes: Berlios#7328.
+	+ Fixes: Berlios#7326.
+
+2006-04-30 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/syncer.cc: Make the local directory when syncing via rsync.
+
+2006-04-30 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/fs_entry.cc, paludis/util/fs_entry.hh,
+	paludis/util/fs_entry_TEST.cc: Add a mkdir method to FSEntry.
+
+2006-04-29 Stephen Bennett <spb@gentoo.org>
+
+	* ebuild/build_functions.bash: Make einstall pass libdir= to make.
+
+	+ Fixes: Berlios#7305.
+
+2006-04-29 Danny van Dyk <kugelfang@gentoo.org>
+
+	* paludis/config_file.cc, paludis/config_file.hh,
+	paludis/portage_repository.cc, paludis/portage_repository.hh:
+	Rework of the built-in security set.
+
+2006-04-28 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_main.doxygen, paludis/contents.cc, paludis/contents.hh,
+	paludis/fake_repository.cc, paludis/fake_repository.hh,
+	paludis/files.m4, paludis/package_database.cc,
+	paludis/package_database.hh, paludis/portage_repository.cc,
+	paludis/portage_repository.hh, paludis/repository.hh,
+	paludis/vdb_repository.cc, paludis/vdb_repository.hh: Provide a way of
+	querying the contents of a package.
+	
+	* src/Makefile.am, src/colour.hh, src/command_line.cc,
+	src/command_line.hh, src/contents.cc, src/contents.hh, src/owner.cc,
+	src/owner.hh, src/paludis.cc: Add --owner and --contents actions.
+
+2006-04-27 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/version_spec.cc, paludis/version_spec_TEST.cc: Allow scm-rX
+	on unversioned packages.
+
+2006-04-27 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/unpack_functions.bash: Make unpack know how to extract .ar
+	and .deb files.
+
+2006-04-27 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_bootstrap_howto.doxygen: Add gettext to the suggested test
+	blacklist.
+
+2006-04-26 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/Makefile.am, src/install.cc, src/licence.cc, src/licence.hh,
+	src/query.cc: Use the fancy licence displayer for --query as well as
+	--install.
+
+2006-04-26 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/vdb_repository.cc: Load HOMEPAGE, DESCRIPTION.
+	
+	* src/query.cc: Prefer installed packages over uninstalled packages,
+	even if there are newer versions of uninstalled packages, when
+	displaying query output.
+
+2006-04-26 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/environment.cc: Handle || ( ) in LICENSE properly.
+
+2006-04-26 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/digests/Makefile.am, ebuild/digests/dormd160,
+	ebuild/digests/dormd160.cc, ebuild/digests/dormd160_TEST.cc,
+	ebuild/digests/rmd160.cc, ebuild/digests/rmd160.hh: Implement our own
+	RMD160 too, to avoid an OpenSSL dependency.
+
+2006-04-26 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/install.cc: Display keywords for masked packages, like we do for
+	licences.
+
+2006-04-26 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/paludis.cc: Show whether sandbox is enabled with --version.
+
+2006-04-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/Makefile.am: Don't tinker with Doxygen niceness.
+
+	* doc/doc_bootstrap_howto.doxygen: Update with information about
+	avoiding sandbox and test issues with Python, avoiding test issues
+	with various packages, apr's pickiness and various wording and
+	formatting tweaks.
+
+	* configure.ac, ebuild/Makefile.am, ebuild/builtin_fetch.bash,
+	ebuild/builtin_init.bash, ebuild/builtin_merge.bash,
+	ebuild/builtin_strip.bash, ebuild/builtin_unmerge.bash,
+	ebuild/ebuild.bash, ebuild/pkg_postinst.bash, ebuild/pkg_postrm.bash,
+	ebuild/pkg_preinst.bash, ebuild/pkg_prerm.bash,
+	ebuild/sandbox_stubs.bash, ebuild/utils/doconfd, ebuild/utils/doenvd,
+	ebuild/utils/doinitd, ebuild/utils/doins, ebuild/utils/dolib.a,
+	ebuild/utils/dolib.so, ebuild/utils/donewins, ebuild/utils/newbin,
+	ebuild/utils/newconfd, ebuild/utils/newdoc, ebuild/utils/newenvd,
+	ebuild/utils/newexe, ebuild/utils/newinitd, ebuild/utils/newins,
+	ebuild/utils/newlib.a, ebuild/utils/newlib.so, ebuild/utils/newman,
+	ebuild/utils/newsbin, paludis/ebuild.cc, paludis/ebuild.hh,
+	paludis/util/system.cc, paludis/util/system.hh, ebuild/sandbox.bash:
+	Support sandbox.
+
+2006-04-25 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_bootstrap_howto.doxygen: Our list of required licences was
+	slightly too short. Extend it.
+
+2006-04-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* Makefile.am, configure.ac, ebuild/Makefile.am,
+	ebuild/builtin_merge.bash, ebuild/builtin_updateenv.bash,
+	ebuild/depend.bash, ebuild/ebuild.bash, hooks, hooks/Makefile.am,
+	hooks/eselect_env_update.bash, hooks/find_config_updates.bash,
+	hooks/gnu_info_index.bash, paludis/Makefile.am.m4,
+	paludis/default_config.cc, paludis/default_config.hh,
+	paludis/default_environment.cc, paludis/default_environment.hh,
+	paludis/ebuild.cc, paludis/environment.hh,
+	paludis/test_environment.hh, src/install.cc, src/sync.cc,
+	src/uninstall.cc, ebuild/builtin_metadata.bash: Rename depend ebuild
+	action to metadata and remove updateenv action. Add a hooks framework.
+	Use hooks for running eselect env update, updating GNU info
+	directories and checking for configuration files.
+
+	* ebuild/echo_functions.bash: Fix log output when redirected.
+
+	* doc/doc_portage_differences: We have hooks.
+
+2006-04-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/fs_entry_TEST.cc, paludis/util/fs_entry_TEST_setup.sh:
+	Add further symlink behaviour checks.
+
+	* paludis/util/is_file_with_extension.cc: Also allow symlinks to
+	files.
+
+2006-04-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/utils/merge: Name CONFIG_PROTECTed files in the same way
+	Portage does.
+
+2006-04-24 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_references.doxygen, doc/doxygen.conf.in,
+	paludis/util/files.m4, paludis/util/random.cc, paludis/util/random.hh,
+	paludis/util/random_TEST.cc: Don't use the c random number functions
+	that have global state, use our own instead.
+
+2006-04-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/Makefile.am, doc/doc_mainpage.doxygen,
+	doc/doc_portage_differences.doxygen: Extend documentation to include how
+	we differ from Portage.
+
+2006-04-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/default_environment.cc, paludis/dep_atom.cc,
+	paludis/dep_atom.hh, paludis/dep_atom_TEST.cc, paludis/dep_list_TEST.cc,
+	paludis/match_package.cc, paludis/portage_repository.cc: Enable [use]
+	dependencies (library only, no nice user interface to them at present).
+	Enhance priority of use.mask. Add circular detection for per package use
+	masking when [use] deps are used, to avoid infinite recursion.
+
+2006-04-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac: Don't enable QA ever, for now.
+
+2006-04-23 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* configure.ac, ebuild/Makefile.am, ebuild/builtin_fetch.bash,
+	ebuild/digests, ebuild/digests/Makefile.am, ebuild/digests/domd5,
+	ebuild/digests/dormd160, ebuild/digests/dosha256.cc,
+	ebuild/digests/dosha256_TEST.cc, ebuild/digests/sha256.cc,
+	ebuild/digests/sha256.hh: Split out digest checks into separate
+	programs, to make ferringb happy. Add our own SHA-256 implementation
+	to avoid pulling in nasty dependencies.
+
+2006-04-23 Stephen Bennett <spb@gentoo.org>
+
+	* paludis/repository.hh, paludis/portage_repository.hh,
+	paludis/fake_repository.hh, paludis/vdb_repository.hh,
+	paludis/portage_repository.cc, paludis/portage_repository_TEST.cc,
+	paludis/portage_repository_TEST_setup.sh, paludis/fake_repository.cc,
+	paludis/vdb_repository.cc, src_install.cc: Per-package USE masking
+	support.
+
+2006-04-21 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/default_environment.cc, paludis/dep_list.cc,
+	paludis/match_package.cc, paludis/match_package.hh,
+	paludis/package_database.cc, paludis/package_database.hh,
+	paludis/package_database_TEST.cc, paludis/portage_repository.cc,
+	paludis/test_environment.cc: Switch match_package to take Environment
+	rather than PackageDatabase as its first argument, since we're not
+	using multiple DBs per environment any more.
+
+2006-04-20 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/version_spec.cc: Don't do silly things when given "0" as a
+	version.
+
+2006-04-20 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/smart_record.hh.m4: Intel's compiler handles partial
+	specialisation slightly differently. Make the char * to string type
+	conversion work.
+
+2006-04-20 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/version_spec.cc: Fix STL usage issues that can cause
+	segfaults with Intel's compiler.
+
+2006-04-20 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_main.doxygen, paludis/args/args.cc, paludis/args/args.hh,
+	paludis/args/args_TEST.cc, paludis/args/args_dumper.cc,
+	paludis/args/args_dumper.hh, paludis/args/args_error.cc,
+	paludis/args/args_error.hh, paludis/args/args_group.cc,
+	paludis/args/args_group.hh, paludis/args/args_handler.cc,
+	paludis/args/args_handler.hh, paludis/args/args_option.cc,
+	paludis/args/args_option.hh, paludis/args/args_visitor.cc,
+	paludis/args/args_visitor.hh, paludis/dep_atom.hh,
+	paludis/dep_atom_flattener.hh, paludis/dep_list.hh,
+	paludis/dep_parser.cc, paludis/dep_tag.hh, paludis/ebuild.hh,
+	paludis/environment.cc, paludis/fake_repository.hh,
+	paludis/hashed_containers.cc, paludis/portage_repository.cc,
+	paludis/repository.hh, paludis/syncer.hh, paludis/test_extras.cc,
+	paludis/version_operator.hh, src/command_line.hh, src/install.cc,
+	src/paludis.cc: Last batch of code docs changes for now.
+
+2006-04-20 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_main.doxygen, paludis/util/attributes.hh,
+	paludis/util/collection.hh, paludis/util/compare.hh,
+	paludis/util/composite_pattern.hh, paludis/util/container_entry.hh,
+	paludis/util/counted_ptr.hh, paludis/util/counted_ptr_TEST.cc,
+	paludis/util/deleter.cc, paludis/util/deleter.hh,
+	paludis/util/deleter_TEST.cc, paludis/util/destringify.cc,
+	paludis/util/destringify.hh, paludis/util/destringify_TEST.cc,
+	paludis/util/dir_iterator.cc, paludis/util/dir_iterator.hh,
+	paludis/util/dir_iterator_TEST.cc, paludis/util/exception.cc,
+	paludis/util/exception.hh, paludis/util/files.m4,
+	paludis/util/fs_entry.cc, paludis/util/fs_entry.hh,
+	paludis/util/fs_entry_TEST.cc, paludis/util/instantiation_policy.cc,
+	paludis/util/instantiation_policy.hh,
+	paludis/util/instantiation_policy_TEST.cc, paludis/util/is_const.cc,
+	paludis/util/is_const.hh, paludis/util/is_const_TEST.cc,
+	paludis/util/is_file_with_extension.cc,
+	paludis/util/is_file_with_extension.hh,
+	paludis/util/is_file_with_extension_TEST.cc, paludis/util/iterator.hh,
+	paludis/util/iterator_TEST.cc, paludis/util/join.cc,
+	paludis/util/join.hh, paludis/util/join_TEST.cc, paludis/util/log.cc,
+	paludis/util/log.hh, paludis/util/log_TEST.cc,
+	paludis/util/match_sequence.cc, paludis/util/match_sequence.hh,
+	paludis/util/match_sequence_TEST.cc,
+	paludis/util/private_implementation_pattern.cc,
+	paludis/util/private_implementation_pattern.hh,
+	paludis/util/pstream.cc, paludis/util/pstream.hh,
+	paludis/util/pstream_TEST.cc, paludis/util/random.cc,
+	paludis/util/random.hh, paludis/util/save.cc, paludis/util/save.hh,
+	paludis/util/save_TEST.cc, paludis/util/smart_record.hh.m4,
+	paludis/util/smart_record_TEST.cc, paludis/util/stringify.hh,
+	paludis/util/stringify_TEST.cc, paludis/util/strip.cc,
+	paludis/util/strip.hh, paludis/util/strip_TEST.cc,
+	paludis/util/system.cc, paludis/util/system.hh,
+	paludis/util/system_TEST.cc, paludis/util/test_extras.cc,
+	paludis/util/tokeniser.hh, paludis/util/tokeniser_TEST.cc,
+	paludis/util/validated.hh, paludis/util/validated_TEST.cc,
+	paludis/util/virtual_constructor.hh,
+	paludis/util/virtual_constructor_TEST.cc, paludis/util/visitor.hh,
+	paludis/util/visitor_TEST.cc: Fix up docs for paludis/util/ .
+
+2006-04-19 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_main.doxygen, paludis/package_database.cc,
+	paludis/package_database.hh, paludis/package_database_TEST.cc,
+	paludis/portage_repository.cc, paludis/portage_repository.hh,
+	paludis/portage_repository_TEST.cc, paludis/repository.cc,
+	paludis/repository.hh, paludis/syncer.cc, paludis/syncer.hh,
+	paludis/test_environment.cc, paludis/test_environment.hh,
+	paludis/test_extras.cc, paludis/vdb_repository.cc,
+	paludis/vdb_repository.hh, paludis/vdb_repository_TEST.cc,
+	paludis/version_metadata.cc, paludis/version_metadata.hh,
+	paludis/version_operator.cc, paludis/version_operator.hh,
+	paludis/version_operator_TEST.cc, paludis/version_spec.cc,
+	paludis/version_spec.hh, paludis/version_spec_TEST.cc: And the rest of
+	the docs for paludis/.
+
+2006-04-19 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/utils/merge_TEST.bash, ebuild/utils/unmerge_TEST.bash:
+	Support autotools "build somewhere else" mode.
+
+2006-04-19 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/install.cc, src/sync.cc, src/uninstall.cc: Stop relying upon
+	namespaces being pulled in magically.
+
+2006-04-19 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_main.doxygen, paludis/ebuild.cc, paludis/ebuild.hh,
+	paludis/environment.cc, paludis/environment.hh,
+	paludis/fake_repository.cc, paludis/fake_repository.hh,
+	paludis/hashed_containers.cc, paludis/hashed_containers.hh.in,
+	paludis/hashed_containers_TEST.cc, paludis/mask_reasons.cc,
+	paludis/mask_reasons.hh, paludis/match_package.cc,
+	paludis/match_package.hh, paludis/name.cc, paludis/name.hh,
+	paludis/name_TEST.cc: Some more progress on the documentation rework.
+
+2006-04-19 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/ebuild.bash, ebuild/echo_functions.bash, paludis/util/log.cc,
+	paludis/util/log.hh, src/paludis.cc: Add program name and time to log
+	messages.
+
+	* paludis/vdb_repository.cc: Add debug messages for operations that
+	are expected to be slow.
+
+2006-04-19 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_main.doxygen, doc/doc_namespaces.doxygen,
+	paludis/about.hh.in, paludis/about_TEST.cc, paludis/config_file.cc,
+	paludis/config_file.hh, paludis/config_file_TEST.cc,
+	paludis/default_config.cc, paludis/default_config.hh,
+	paludis/dep_atom.cc, paludis/dep_atom.hh, paludis/dep_atom_TEST.cc,
+	paludis/dep_atom_dumper.cc, paludis/dep_atom_dumper.hh,
+	paludis/dep_atom_dumper_TEST.cc, paludis/dep_atom_flattener.cc,
+	paludis/dep_atom_flattener.hh, paludis/dep_atom_pretty_printer.cc,
+	paludis/dep_atom_pretty_printer.hh, paludis/dep_lexer.cc,
+	paludis/dep_lexer.hh, paludis/dep_lexer_TEST.cc,
+	paludis/dep_parser.cc, paludis/dep_parser.hh,
+	paludis/dep_parser_TEST.cc, paludis/dep_tag.cc, paludis/dep_tag.hh:
+	First part of the documentation rework, plus minor formatting and code
+	style fixes. More to come.
+
+2006-04-19 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/Makefile.am, src/applets.cc, src/applets.hh,
+	src/command_line.cc, src/command_line.hh, src/paludis.cc: Add
+	--list-dep-tag-categories and related test.
+
+2006-04-19 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/doc_mainpage.doxygen, doc/HOWTO.rst, doc/doc_changelog.doxygen,
+	doc/Makefile.am, doc/doc_bootstrap_howto.doxygen, Makefile.am,
+	README: Rework the documentation.
+
+2006-04-19 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/version_spec_TEST.cc, paludis/version_spec.cc,
+	paludis/version_spec.hh: Add support for -scm versions. Rework
+	version spec internals to be substantially cleaner. Make the tests a
+	lot more extensive.
+
+2006-04-19 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/compare.hh, paludis/util/smart_record_TEST.cc: Make
+	CompareByAll comparisons work correctly.
+
+2006-04-18 Stephen Bennett <spb@gentoo.org>
+
+	* paludis/portage_repository.cc: Fix compiler warning.
+
+2006-04-18 Stephen Bennett <spb@gentoo.org>
+
+	* paludis/fake_repository.cc, paludis/vdb_repository.cc,
+	paludis/default_environment.cc, paludis/fake_repository.hh,
+	paludis/vdb_repository.hh, paludis/repository.hh,
+	paludis/portage_repository.cc, paludis/vdb_repository_TEST.cc,
+	paludis/vdb_repository_TEST_setup.sh, paludis/package_database.hh,
+	paludis/portage_repository.hh, paludis/package_database_entry.hh:
+	Support querying of USE from VDBRepository.
+
+2006-04-18 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/portage_repository_TEST.cc, paludis/portage_repository.cc,
+	paludis/portage_repository_TEST_setup.sh: Ignore any weird version specs
+	with a warning, rather than bombing out.
+
+2006-04-18 Stephen Bennett <spb@gentoo.org>
+
+	* ebuild/build_functions.bash: Replace non-existant ${PREFIX} with /usr.
+
+2006-04-18 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* src/install.cc: Fix (5 of 4) style counts caused by incrementing the
+	package counter when cleaning.
+
+2006-04-18 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/vdb_repository.hh: Explicitly include fs_entry, rather than
+	relying upon magic.
+
+	* paludis/files.m4, paludis/vdb_repository_TEST_cleanup.sh,
+	paludis/vdb_repository_TEST_setup.sh, paludis/vdb_repository_TEST.cc:
+	Some very crude VDB repo tests.
+
+2006-04-18 Stephen Bennett <spb@gentoo.org>
+
+	* ebuild/ebuild.bash: Export variables set in make.defaults.
+
+2006-04-18 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/ebuild.hh, paludis/portage_repository.cc, paludis/ebuild.cc:
+	Provide A during the ebuild build phase.
+
+2006-04-18 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* doc/HOWTO.rst: Add a note about the backslashes being for cat.
+
+2006-04-18 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/portage_repository.cc: Fix SLOT being set to an empty string
+	for some non-default virtual providers.
+
+2006-04-18 Danny van Dyk <kugelfang@gentoo.org>
+
+	* paludis/config_file.cc, paludis/config_file.hh: Fix typo.
+
+	* paludis/portage_repository.cc: Fix return value for an empty
+	security package set. Fix whitespaces.
+
+2006-04-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/dep_tag.cc, paludis/dep_list.cc, paludis/vdb_repository.cc,
+	paludis/files.m4, paludis/dep_atom.hh, paludis/dep_list.hh,
+	paludis/dep_tag.hh, paludis/portage_repository.cc, paludis/dep_atom.cc:
+	Turn dep tags into a proper class. Associate some basic GLSA information
+	with GLSA tags (future expansion expected).
+
+	* src/install.cc: Display new style dep tags.
+
+2006-04-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/iterator.hh: Add convenience indirect_iterator generation
+	function.
+
+2006-04-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/ebuild.cc, paludis/ebuild.hh, paludis/files.m4,
+	paludis/portage_repository.cc, paludis/repository.cc,
+	paludis/repository.hh, paludis/vdb_repository.cc: Split ebuild
+	execution code out into its own EbuildCommand classes.
+
+2006-04-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/config_file.cc: Typo fix.
+
+2006-04-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/fs_entry.hh, paludis/util/fs_entry.cc,
+	paludis/util/fs_entry_TEST.cc: Remove automatic cast from FSEntry to
+	std::string, since all it does is lead to silly bugs going undetected
+	at compile time.
+
+	* paludis/vdb_repository.cc, paludis/portage_repository.cc: Don't rely
+	upon automatic casts from FSEntry to std::string.
+
+	* paludis/config_file.cc, paludis/config_file.hh,
+	paludis/config_file_TEST.cc: Provide overloaded constructors that take
+	an FSEntry rather than a std::string.
+
+2006-04-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/portage_repository.hh: Sync is a string, not a filesystem
+	entry.
+
+2005-04-17 Danny van Dyk <kugelfang@gentoo.org>
+
+	* paludis/config_file.cc, paludis/config_file.hh,
+	paludis/dep_parser.cc, paludis/dep_parser.hh,
+	paludis/portage_repository.cc, paludis/portage_repository.hh:
+	Implement built-in 'security' package set.
+
+2006-04-17 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/vdb_repository.cc: Fix VDBEntry's operator< to return false
+	rather than an undefined value on equality.
+
+2006-04-16 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/vdb_repository.cc, paludis/vdb_repository.hh,
+	paludis/portage_repository.cc, paludis/portage_repository.hh: Use a
+	smart record for the constructor, allowing named parameters to be
+	provided, rather than passing around huge parameter lists containing
+	lots of things of the same type
+
+2006-04-16 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/util/smart_record.hh.m4, paludis/util/smart_record_TEST.cc:
+	Add support for named parameters to smart records.
+
+2006-04-16 Stephen Bennett <spb@gentoo.org>
+
+	* paludis/portage_repository.cc, ebuild/ebuild.bash: Support multiple
+	inheritance in profiles.
+
+2006-04-16 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* ebuild/builtin_fetch.bash: After a failed fetch, wget has a tendency
+	to leave zero byte files lying around. When checking for existing
+	files in DISTDIR in builtin_fetch, if the file is zero bytes in size
+	then delete and refetch it.
+
+	+ Fixes: Berlios#7163.
+
+2006-04-16 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/portage_repository.cc: Remove iostream include, it was only
+	there for early debugging code and adds overhead (see TC++SL 13.2.3).
+
+2006-04-16 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/portage_repository.cc, ebuild/builtin_tidyup.bash,
+	ebuild/ebuild.bash, ebuild/builtin_updateenv.bash, ebuild/Makefile.am:
+	Split out the eselect env update call from builtin_tidyup into a new
+	builtin_updateenv, making SKIP_FUNCTIONS="tidyup" a lot more sensible.
+
+2006-04-16 Ciaran McCreesh <ciaranm@ciaranm.org>
+
+	* paludis/portage_repository.cc: Expand mirror:// components that have
+	a path before the filename correctly.
+
+	+ Fixes: Berlios#7161.
+
