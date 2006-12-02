@@ -1,0 +1,83 @@
+/* vim: set ft=cpp tw=80 sw=4 et : */
+
+/**
+\page CacheFiles Cache Files
+
+\section CacheFilesOverview Overview
+
+This document explains the various cache options that are available for
+Paludis. Correct use of the cache can offer huge speed benefits; however,
+using the different cache options impose various restrictions about
+how other package managers can be used in parallel with Paludis.
+
+\section CacheFilesProvidesCache The Provides Cache
+
+Loading the VDB (information about installed packages) is slow on
+systems that have several hundred packages installed. The VDB format cannot
+currently be changed because lots of ebuilds rely upon it working (solutions
+involving hacking in a fake VDB with real data elsewhere are considered far too
+impractical). This is a nuisance, because the VDB needs to be
+fully loaded for most tasks.
+
+Many common tasks only require a full VDB load to check for PROVIDE entries.
+If, instead of forcing a full scan to load PROVIDEs, we cache this data in
+a single file, various common tasks become an order of magnitude faster.
+Paludis supports this option via a key called <code>provides_cache</code>
+in the configuration files for <code>vdb</code> format repositories.
+
+To enable this cache, set <code>provides_cache = ${location}/.cache/provides</code> .
+To disable it, set <code>provides_cache = /var/empty</code> . By default, the
+provides cache is disabled but generates a warning message suggesting that the
+user explicitly enable or disable it.
+
+\warning If you enable the provides cache, and then go on to install or
+  uninstall packages using another package manager, you <b>must</b> run
+  <code>paludis --regenerate-installed-cache</code> before performing
+  <i>any</i> other operation. You should also run this command after turning
+  on the cache for the first time, and if Paludis is interrupted during
+  an install or uninstall.
+
+\section CacheFilesNamesCache The Names Cache
+
+Turning an unqualified package name, like <code>vim</code>, into a qualified
+name, like <code>app-editors/vim</code>, involves scanning every category
+directory. This can take several seconds on a cold filesystem cache. Paludis can
+cache unqualified to qualified name mappings for <code>portage</code> and
+<code>vdb</code> repository formats. This makes certain common tasks much faster.
+
+To enable this cache, set <code>names_cache = ${location}/.cache/names</code> .
+To disable it, set <code>names_cache = /var/empty</code> . By default, the
+names cache is disabled but generates a warning message suggesting that the
+user explicitly enable or disable it.
+
+\warning If you enable the names cache, and then go on to sync or otherwise
+  modify the repository in question manually or with another package manager,
+  you <b>must</b> run <code>paludis --regenerate-installable-cache</code>
+  (for Portage repositories) or <code>paludis
+  --regenerate-installed-cache</code> (for VDB repositories). You should
+  also run this command after turning on the cache for the first time,
+  and if Paludis is interrupted during an install, uninstall or sync.
+
+\section CacheFilesMetadataCache The Metadata Cache
+
+Extracting metadata (description, dependency information and so on) from an
+ebuild is slow -- it involves invoking <code>bash</code> with a considerable
+amount of supporting code. To avoid this penalty, a centrally generated metadata
+cache is distributed with the official tree in the <code>metadata/cache</code>
+directory (Paludis can be told to look elsewhere by using the <code>cache</code>
+reposiory key).  For third party repositories and non-rsync users, this metadata
+cache may not be available.
+
+Paludis can generate metadata cache locally on demand. This will not speed up the
+first time cache is accessed for a particular ebuild, but subsequent invocations
+will be several orders of magnitude faster. To enable this cache where it is needed,
+set the <code>write_cache</code> key in a Portage format repository. Recommended
+values are <code>/var/cache/paludis/metadata</code> or
+<code>/home/username/.paludis-cache</code>. Note that Paludis will place the
+write cache for a repository into a subdirectory named for that repository, so
+specifying the same <code>write_cache</code> for every repository is acceptable.
+
+*/
+
+
+

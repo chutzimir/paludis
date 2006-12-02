@@ -1,0 +1,21 @@
+#!/bin/bash
+# vim: set sw=4 sts=4 et :
+
+make_class_NoConfigEnvironmentParams()
+{
+    key repository_dir "FSEntry"
+    key write_cache "FSEntry"
+    key accept_unstable bool
+    key repository_type NoConfigEnvironmentRepositoryType
+    allow_named_args
+}
+
+make_class_NoConfigEnvironmentProfilesDescLine()
+{
+    key path FSEntry
+    key arch std::string
+    key status std::string
+    key db PackageDatabase::Pointer
+    allow_named_args
+}
+
