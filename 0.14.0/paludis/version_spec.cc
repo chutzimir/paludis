@@ -21,7 +21,6 @@
 #include <paludis/util/compare.hh>
 #include <paludis/util/exception.hh>
 #include <paludis/util/stringify.hh>
-#include <paludis/util/iterator.hh>
 #include <paludis/version_spec.hh>
 #include <vector>
 #include <limits>
@@ -243,27 +242,16 @@ VersionSpec::VersionSpec(const std::string & text) :
         if (0 == text.compare(p, 2, "-r"))
         {
             p += 2;
-            do
+            unsigned long x = 0;
+            while (p < text.length())
             {
-                unsigned long x = 0;
-                while (p < text.length())
-                {
-                    if (text.at(p) < '0' || text.at(p) > '9')
-                        break;
-                    x *= 10;
-                    x += text.at(p) - '0';
-                    ++p;
-                }
-                _imp->parts.push_back(Part(revision, x));
-
-                if (p >= text.length())
+                if (text.at(p) < '0' || text.at(p) > '9')
                     break;
-                if (text.at(p) != '.')
-                    break;
-                else
-                    ++p;
+                x *= 10;
+                x += text.at(p) - '0';
+                ++p;
             }
-            while (true);
+            _imp->parts.push_back(Part(revision, x));
         }
 
     /* trailing stuff? */
@@ -418,7 +406,7 @@ VersionSpec::remove_revision() const
 
     std::string::size_type p;
     if (std::string::npos != ((p = result._imp->text.rfind("-r"))))
-        if (std::string::npos == result._imp->text.find_first_not_of("0123456789.", p + 2))
+        if (std::string::npos == result._imp->text.find_first_not_of("0123456789", p + 2))
             result._imp->text.erase(p);
 
     return result;
@@ -430,21 +418,7 @@ VersionSpec::revision_only() const
     std::vector<Part>::const_iterator r(std::find_if(_imp->parts.begin(),
                 _imp->parts.end(), IsPart<revision>()));
     if (r != _imp->parts.end())
-    {
-        std::string result;
-        do
-        {
-            if (! result.empty())
-                result.append(".");
-            else
-                result = "r";
-
-            result.append(stringify(r->value));
-            r = std::find_if(next(r), _imp->parts.end(), IsPart<revision>());
-        } while (r != _imp->parts.end());
-
-        return result;
-    }
+        return "r" + stringify(r->value);
     else
         return "r0";
 }

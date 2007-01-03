@@ -7,11 +7,6 @@ see the NEWS file.
 
 2007-01-03 Ciaran McCreesh <ciaranm@ciaranm.org>
 
-	* paludis/version_spec.cc, paludis/version_spec_TEST.cc: Allow -rx.y.z
-	in versions.
-
-2007-01-03 Ciaran McCreesh <ciaranm@ciaranm.org>
-
 	* NEWS, configure.ac: Preparation for 0.14.0.
 
 	+ Release: 0.14.0
