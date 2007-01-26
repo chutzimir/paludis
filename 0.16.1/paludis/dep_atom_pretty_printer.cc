@@ -1,0 +1,103 @@
+/* vim: set sw=4 sts=4 et foldmethod=syntax : */
+
+/*
+ * Copyright (c) 2006 Ciaran McCreesh <ciaranm@ciaranm.org>
+ *
+ * This file is part of the Paludis package manager. Paludis is free software;
+ * you can redistribute it and/or modify it under the terms of the GNU General
+ * Public License version 2, as published by the Free Software Foundation.
+ *
+ * Paludis is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
+#include <algorithm>
+#include <paludis/dep_atom.hh>
+#include <paludis/dep_atom_pretty_printer.hh>
+#include <paludis/util/save.hh>
+
+/** \file
+ * Implementation of dep_atom_pretty_printer.hh.
+ *
+ * \ingroup grpdepatomprettyprinter
+ */
+
+using namespace paludis;
+
+std::ostream &
+paludis::operator<< (std::ostream & s, const DepAtomPrettyPrinter & p)
+{
+    s << p._s.str();
+    return s;
+}
+
+void
+DepAtomPrettyPrinter::visit(const AllDepAtom * const a)
+{
+    _s << indent() << "(" << newline();
+    {
+        Save<unsigned> old_indent(&_indent, _indent + 4);
+        std::for_each(a->begin(), a->end(), accept_visitor(this));
+    }
+    _s << indent() << ")" << newline();
+}
+
+void
+DepAtomPrettyPrinter::visit(const AnyDepAtom * const a)
+{
+    _s << indent() << "|| (" << newline();
+    {
+        Save<unsigned> old_indent(&_indent, _indent + 4);
+        std::for_each(a->begin(), a->end(), accept_visitor(this));
+    }
+    _s << indent() << ")" << newline();
+}
+
+void
+DepAtomPrettyPrinter::visit(const UseDepAtom * const a)
+{
+    _s << indent() << (a->inverse() ? "!" : "") <<
+        a->flag() << "? (" << newline();
+    {
+        Save<unsigned> old_indent(&_indent, _indent + 4);
+        std::for_each(a->begin(), a->end(), accept_visitor(this));
+    }
+    _s << indent() << ")" << newline();
+}
+
+void
+DepAtomPrettyPrinter::visit(const PackageDepAtom * const p)
+{
+    _s << indent() << *p << newline();
+}
+
+void
+DepAtomPrettyPrinter::visit(const PlainTextDepAtom * const p)
+{
+    _s << indent() << p->text() << newline();
+}
+
+void
+DepAtomPrettyPrinter::visit(const BlockDepAtom * const b)
+{
+    _s << indent() << "!" << *b->blocked_atom() << newline();
+}
+
+std::string
+DepAtomPrettyPrinter::newline() const
+{
+    return _use_newlines ? "\n" : " ";
+}
+
+std::string
+DepAtomPrettyPrinter::indent() const
+{
+    return _use_newlines ? std::string(_indent, ' ') : "";
+}
+
