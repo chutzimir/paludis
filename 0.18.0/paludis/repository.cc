@@ -1,0 +1,277 @@
+/* vim: set sw=4 sts=4 et foldmethod=syntax : */
+
+/*
+ * Copyright (c) 2005, 2006, 2007 Ciaran McCreesh <ciaranm@ciaranm.org>
+ *
+ * This file is part of the Paludis package manager. Paludis is free software;
+ * you can redistribute it and/or modify it under the terms of the GNU General
+ * Public License version 2, as published by the Free Software Foundation.
+ *
+ * Paludis is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
+#include <paludis/repository.hh>
+#include <paludis/util/compare.hh>
+#include <paludis/util/collection_concrete.hh>
+#include <map>
+#include <list>
+#include <ctype.h>
+
+/** \file
+ * Implementation of Repository.
+ *
+ * \ingroup grprepository
+ */
+
+using namespace paludis;
+
+#include <paludis/repository-sr.cc>
+
+Repository::Repository(
+        const RepositoryName & our_name,
+        const RepositoryCapabilities & caps,
+        const std::string & f) :
+    RepositoryCapabilities(caps),
+    _name(our_name),
+    _format(f),
+    _info(new RepositoryInfo)
+{
+}
+
+Repository::~Repository()
+{
+}
+
+const RepositoryName &
+Repository::name() const
+{
+    return _name;
+}
+
+NoSuchRepositoryTypeError::NoSuchRepositoryTypeError(const std::string & format) throw ():
+    ConfigurationError("No available maker for repository type '" + format + "'")
+{
+}
+
+PackageActionError::PackageActionError(const std::string & msg) throw () :
+    Exception(msg)
+{
+}
+
+PackageInstallActionError::PackageInstallActionError(const std::string & msg) throw () :
+    PackageActionError("Install error: " + msg)
+{
+}
+
+EnvironmentVariableActionError::EnvironmentVariableActionError(const std::string & msg) throw () :
+    PackageActionError("Environment variable query error: " + msg)
+{
+}
+
+PackageFetchActionError::PackageFetchActionError(const std::string & msg) throw () :
+    PackageActionError("Fetch error: " + msg)
+{
+}
+
+PackageUninstallActionError::PackageUninstallActionError(const std::string & msg) throw () :
+    PackageActionError("Uninstall error: " + msg)
+{
+}
+
+PackageConfigActionError::PackageConfigActionError(const std::string & msg) throw () :
+    PackageActionError("Configuration error: " + msg)
+{
+}
+
+namespace paludis
+{
+    /**
+     * Implementation data for RepositoryInfoSection.
+     *
+     * \ingroup grprepository
+     */
+    template<>
+    struct Implementation<RepositoryInfoSection>
+    {
+        std::string heading;
+        std::map<std::string, std::string> kvs;
+    };
+
+    /**
+     * Implementation data for RepositoryInfo.
+     *
+     * \ingroup grprepository
+     */
+    template<>
+    struct Implementation<RepositoryInfo>
+    {
+        std::list<std::tr1::shared_ptr<const RepositoryInfoSection> > sections;
+    };
+}
+
+RepositoryInfo &
+RepositoryInfo::add_section(std::tr1::shared_ptr<const RepositoryInfoSection> s)
+{
+    _imp->sections.push_back(s);
+    return *this;
+}
+
+RepositoryInfoSection::RepositoryInfoSection(const std::string & our_heading) :
+    PrivateImplementationPattern<RepositoryInfoSection>(new Implementation<RepositoryInfoSection>)
+{
+    _imp->heading = our_heading;
+}
+
+RepositoryInfoSection::~RepositoryInfoSection()
+{
+}
+
+std::string
+RepositoryInfoSection::heading() const
+{
+    return _imp->heading;
+}
+
+RepositoryInfoSection::KeyValueIterator
+RepositoryInfoSection::begin_kvs() const
+{
+    return KeyValueIterator(_imp->kvs.begin());
+}
+
+RepositoryInfoSection::KeyValueIterator
+RepositoryInfoSection::end_kvs() const
+{
+    return KeyValueIterator(_imp->kvs.end());
+}
+
+RepositoryInfoSection &
+RepositoryInfoSection::add_kv(const std::string & k, const std::string & v)
+{
+    _imp->kvs.insert(std::make_pair(k, v));
+    return *this;
+}
+
+std::tr1::shared_ptr<const RepositoryInfo>
+Repository::info(bool) const
+{
+    return _info;
+}
+
+RepositoryInfo::RepositoryInfo() :
+    PrivateImplementationPattern<RepositoryInfo>(new Implementation<RepositoryInfo>)
+{
+}
+
+RepositoryInfo::~RepositoryInfo()
+{
+}
+
+RepositoryInfo::SectionIterator
+RepositoryInfo::begin_sections() const
+{
+    return SectionIterator(_imp->sections.begin());
+}
+
+RepositoryInfo::SectionIterator
+RepositoryInfo::end_sections() const
+{
+    return SectionIterator(_imp->sections.end());
+}
+
+std::tr1::shared_ptr<const CategoryNamePartCollection>
+Repository::do_category_names_containing_package(const PackageNamePart & p) const
+{
+    Context context("When finding category names containing package '" + stringify(p) + "':");
+
+    std::tr1::shared_ptr<CategoryNamePartCollection> result(new CategoryNamePartCollection::Concrete);
+    std::tr1::shared_ptr<const CategoryNamePartCollection> cats(category_names());
+    for (CategoryNamePartCollection::Iterator c(cats->begin()), c_end(cats->end()) ;
+            c != c_end ; ++c)
+        if (has_package_named(*c + p))
+            result->insert(*c);
+
+    return result;
+}
+
+void
+Repository::regenerate_cache() const
+{
+}
+
+std::string
+Repository::format() const
+{
+    return _format;
+}
+
+RepositoryInstallableInterface::~RepositoryInstallableInterface()
+{
+}
+
+RepositoryInstalledInterface::~RepositoryInstalledInterface()
+{
+}
+
+RepositoryMaskInterface::~RepositoryMaskInterface()
+{
+}
+
+RepositoryNewsInterface::~RepositoryNewsInterface()
+{
+}
+
+RepositorySetsInterface::~RepositorySetsInterface()
+{
+}
+
+RepositorySyncableInterface::~RepositorySyncableInterface()
+{
+}
+
+RepositoryUninstallableInterface::~RepositoryUninstallableInterface()
+{
+}
+
+RepositoryUseInterface::~RepositoryUseInterface()
+{
+}
+
+RepositoryWorldInterface::~RepositoryWorldInterface()
+{
+}
+
+RepositoryEnvironmentVariableInterface::~RepositoryEnvironmentVariableInterface()
+{
+}
+
+RepositoryMirrorsInterface::~RepositoryMirrorsInterface()
+{
+}
+
+RepositoryProvidesInterface::~RepositoryProvidesInterface()
+{
+}
+
+RepositoryVirtualsInterface::~RepositoryVirtualsInterface()
+{
+}
+
+RepositoryDestinationInterface::~RepositoryDestinationInterface()
+{
+}
+
+RepositoryContentsInterface::~RepositoryContentsInterface()
+{
+}
+
+RepositoryConfigInterface::~RepositoryConfigInterface()
+{
+}
+
