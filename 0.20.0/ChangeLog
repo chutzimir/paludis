@@ -5,6 +5,12 @@ This file lists every change made except typo and formatting fixes, which are
 only listed in SVN log. For a summary of what has changed between releases,
 see the NEWS file.
 
+2007-02-23 David Leverton <u01drl3@abdn.ac.uk>
+
+	* paludis/repositories/gentoo/vdb_merger.cc,
+	paludis/repositories/gentoo/vdb_unmerger.cc: Add
+	PALUDIS_BASHRC_FILES to merger hook environment.
+
 2007-02-23 Ciaran McCreesh <ciaranm@ciaranm.org>
 
 	* NEWS, configure.ac: Preparation for 0.20.0.
