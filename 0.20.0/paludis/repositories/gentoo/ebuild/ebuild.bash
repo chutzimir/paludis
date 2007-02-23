@@ -1,0 +1,362 @@
+#!/bin/bash
+# vim: set sw=4 sts=4 et :
+
+# Copyright (c) 2006, 2007 Ciaran McCreesh <ciaranm@ciaranm.org>
+#
+# Based in part upon ebuild.sh from Portage, which is Copyright 1995-2005
+# Gentoo Foundation and distributed under the terms of the GNU General
+# Public License v2.
+#
+# This file is part of the Paludis package manager. Paludis is free software;
+# you can redistribute it and/or modify it under the terms of the GNU General
+# Public License, version 2, as published by the Free Software Foundation.
+#
+# Paludis is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+# Place, Suite 330, Boston, MA  02111-1307  USA
+
+unalias -a
+set +C
+unset GZIP BZIP BZIP2 CDPATH GREP_OPTIONS GREP_COLOR GLOBIGNORE
+eval unset LANG ${!LC_*}
+
+if [[ -z "${PALUDIS_DO_NOTHING_SANDBOXY}" ]] ; then
+    export SANDBOX_PREDICT="${SANDBOX_PREDICT+${SANDBOX_PREDICT}:}"
+    export SANDBOX_PREDICT="${SANDBOX_PREDICT}/proc/self/maps:/dev/console:/dev/random"
+    export SANDBOX_WRITE="${SANDBOX_WRITE+${SANDBOX_WRITE}:}"
+    export SANDBOX_WRITE="${SANDBOX_WRITE}/dev/shm:/dev/stdout:/dev/stderr:/dev/null:/dev/tty"
+    export SANDBOX_WRITE="${SANDBOX_WRITE}:${PALUDIS_TMPDIR}:/var/cache"
+    export SANDBOX_WRITE="${SANDBOX_WRITE}:/proc/self/attr:/proc/self/task:/selinux/context"
+    export SANDBOX_ON="1"
+    export SANDBOX_BASHRC="/dev/null"
+    unset BASH_ENV
+fi
+export REAL_CHOST="${CHOST}"
+
+shopt -s expand_aliases
+shopt -s extglob
+
+export EBUILD_PROGRAM_NAME="$0"
+
+if [[ -n "${PALUDIS_EBUILD_DIR_FALLBACK}" ]] ; then
+    export PATH="${PALUDIS_EBUILD_DIR_FALLBACK}/utils:${PATH}"
+fi
+export PATH="${PALUDIS_EBUILD_DIR}/utils:${PATH}"
+EBUILD_MODULES_DIR=$(canonicalise $(dirname $0 ) )
+if ! [[ -d ${EBUILD_MODULES_DIR} ]] ; then
+    echo "${EBUILD_MODULES_DIR} is not a directory" 1>&2
+    exit 123
+fi
+export PALUDIS_EBUILD_MODULES_DIR="${EBUILD_MODULES_DIR}"
+
+ebuild_load_module()
+{
+    if ! source "${EBUILD_MODULES_DIR}/${1}.bash" ; then
+        type die &>/dev/null && die "Error loading module ${1}"
+        echo "Error loading module ${1}" 1>&2
+        exit 123
+    fi
+}
+
+ebuild_load_module die_functions
+ebuild_load_module echo_functions
+ebuild_load_module kernel_functions
+ebuild_load_module sandbox
+ebuild_load_module portage_stubs
+ebuild_load_module list_functions
+ebuild_load_module multilib_functions
+ebuild_load_module install_functions
+ebuild_load_module build_functions
+ebuild_load_module eclass_functions
+ebuild_load_module work_around_broken_utilities
+
+export PALUDIS_HOME="$(canonicalise ${PALUDIS_HOME:-${HOME}} )"
+
+ebuild_source_profile()
+{
+    if [[ -f ${1}/parent ]] ; then
+        while read line ; do
+            grep --silent '^[[:space:]]*#' <<<"${line}" && continue
+            grep --silent '[^[:space:]]' <<<"${line}" || continue
+            ebuild_source_profile $(canonicalise ${1}/${line} )
+        done <${1}/parent
+    fi
+
+    if [[ -f ${1}/make.defaults ]] ; then
+        eval "$(sed -e 's/^\([a-zA-Z0-9\-_]\+=\)/export \1/' ${1}/make.defaults )" \
+            || die "Couldn't source ${1}/make.defaults"
+    fi
+
+    if [[ -f ${1}/bashrc ]] ; then
+        source ${1}/bashrc || die "Couldn't source ${1}/bashrc"
+    fi
+}
+
+export CONFIG_PROTECT="${PALUDIS_CONFIG_PROTECT}"
+export CONFIG_PROTECT_MASK="${PALUDIS_CONFIG_PROTECT_MASK}"
+save_vars="USE USE_EXPAND USE_EXPAND_HIDDEN ${USE_EXPAND}"
+save_base_vars="CONFIG_PROTECT CONFIG_PROTECT_MASK"
+
+for var in ${save_vars} ${default_save_vars} ${save_base_vars} ; do
+    ebuild_notice "debug" "Saving ${var}=${!var}"
+    eval "export save_var_${var}='${!var}'"
+done
+
+if [[ -n "${PALUDIS_PROFILE_DIRS}" ]] ; then
+    for var in ${PALUDIS_PROFILE_DIRS} ; do
+        ebuild_source_profile $(canonicalise "${var}")
+    done
+elif [[ -n "${PALUDIS_PROFILE_DIR}" ]] ; then
+    ebuild_source_profile $(canonicalise "${PALUDIS_PROFILE_DIR}")
+fi
+
+unset ${save_vars} ${save_base_vars}
+
+for f in ${PALUDIS_BASHRC_FILES} ; do
+    if [[ -f ${f} ]] ; then
+        ebuild_notice "debug" "Loading bashrc file ${f}"
+        source ${f}
+    else
+        ebuild_notice "debug" "Skipping bashrc file ${f}"
+    fi
+done
+
+for var in ${save_vars} ; do
+    if [[ -n ${!var} ]] ; then
+        die "${var} should not be set in bashrc. Aborting."
+    fi
+done
+
+for var in ${save_vars} ; do
+    eval "export ${var}=\${save_var_${var}}"
+done
+
+for var in ${save_base_vars} ; do
+    eval "export ${var}=\"\${save_var_${var}} \$$(echo ${var})\""
+done
+
+[[ -z "${CBUILD}" ]] && export CBUILD="${CHOST}"
+
+ebuild_scrub_environment()
+{
+    local filters=(
+        -e '/^\(EU\|PP\|U\)ID=/d'
+        -e '/^BASH_\(ARGC\|ARGV\|LINENO\|SOURCE\|VERSINFO\)=/d'
+        -e '/^\(FUNCNAME\|GROUPS\|SHELLOPTS\)=/d'
+        -e '/^\(declare -x \)\?SANDBOX_ACTIVE=/d'
+    )
+
+    sed -i "${filters[@]}" "${1}"
+
+    (
+        source "${1}" || exit 1
+
+        unset -f diefunc perform_hook inherit builtin_loadenv builtin_saveenv
+
+        unset -v PATH ROOTPATH T PALUDIS_TMPDIR PALUDIS_EBUILD_LOG_LEVEL
+        unset -v PORTDIR FILESDIR ECLASSDIR DISTDIR PALUDIS_EBUILD_DIR
+        unset -v PALUDIS_EXTRA_DIE_MESSAGE PALUDIS_COMMAND PALUDIS_CLIENT
+        unset -v PALUDIS_LOADSAVEENV_DIR SKIP_FUNCTIONS PALUDIS_DO_NOTHING_SANDBOXY
+
+        unset -v ${!PALUDIS_CMDLINE_*} PALUDIS_OPTIONS
+        unset -v ${!CONTRARIUS_CMDLINE_*} CONTRARIUS_OPTIONS
+        unset -v ${!GTKPALUDIS_CMDLINE_*} GTKPALUDIS_OPTIONS
+        unset -v ${!ADJUTRIX_CMDLINE_*} ADJUTRIX_OPTIONS
+        unset -v ${!QUALUDIS_CMDLINE_*} QUALUDIS_OPTIONS
+
+        unset -v PALUDIS_HOME PALUDIS_PID EBUILD_KILL_PID ROOT
+        unset -v CATEGORY PN PV P PVR PF ${!LD_*}
+
+        unset -v ebuild EBUILD E_DEPEND E_RDEPEND E_IUSE E_PDEPEND E_KEYWORDS
+
+        for v in ${!SANDBOX*}; do
+            [[ "${v}" == SANDBOX_ACTIVE ]] || unset "${v}"
+        done
+
+        for v in ${!BASH_*}; do
+            case "${v#BASH_}" in
+                ARGC|ARGV|LINENO|SOURCE|VERSINFO) ;;
+                *) unset -v "${v}"
+            esac
+        done
+
+        set >"${1}"
+        export -p >>"${1}"
+    ) || return $?
+
+    sed -i -e 's:^declare -rx:declare -x:' "${filters[@]}" "${1}"
+}
+
+ebuild_load_environment()
+{
+    if [[ -n "${PALUDIS_LOAD_ENVIRONMENT}" ]] ; then
+        [[ -d ${PALUDIS_TMPDIR} ]] \
+            || die "You need to create PALUDIS_TMPDIR (${PALUDIS_TMPDIR})."
+
+        local save_PALUDIS_EXTRA_DIE_MESSAGE="${PALUDIS_EXTRA_DIE_MESSAGE}"
+        export PALUDIS_EXTRA_DIE_MESSAGE="
+!!! Could not extract the saved environment file. This is usually
+!!! caused by a broken environment.bz2 that was generated by an old
+!!! Portage version. The file that needs repairing is:
+!!!     ${PALUDIS_LOAD_ENVIRONMENT}
+!!! Try copying this file, bunzip2ing it and sourcing it using a new
+!!! bash shell (do not continue to use said shell afterwards). You
+!!! should get an error that give you a rough idea of where the
+!!! problem lies.
+"
+
+        if [[ "${PALUDIS_LOAD_ENVIRONMENT%.bz2}" != "${PALUDIS_LOAD_ENVIRONMENT}" ]] ; then
+            echo bunzip2 \< "${PALUDIS_LOAD_ENVIRONMENT}" \> ${PALUDIS_TMPDIR}/environment-${CATEGORY}-${PF}-$$ 1>&2
+            bunzip2 < "${PALUDIS_LOAD_ENVIRONMENT}" > ${PALUDIS_TMPDIR}/environment-${CATEGORY}-${PF}-$$ \
+                || die "Can't extract ${PALUDIS_LOAD_ENVIRONMENT}"
+        else
+            echo cp "${PALUDIS_LOAD_ENVIRONMENT}" "${PALUDIS_TMPDIR}/environment-${CATEGORY}-${PF}-$$" 1>&2
+            cp "${PALUDIS_LOAD_ENVIRONMENT}" "${PALUDIS_TMPDIR}/environment-${CATEGORY}-${PF}-$$" \
+                || die "Can't copy ${PALUDIS_LOAD_ENVIRONMENT}"
+        fi
+
+        echo ebuild_scrub_environment "${PALUDIS_TMPDIR}/environment-${CATEGORY}-${PF}-$$" 1>&2
+        ebuild_scrub_environment "${PALUDIS_TMPDIR}/environment-${CATEGORY}-${PF}-$$" \
+            || die "Can't load saved environment for cleaning"
+
+        echo source "${PALUDIS_TMPDIR}/environment-${CATEGORY}-${PF}-$$" 1>&2
+        source "${PALUDIS_TMPDIR}/environment-${CATEGORY}-${PF}-$$" \
+            || die "Can't load saved environment"
+
+        export PALUDIS_EXTRA_DIE_MESSAGE="${save_PALUDIS_EXTRA_DIE_MESSAGE}"
+
+        echo rm "${PALUDIS_TMPDIR}/environment-${CATEGORY}-${PF}-$$" 1>&2
+        rm "${PALUDIS_TMPDIR}/environment-${CATEGORY}-${PF}-$$"
+    fi
+}
+
+ebuild_load_ebuild()
+{
+    export EBUILD="${1}"
+    unset IUSE DEPEND RDEPEND PDEPEND KEYWORDS
+
+    [[ -f "${1}" ]] || die "Ebuild '${1}' is not a file"
+    source ${1} || die "Error sourcing ebuild '${1}'"
+
+    [[ ${RDEPEND-unset} == "unset" ]] && RDEPEND="${DEPEND}"
+
+    IUSE="${IUSE} ${E_IUSE}"
+    DEPEND="${DEPEND} ${E_DEPEND}"
+    RDEPEND="${RDEPEND} ${E_RDEPEND}"
+    PDEPEND="${PDEPEND} ${E_PDEPEND}"
+    KEYWORDS="${KEYWORDS} ${E_KEYWORDS}"
+    [[ ${EAPI-unset} == "unset" ]] && EAPI="0"
+}
+
+perform_hook()
+{
+    export HOOK=${1}
+    ebuild_notice "debug" "Starting hook '${HOOK}'"
+
+    local old_sandbox_on="${SANDBOX_ON}"
+    [[ -z "${PALUDIS_DO_NOTHING_SANDBOXY}" ]] && export SANDBOX_ON="0"
+
+    local hook_dir
+    for hook_dir in ${PALUDIS_HOOK_DIRS} ; do
+        [[ -d "${hook_dir}/${HOOK}" ]] || continue
+        local hook_file
+        for hook_file in "${hook_dir}/${HOOK}/"*.bash ; do
+            [[ -e "${hook_file}" ]] || continue
+            ebuild_notice "debug" "Starting hook script '${hook_file}' for '${HOOK}'"
+            if ! ( source "${hook_file}" ) ; then
+                ebuild_notice "warning" "Hook '${hook_file}' returned failure"
+            else
+                ebuild_notice "debug" "Hook '${hook_file}' returned success"
+            fi
+        done
+    done
+
+    [[ -z "${PALUDIS_DO_NOTHING_SANDBOXY}" ]] && export SANDBOX_ON="${old_sandbox_on}"
+    true
+}
+
+ebuild_main()
+{
+    if ! [[ -e /proc/self ]] && [[ "$(uname -s)" == Linux ]] ; then
+        ebuild_notice "warning" "/proc appears to be unmounted or unreadable."
+        ebuild_notice "warning" "This will cause problems."
+    fi
+
+    local action ebuild="$1"
+    shift
+
+    if [[ ${#@} -ge 2 ]] ; then
+        ebuild_section "Running ebuild phases $@..."
+    elif [[ ${1} != variable ]] ; then
+        ebuild_section "Running ebuild phase $@..."
+    fi
+
+    for action in $@ ; do
+        case ${action} in
+            metadata|variable|init|fetch|merge|unmerge|tidyup|strip|loadenv|saveenv|fetchbin|initbin|unpackbin)
+                ebuild_load_module builtin_${action}
+            ;;
+
+            unpack|compile|install|test)
+                ebuild_load_module src_${action}
+            ;;
+
+            setup|config|nofetch|preinst|postinst|prerm|postrm)
+                ebuild_load_module pkg_${action}
+            ;;
+
+            *)
+                ebuild_load_module usage_error
+                ebuild_f_usage_error "Unknown action '${action}'"
+                exit 1
+            ;;
+        esac
+    done
+
+    if [[ $1 == metadata ]] || [[ $1 == variable ]] ; then
+        perform_hook ebuild_${action}_pre
+        if [[ $1 != variable ]] || [[ -n "${ebuild}" ]] ; then
+            for f in cut tr date ; do
+                eval "export ebuild_real_${f}=\"$(which $f )\""
+                eval "${f}() { ebuild_notice qa 'global scope ${f}' ; $(which $f ) \"\$@\" ; }"
+            done
+            PATH="" ebuild_load_ebuild "${ebuild}"
+        fi
+        if ! ebuild_f_${1} ; then
+            perform_hook ebuild_${action}_fail
+            die "${1} failed"
+        fi
+        perform_hook ebuild_${action}_post
+    else
+        ebuild_load_environment
+        if [[ "${ebuild}" != "-" ]] ; then
+            ebuild_load_ebuild "${ebuild}"
+        fi
+        for action in $@ ; do
+            export EBUILD_PHASE="${action}"
+            perform_hook ebuild_${action}_pre
+            if ! ebuild_f_${action} ; then
+                perform_hook ebuild_${action}_fail
+                die "${action} failed"
+            fi
+            if [[ ${action} == "init" ]] ; then
+                ebuild_load_ebuild "${ebuild}"
+            fi
+            perform_hook ebuild_${action}_post
+        done
+    fi
+
+    if [[ ${#@} -ge 2 ]] ; then
+        ebuild_section "Completed ebuild phases $@"
+    elif [[ ${1} != variable ]] ; then
+        ebuild_section "Completed ebuild phase $@"
+    fi
+}
+
+ebuild_main "$@"
+
