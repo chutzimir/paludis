@@ -1,0 +1,20 @@
+#!/bin/bash
+# vim: set sw=4 sts=4 et :
+
+make_class_EbuildCheckData()
+{
+    key name QualifiedPackageName
+    key version VersionSpec
+    key environment "const QAEnvironment *"
+
+    doxygen_comment << "END"
+        /**
+         * Data for an EbuildCheck.
+         *
+         * \see EbuildCheck
+         * \ingroup grpqa
+         * \nosubgrouping
+         */
+END
+}
+

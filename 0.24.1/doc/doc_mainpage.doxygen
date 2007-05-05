@@ -1,0 +1,19 @@
+/* vim: set ft=cpp tw=80 sw=4 et : */
+
+/** \mainpage
+
+This is the documentation for the Paludis C++ core API. There is rather a lot
+of it, and you will probably have trouble finding your way around if you just
+jump right into the middle of it. Instead, start by reading the
+<a href="/programmingwithpaludis.html">Programming with Paludis</a> guide.
+Once you've done that, try the <a href="modules.html">Modules</a> link rather
+than the full class lists.
+
+Some classes you may find useful:
+
+- paludis::Environment, which is usually created using paludis::EnvironmentMaker
+- paludis::PackageDatabase
+- paludis::Repository and the associated interface classes
+- paludis::VersionMetadata
+
+*/
