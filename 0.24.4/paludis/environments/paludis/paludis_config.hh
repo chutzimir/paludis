@@ -1,0 +1,172 @@
+/* vim: set sw=4 sts=4 et foldmethod=syntax : */
+
+/*
+ * Copyright (c) 2006, 2007 Ciaran McCreesh <ciaranm@ciaranm.org>
+ *
+ * This file is part of the Paludis package manager. Paludis is free software;
+ * you can redistribute it and/or modify it under the terms of the GNU General
+ * Public License version 2, as published by the Free Software Foundation.
+ *
+ * Paludis is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
+#ifndef PALUDIS_GUARD_PALUDIS_DEFAULT_CONFIG_HH
+#define PALUDIS_GUARD_PALUDIS_DEFAULT_CONFIG_HH 1
+
+#include <paludis/dep_spec.hh>
+#include <paludis/name.hh>
+#include <paludis/util/collection.hh>
+#include <paludis/util/exception.hh>
+#include <paludis/util/instantiation_policy.hh>
+#include <paludis/util/sr.hh>
+#include <paludis/environments/environment_maker.hh>
+
+#include <string>
+
+/** \file
+ * Declarations for the PaludisConfig class and related utilities.
+ *
+ * \ingroup grppaludisconfig
+ */
+
+namespace paludis
+{
+    struct EnvironmentMirrorIteratorTag;
+    struct PaludisEnvironment;
+    struct KeywordsConf;
+    struct UseConf;
+    struct LicensesConf;
+    struct PackageMaskConf;
+    struct MirrorsConf;
+
+    /**
+     * Iterate over environment mirrors.
+     *
+     * \see Environment
+     * \ingroup grpenvironment
+     */
+    typedef libwrapiter::ForwardIterator<EnvironmentMirrorIteratorTag,
+            const std::pair<const std::string, std::string> > EnvironmentMirrorIterator;
+
+    /**
+     * A PaludisConfigError is thrown if a configuration error is encountered
+     * by PaludisConfig.
+     *
+     * \ingroup grpexceptions
+     * \ingroup grppaludisconfig
+     * \nosubgrouping
+     */
+    class PALUDIS_VISIBLE PaludisConfigError : public ConfigurationError
+    {
+        public:
+            /**
+             * Constructor.
+             */
+            PaludisConfigError(const std::string & msg) throw ();
+    };
+
+    /**
+     * Thrown if the config directory cannot be found by PaludisConfig.
+     *
+     * \ingroup grpexceptions
+     * \ingroup grppaludisconfig
+     * \nosubgrouping
+     */
+    class PALUDIS_VISIBLE PaludisConfigNoDirectoryError :
+        public PaludisConfigError,
+        public FallBackToAnotherMakerError
+    {
+        public:
+            ///\name Basic operations
+            ///\{
+
+            PaludisConfigNoDirectoryError(const std::string & msg) throw ();
+
+            ///\}
+    };
+
+#include <paludis/environments/paludis/use_config_entry-sr.hh>
+#include <paludis/environments/paludis/repository_config_entry-sr.hh>
+
+    /**
+     * PaludisConfig is used by PaludisEnvironment to access the user's
+     * configuration settings from on-disk configuration files.
+     *
+     * \ingroup grppaludisconfig
+     * \nosubgrouping
+     */
+    class PALUDIS_VISIBLE PaludisConfig :
+        private PrivateImplementationPattern<PaludisConfig>
+    {
+        public:
+            ///\name Basic operations
+            ///\{
+
+            PaludisConfig(PaludisEnvironment * const, const std::string & suffix);
+
+            ~PaludisConfig();
+
+            ///\}
+
+            ///\name Config files
+            ///\{
+
+            std::tr1::shared_ptr<const KeywordsConf> keywords_conf() const;
+            std::tr1::shared_ptr<const UseConf> use_conf() const;
+            std::tr1::shared_ptr<const LicensesConf> licenses_conf() const;
+            std::tr1::shared_ptr<const PackageMaskConf> package_mask_conf() const;
+            std::tr1::shared_ptr<const PackageMaskConf> package_unmask_conf() const;
+            std::tr1::shared_ptr<const MirrorsConf> mirrors_conf() const;
+
+            ///\}
+
+            ///\name Iterate over our repositories
+            ///\{
+
+            typedef libwrapiter::ForwardIterator<PaludisConfig, const RepositoryConfigEntry> RepositoryIterator;
+
+            RepositoryIterator begin_repositories() const;
+
+            RepositoryIterator end_repositories() const;
+
+            ///\}
+
+            /**
+             * Our bashrc files.
+             */
+            std::tr1::shared_ptr<const FSEntryCollection> bashrc_files() const;
+
+            /**
+             * The ROOT.
+             */
+            std::string root() const;
+
+            /**
+             * Whether it's ok to unmask things that break Portage.
+             */
+            bool accept_breaks_portage() const;
+
+            ///\name Userpriv
+            ///\{
+
+            uid_t reduced_uid() const;
+            gid_t reduced_gid() const;
+            std::string reduced_username() const;
+
+            ///\}
+
+            /**
+             * The config directory.
+             */
+            std::string config_dir() const;
+    };
+}
+
+#endif
