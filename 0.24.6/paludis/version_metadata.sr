@@ -1,0 +1,261 @@
+#!/bin/bash
+# vim: set sw=4 sts=4 et :
+
+make_class_VersionMetadataCapabilities()
+{
+    key ebuild_interface "VersionMetadataEbuildInterface *"
+    key ebin_interface "VersionMetadataEbinInterface *"
+    key cran_interface "VersionMetadataCRANInterface *"
+    key deps_interface "VersionMetadataDepsInterface *"
+    key origins_interface "VersionMetadataOriginsInterface *"
+    key virtual_interface "VersionMetadataVirtualInterface *"
+    key license_interface "VersionMetadataLicenseInterface *"
+
+    doxygen_comment << "END"
+        /**
+         * Optional interfaces that may be provided by VersionMetadata.
+         *
+         * \see VersionMetadata
+         * \ingroup grpversions
+         * \nosubgrouping
+         */
+END
+
+    allow_named_args
+}
+
+make_class_VersionMetadataDepsInterface()
+{
+    inherit "public virtual VersionMetadataHasInterfaces"
+
+    key parser DepParserFunction
+
+    key build_depend_string std::string
+    key run_depend_string std::string
+    key post_depend_string std::string
+    key suggested_depend_string std::string
+
+    extra_constructors <<END
+            VersionMetadataDepsInterface(const DepParserFunction &);
+END
+
+    extra_methods <<END
+            /**
+             * Our build depends.
+             */
+            std::tr1::shared_ptr<const DepSpec> build_depend() const;
+
+            /**
+             * Our runtime depends.
+             */
+            std::tr1::shared_ptr<const DepSpec> run_depend() const;
+
+            /**
+             * Our post depends.
+             */
+            std::tr1::shared_ptr<const DepSpec> post_depend() const;
+
+            /**
+             * Our suggested depends.
+             */
+            std::tr1::shared_ptr<const DepSpec> suggested_depend() const;
+END
+
+    doxygen_comment << "END"
+        /**
+         * Dependency data for VersionMetadata.
+         *
+         * \see VersionMetadata
+         * \ingroup grpversions
+         */
+END
+}
+
+make_class_VersionMetadataLicenseInterface()
+{
+    inherit "public virtual VersionMetadataHasInterfaces"
+
+    key parser TextParserFunction
+
+    key license_string std::string
+
+    extra_constructors <<END
+            VersionMetadataLicenseInterface(const TextParserFunction &);
+END
+
+    extra_methods <<END
+            /**
+             * Our licences.
+             */
+            std::tr1::shared_ptr<const DepSpec> license() const;
+END
+
+    doxygen_comment << "END"
+        /**
+         * License data for VersionMetadata.
+         *
+         * \see VersionMetadata
+         * \ingroup grpversions
+         */
+END
+}
+
+make_class_VersionMetadataOriginsInterface()
+{
+    inherit "public virtual VersionMetadataHasInterfaces"
+
+    key "source" "std::tr1::shared_ptr<PackageDatabaseEntry>"
+    key "binary" "std::tr1::shared_ptr<PackageDatabaseEntry>"
+
+    extra_constructors <<END
+            VersionMetadataOriginsInterface();
+END
+
+    doxygen_comment << "END"
+        /**
+         * Origins data for VersionMetadata.
+         *
+         * \see VersionMetadata
+         * \ingroup grpversions
+         */
+END
+}
+
+make_class_VersionMetadataBase()
+{
+    inherit "public virtual VersionMetadataHasInterfaces"
+
+    key slot SlotName
+    key homepage std::string
+    key description std::string
+    key eapi std::string
+    key interactive bool
+
+    allow_named_args
+
+    doxygen_comment << "END"
+        /**
+         * Version metadata common to all VersionMetadata types.
+         *
+         * \see VersionMetadata
+         * \ingroup grpversions
+         */
+END
+}
+
+make_class_VersionMetadataEbuildInterface()
+{
+    inherit "public virtual VersionMetadataHasInterfaces"
+
+    key provide_string std::string
+    key src_uri_string std::string
+    key restrict_string std::string
+    key keywords_string std::string
+    key eclass_keywords std::string
+    key iuse std::string
+    key inherited std::string
+
+    extra_constructors <<END
+            VersionMetadataEbuildInterface();
+END
+
+    extra_methods <<END
+            /**
+             * PROVIDE, as a dep atom.
+             */
+            std::tr1::shared_ptr<const DepSpec> provide() const;
+
+            /**
+             * SRC_URI, as a dep atom.
+             */
+            std::tr1::shared_ptr<const DepSpec> src_uri() const;
+
+            /**
+             * Our keywords.
+             */
+            std::tr1::shared_ptr<const KeywordNameCollection> keywords() const;
+END
+
+    allow_named_args
+
+    doxygen_comment << "END"
+        /**
+         * Version metadata for ebuilds.
+         *
+         * \see VersionMetadata
+         * \ingroup grpversions
+         */
+END
+}
+
+make_class_VersionMetadataEbinInterface()
+{
+    inherit "public virtual VersionMetadataHasInterfaces"
+
+    key bin_uri_string std::string
+
+    extra_constructors <<END
+            VersionMetadataEbinInterface();
+END
+
+    extra_methods <<END
+        std::tr1::shared_ptr<const DepSpec> bin_uri() const;
+END
+
+    allow_named_args
+
+    doxygen_comment << "END"
+        /**
+         * Version metadata for ebins.
+         *
+         * \see VersionMetadata
+         * \ingroup grpversions
+         */
+END
+}
+
+make_class_VersionMetadataCRANInterface()
+{
+    inherit "public virtual VersionMetadataHasInterfaces"
+
+    key keywords_string std::string
+    key package std::string
+    key version std::string
+    key is_bundle bool
+    key is_bundle_member bool
+
+    allow_named_args
+
+    doxygen_comment << "END"
+        /**
+         * Version metadata for CRAN packages.
+         *
+         * \see VersionMetadata
+         * \ingroup grpversions
+         */
+END
+
+    extra_methods <<END
+            /**
+             * Our keywords.
+             */
+            std::tr1::shared_ptr<const KeywordNameCollection> keywords() const;
+END
+}
+
+make_class_VersionMetadataVirtualInterface()
+{
+    inherit "public virtual VersionMetadataHasInterfaces"
+
+    key virtual_for PackageDatabaseEntry
+
+    doxygen_comment << "END"
+        /**
+         * Version metadata for virtual packages.
+         *
+         * \see VersionMetadata
+         * \ingroup grpversions
+         */
+END
+}
+
