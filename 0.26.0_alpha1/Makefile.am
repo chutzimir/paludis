@@ -1,0 +1,59 @@
+CLEANFILES = *~ done-check gmon.out *.gcov *.gcno *.gcda \
+	automake-deps-dist-hack.tmp automake-deps-built-hack.tmp
+MAINTAINERCLEANFILES = Makefile.in configure config/* aclocal.m4 \
+			config.h config.h.in INSTALL COPYING
+AUTOMAKE_OPTIONS = dist-bzip2 no-dist-gzip std-options
+EXTRA_DIST = autogen.bash automake-deps-dist-hack.tmp ChangeLog.old.bz2
+SUBDIRS = misc test paludis python ruby src doc hooks eselect vim bash-completion zsh-completion pkg-config
+
+DISTCHECK_CONFIGURE_FLAGS = --enable-qa --enable-ruby --enable-glsa --enable-vim --enable-python \
+	--with-ruby-install-dir='$${DESTDIR}$${prefix}/ruby_dir' \
+	--with-repositories=default \
+	--with-environments=default,portage \
+	--with-clients=default,accerso,contrarius,importare,inquisitio,instruo \
+	--with-default-distribution=giant-space-monkey
+
+automake-deps-built-hack.tmp : built-sources-subdirs
+	touch $@
+
+BUILT_SOURCES = automake-deps-built-hack.tmp
+
+automake-deps-dist-hack.tmp : distcheck-deps-subdirs
+	touch $@
+
+dist-hook :
+	rm $(distdir)/automake-deps-dist-hack.tmp
+
+doxygen : built-sources
+	$(MAKE) -C doc $@
+
+epydoc : all
+	$(MAKE) -C doc $@
+
+htmldocs :
+	$(MAKE) -C doc $@
+
+documentation : doxygen epydoc htmldocs
+	$(MAKE) -C doc $@
+
+check-local :
+	touch $(top_builddir)/done-check
+
+install-data-local :
+	@[ -f $(top_builddir)/done-check ] || echo || true
+	@[ -f $(top_builddir)/done-check ] || echo "**************************************" || true
+	@[ -f $(top_builddir)/done-check ] || echo "Looks like you didn't run 'make check'" || true
+	@[ -f $(top_builddir)/done-check ] || echo "      No cookies for you today.       " || true
+	@[ -f $(top_builddir)/done-check ] || echo "**************************************" || true
+	@[ -f $(top_builddir)/done-check ] || echo || true
+
+built-sources : $(BUILT_SOURCES) built-sources-subdirs
+
+built-sources-subdirs :
+	for s in $(SUBDIRS) ; do $(MAKE) -C $$s built-sources || exit 1 ; done
+
+distcheck-deps : $(DISTCHECK_DEPS) distcheck-deps-subdirs
+
+distcheck-deps-subdirs : built-sources-subdirs
+	for s in `echo $(SUBDIRS) | tr -d .` ; do $(MAKE) -C $$s distcheck-deps || exit 1 ; done
+
