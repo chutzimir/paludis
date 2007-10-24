@@ -8,7 +8,7 @@ SUBDIRS = misc test paludis python ruby src doc hooks eselect vim bash-completio
 
 DISTCHECK_CONFIGURE_FLAGS = --enable-qa --enable-ruby --enable-glsa --enable-vim --enable-python \
 	--with-ruby-install-dir='$${DESTDIR}$${prefix}/ruby_dir' \
-	--with-repositories=default \
+	--with-repositories=default,unpackaged \
 	--with-environments=default,portage \
 	--with-clients=default,accerso,contrarius,importare,inquisitio,instruo \
 	--with-default-distribution=giant-space-monkey
