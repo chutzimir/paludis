@@ -1,6 +1,0 @@
-#!/bin/bash
-
-PALUDIS_HOME=./ \
-    ./paludis --config-suffix paludis-build-test -pi asdf 2>&1 \
-    | grep 'configuration error' >/dev/null
-
