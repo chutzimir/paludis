@@ -1,0 +1,50 @@
+#!/bin/bash
+# vim: set sw=4 sts=4 et :
+
+make_class_QualifiedPackageName()
+{
+    visible
+
+    key category CategoryNamePart
+    key package PackageNamePart
+
+    comparison_operators all all
+
+    extra_constructors <<END
+        explicit QualifiedPackageName(const std::string &);
+END
+
+    doxygen_comment << "END"
+        /**
+         * Represents a category plus package name.
+         *
+         * \ingroup g_names
+         * \nosubgrouping
+         */
+END
+}
+
+make_class_IUseFlag()
+{
+    visible
+
+    key flag UseFlagName
+    key state UseFlagState
+    key prefix_delim_pos "std::string::size_type"
+
+    comparison_operators all flag
+
+    extra_constructors <<END
+        IUseFlag(const std::string &, const IUseFlagParseMode, const std::string::size_type);
+END
+
+    doxygen_comment << "END"
+        /**
+         * Represents an IUse flag.
+         *
+         * \ingroup g_names
+         * \nosubgrouping
+         */
+END
+}
+
