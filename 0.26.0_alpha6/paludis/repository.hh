@@ -1,0 +1,753 @@
+/* vim: set sw=4 sts=4 et foldmethod=syntax : */
+
+/*
+ * Copyright (c) 2005, 2006, 2007 Ciaran McCreesh
+ *
+ * This file is part of the Paludis package manager. Paludis is free software;
+ * you can redistribute it and/or modify it under the terms of the GNU General
+ * Public License version 2, as published by the Free Software Foundation.
+ *
+ * Paludis is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
+#ifndef PALUDIS_GUARD_PALUDIS_REPOSITORY_HH
+#define PALUDIS_GUARD_PALUDIS_REPOSITORY_HH 1
+
+#include <paludis/action-fwd.hh>
+#include <paludis/repository-fwd.hh>
+#include <paludis/dep_spec-fwd.hh>
+#include <paludis/dep_tree.hh>
+#include <paludis/name.hh>
+#include <paludis/package_id-fwd.hh>
+#include <paludis/qa-fwd.hh>
+#include <paludis/util/attributes.hh>
+#include <paludis/util/exception.hh>
+#include <paludis/util/sr.hh>
+#include <paludis/util/fs_entry.hh>
+#include <paludis/util/virtual_constructor.hh>
+#include <paludis/util/wrapped_forward_iterator-fwd.hh>
+#include <paludis/version_spec.hh>
+#include <paludis/metadata_key-fwd.hh>
+#include <string>
+
+/** \file
+ * Declarations for Repository classes.
+ *
+ * \ingroup g_repository
+ *
+ * \section Examples
+ *
+ * - \ref example_repository.cc "example_repository.cc"
+ */
+
+namespace paludis
+{
+
+    /**
+     * Thrown if a Set does not exist
+     *
+     * \ingroup g_exceptions
+     * \ingroup g_repository
+     * \nosubgrouping
+     */
+    class PALUDIS_VISIBLE NoSuchSetError :
+        public Exception
+    {
+        private:
+            std::string _name;
+
+        public:
+            ///\name Basic operations
+            ///\{
+
+            NoSuchSetError(const std::string & name) throw ();
+
+            virtual ~NoSuchSetError() throw ()
+            {
+            }
+
+            ///\}
+
+            /**
+             * Name of the set.
+             */
+            const std::string & name() const
+            {
+                return _name;
+            }
+    };
+
+    /**
+     * Thrown if a Set is recursively defined
+     *
+     * \ingroup g_exceptions
+     * \ingroup g_repository
+     * \nosubgrouping
+     */
+    class PALUDIS_VISIBLE RecursivelyDefinedSetError :
+        public Exception
+    {
+        private:
+            std::string _name;
+
+        public:
+            ///\name Basic operations
+            ///\{
+
+            RecursivelyDefinedSetError(const std::string & name) throw ();
+
+            virtual ~RecursivelyDefinedSetError() throw ()
+            {
+            }
+
+            ///\}
+
+            /**
+             * Name of the set.
+             */
+            const std::string & name() const
+            {
+                return _name;
+            }
+    };
+
+#include <paludis/repository-sr.hh>
+
+    /**
+     * A Repository provides a representation of a physical repository to a
+     * PackageDatabase.
+     *
+     * \ingroup g_repository
+     * \nosubgrouping
+     */
+    class PALUDIS_VISIBLE Repository :
+        private InstantiationPolicy<Repository, instantiation_method::NonCopyableTag>,
+        private PrivateImplementationPattern<Repository>,
+        public RepositoryCapabilities
+    {
+        protected:
+            ///\name Basic operations
+            ///\{
+
+            Repository(const RepositoryName &, const RepositoryCapabilities &);
+
+            ///\}
+
+            /**
+             * Add a new MetadataKey, which must not use the same raw name as
+             * any previous MetadataKey added to this repository.
+             */
+            virtual void add_metadata_key(const tr1::shared_ptr<const MetadataKey> &) const;
+
+            /**
+             * Clear all MetadataKey instances added using add_metadata_key.
+             */
+            virtual void clear_metadata_keys() const;
+
+            /**
+             * This method will be called before any of the metadata key
+             * iteration methods does its work. It can be used by subclasses to
+             * implement as-needed loading of keys.
+             */
+            virtual void need_keys_added() const = 0;
+
+        public:
+            ///\name Basic operations
+            ///\{
+
+            virtual ~Repository();
+
+            ///\}
+
+            ///\name Repository information
+            ///\{
+
+            /**
+             * Return our name.
+             */
+            const RepositoryName name() const PALUDIS_ATTRIBUTE((nothrow))
+                PALUDIS_ATTRIBUTE((warn_unused_result));
+
+            /**
+             * Are we allowed to be favourite repository?
+             */
+            virtual bool can_be_favourite_repository() const;
+
+            ///\}
+
+            ///\name Specific metadata keys
+            ///\{
+
+            /**
+             * The format_key, if non-zero, holds our repository's format. Repository
+             * implementations should not return zero here, but clients should still
+             * check.
+             */
+            virtual const tr1::shared_ptr<const MetadataStringKey> format_key() const = 0;
+
+            /**
+             * The installed_root_key, if non-zero, specifies that we contain installed
+             * packages at the specified root.
+             *
+             * This key is currently used in various places to determine whether a repository is
+             * an 'installed' repository or not.
+             */
+            virtual const tr1::shared_ptr<const MetadataFSEntryKey> installed_root_key() const = 0;
+
+            ///\}
+
+            ///\name Finding and iterating over metadata keys
+            ///\{
+
+            struct MetadataConstIteratorTag;
+            typedef WrappedForwardIterator<MetadataConstIteratorTag, tr1::shared_ptr<const MetadataKey> > MetadataConstIterator;
+
+            MetadataConstIterator begin_metadata() const PALUDIS_ATTRIBUTE((warn_unused_result));
+            MetadataConstIterator end_metadata() const PALUDIS_ATTRIBUTE((warn_unused_result));
+            MetadataConstIterator find_metadata(const std::string &) const PALUDIS_ATTRIBUTE((warn_unused_result));
+
+            ///\}
+
+            ///\name Repository content queries
+            ///\{
+
+            /**
+             * Do we have a category with the given name?
+             */
+            virtual bool has_category_named(const CategoryNamePart & c) const = 0;
+
+            /**
+             * Do we have a package in the given category with the given name?
+             */
+            virtual bool has_package_named(const QualifiedPackageName & q) const = 0;
+
+            /**
+             * Fetch our category names.
+             */
+            virtual tr1::shared_ptr<const CategoryNamePartSet> category_names() const = 0;
+
+            /**
+             * Fetch unimportant categories.
+             */
+            virtual tr1::shared_ptr<const CategoryNamePartSet> unimportant_category_names() const;
+
+            /**
+             * Fetch categories that contain a named package.
+             */
+            virtual tr1::shared_ptr<const CategoryNamePartSet> category_names_containing_package(
+                    const PackageNamePart & p) const;
+
+            /**
+             * Fetch our package names.
+             */
+            virtual tr1::shared_ptr<const QualifiedPackageNameSet> package_names(
+                    const CategoryNamePart & c) const = 0;
+
+            /**
+             * Fetch our IDs.
+             */
+            virtual tr1::shared_ptr<const PackageIDSequence> package_ids(const QualifiedPackageName & p) const = 0;
+
+            /**
+             * Might some of our IDs support a particular action?
+             *
+             * Used to optimise PackageDatabase::query. If a repository doesn't
+             * support, say, InstallAction, a query can skip searching it
+             * entirely when looking for installable packages.
+             */
+            virtual bool some_ids_might_support_action(const SupportsActionTestBase &) const = 0;
+
+            ///\}
+
+            ///\name Repository behaviour methods
+            ///\{
+
+            /**
+             * Invalidate any in memory cache.
+             */
+            virtual void invalidate() = 0;
+
+            /**
+             * Invalidate cached masks.
+             */
+            virtual void invalidate_masks() = 0;
+
+            /**
+             * Regenerate any on disk cache.
+             */
+            virtual void regenerate_cache() const;
+
+            ///\}
+
+    };
+
+    /**
+     * Interface for handling USE flags for the Repository class.
+     *
+     * \see Repository
+     * \ingroup g_repository
+     * \nosubgrouping
+     */
+    class PALUDIS_VISIBLE RepositoryUseInterface
+    {
+        public:
+            ///\name USE queries
+            ///\{
+
+            /**
+             * Query the state of the specified use flag.
+             */
+            virtual UseFlagState query_use(const UseFlagName & u, const PackageID &) const = 0;
+
+            /**
+             * Query whether the specified use flag is masked.
+             */
+            virtual bool query_use_mask(const UseFlagName & u, const PackageID & pde) const = 0;
+
+            /**
+             * Query whether the specified use flag is forced.
+             */
+            virtual bool query_use_force(const UseFlagName & u, const PackageID & pde) const = 0;
+
+            /**
+             * Fetch all arch flags.
+             */
+            virtual tr1::shared_ptr<const UseFlagNameSet> arch_flags() const = 0;
+
+            /**
+             * Fetch all expand flags.
+             */
+            virtual tr1::shared_ptr<const UseFlagNameSet> use_expand_flags() const = 0;
+
+            /**
+             * Fetch all expand hidden flags.
+             */
+            virtual tr1::shared_ptr<const UseFlagNameSet> use_expand_hidden_prefixes() const = 0;
+
+            /**
+             * Fetch all use expand prefixes.
+             */
+            virtual tr1::shared_ptr<const UseFlagNameSet> use_expand_prefixes() const = 0;
+
+            /**
+             * Fetch the use expand separator (eg _ or :) for the
+             * specified package, or \0 if unknown.
+             */
+            virtual char use_expand_separator(const PackageID & pkg) const = 0;
+
+            /**
+             * Describe a use flag.
+             */
+            virtual std::string describe_use_flag(const UseFlagName & n, const PackageID & pkg) const = 0;
+
+            ///\}
+
+            virtual ~RepositoryUseInterface();
+    };
+
+    /**
+     * Interface for package sets for repositories.
+     *
+     * \see Repository
+     * \ingroup g_repository
+     * \nosubgrouping
+     */
+    class PALUDIS_VISIBLE RepositorySetsInterface
+    {
+        public:
+            ///\name Set queries
+            ///\{
+
+            /**
+             * Fetch a package set.
+             */
+            virtual tr1::shared_ptr<SetSpecTree::ConstItem> package_set(const SetName & s) const = 0;
+
+            /**
+             * Gives a list of the names of all the sets provided by this repo.
+             */
+            virtual tr1::shared_ptr<const SetNameSet> sets_list() const
+                PALUDIS_ATTRIBUTE((warn_unused_result)) = 0;
+
+            ///\}
+
+            virtual ~RepositorySetsInterface();
+    };
+
+    /**
+     * Interface for syncing for repositories.
+     *
+     * \see Repository
+     * \ingroup g_repository
+     * \nosubgrouping
+     */
+    class PALUDIS_VISIBLE RepositorySyncableInterface
+    {
+        public:
+            ///\name Sync functions
+            ///\{
+
+            /**
+             * Sync, if necessary.
+             *
+             * \return True if we synced successfully, false if we skipped sync.
+             */
+            virtual bool sync() const = 0;
+
+            ///\}
+
+            virtual ~RepositorySyncableInterface();
+    };
+
+    /**
+     * Interface for world handling for repositories.
+     *
+     * \see Repository
+     * \ingroup g_repository
+     * \nosubgrouping
+     */
+    class PALUDIS_VISIBLE RepositoryWorldInterface
+    {
+        public:
+            ///\name World functionality
+            ///\{
+
+            /**
+             * Add this package to world.
+             */
+            virtual void add_to_world(const QualifiedPackageName &) const = 0;
+
+            /**
+             * Add this set to world.
+             */
+            virtual void add_to_world(const SetName &) const = 0;
+
+            /**
+             * Remove this package from world, if it is present.
+             */
+            virtual void remove_from_world(const QualifiedPackageName &) const = 0;
+
+            /**
+             * Remove this set from world, if it is present.
+             */
+            virtual void remove_from_world(const SetName &) const = 0;
+
+            ///\}
+
+            virtual ~RepositoryWorldInterface();
+    };
+
+    /**
+     * Interface for environment variable querying for repositories.
+     *
+     * \see Repository
+     * \ingroup g_repository
+     * \nosubgrouping
+     */
+    class PALUDIS_VISIBLE RepositoryEnvironmentVariableInterface
+    {
+        public:
+            ///\name Environment query functionality
+            ///\{
+
+            /**
+             * Query an environment variable
+             */
+            virtual std::string get_environment_variable(
+                    const tr1::shared_ptr<const PackageID> & for_package,
+                    const std::string & var) const
+                PALUDIS_ATTRIBUTE((warn_unused_result)) = 0;
+
+            ///\}
+
+            virtual ~RepositoryEnvironmentVariableInterface();
+    };
+
+    /**
+     * Interface for mirror querying for repositories.
+     *
+     * \see Repository
+     * \ingroup g_repository
+     * \nosubgrouping
+     */
+    class PALUDIS_VISIBLE RepositoryMirrorsInterface
+    {
+        public:
+            ///\name Iterate over our mirrors
+            ///\{
+
+            struct MirrorsConstIteratorTag;
+            typedef WrappedForwardIterator<MirrorsConstIteratorTag,
+                    const std::pair<const std::string, std::string> > MirrorsConstIterator;
+
+            virtual MirrorsConstIterator begin_mirrors(const std::string & s) const
+                PALUDIS_ATTRIBUTE((warn_unused_result)) = 0;
+            virtual MirrorsConstIterator end_mirrors(const std::string & s) const
+                PALUDIS_ATTRIBUTE((warn_unused_result)) = 0;
+
+            /**
+             * Is the named item a mirror?
+             */
+            bool is_mirror(const std::string & s) const;
+
+            ///\}
+
+            virtual ~RepositoryMirrorsInterface();
+    };
+
+    /**
+     * Interface for repositories that define virtuals.
+     *
+     * \see Repository
+     * \ingroup g_repository
+     * \nosubgrouping
+     */
+    class PALUDIS_VISIBLE RepositoryVirtualsInterface
+    {
+        public:
+            ///\name Virtuals functionality
+            ///\{
+
+            /**
+             * A collection of virtuals.
+             */
+            typedef Sequence<RepositoryVirtualsEntry> VirtualsSequence;
+
+            /**
+             * Fetch our virtual packages.
+             */
+            virtual tr1::shared_ptr<const VirtualsSequence> virtual_packages() const
+                PALUDIS_ATTRIBUTE((warn_unused_result)) = 0;
+
+            ///\}
+
+            virtual ~RepositoryVirtualsInterface();
+    };
+
+    /**
+     * Interface for repositories that can make virtuals on the fly.
+     *
+     * \see Repository
+     * \ingroup g_repository
+     * \nosubgrouping
+     */
+    class PALUDIS_VISIBLE RepositoryMakeVirtualsInterface
+    {
+        public:
+            virtual ~RepositoryMakeVirtualsInterface();
+
+            virtual const tr1::shared_ptr<const PackageID> make_virtual_package_id(
+                    const QualifiedPackageName & virtual_name, const tr1::shared_ptr<const PackageID> & provider) const
+                PALUDIS_ATTRIBUTE((warn_unused_result)) = 0;
+    };
+
+    /**
+     * Interface for repositories that provide packages.
+     *
+     * \see Repository
+     * \ingroup g_repository
+     * \nosubgrouping
+     */
+    class PALUDIS_VISIBLE RepositoryProvidesInterface
+    {
+        public:
+            ///\name Provides functionality
+            ///\{
+
+            /**
+             * A collection of provided packages.
+             */
+            typedef Sequence<RepositoryProvidesEntry> ProvidesSequence;
+
+            /**
+             * Fetch our provided packages.
+             */
+            virtual tr1::shared_ptr<const ProvidesSequence> provided_packages() const
+                PALUDIS_ATTRIBUTE((warn_unused_result)) = 0;
+
+            ///\}
+
+            virtual ~RepositoryProvidesInterface();
+    };
+
+    /**
+     * Interface for repositories that can be used as an install destination.
+     *
+     * \see Repository
+     * \ingroup g_repository
+     * \nosubgrouping
+     */
+    class PALUDIS_VISIBLE RepositoryDestinationInterface
+    {
+        public:
+            ///\name Destination functions
+            ///\{
+
+            /**
+             * Are we a suitable destination for the specified package?
+             */
+            virtual bool is_suitable_destination_for(const PackageID &) const
+                PALUDIS_ATTRIBUTE((warn_unused_result)) = 0;
+
+            /**
+             * Are we to be included in the Environment::default_destinations list?
+             */
+            virtual bool is_default_destination() const
+                PALUDIS_ATTRIBUTE((warn_unused_result)) = 0;
+
+            /**
+             * If true, pre and post install phases will be used when writing to this
+             * destination.
+             *
+             * This should return true for 'real' filesystem destinations (whether or
+             * not root is /, if root merges are supported), and false for intermediate
+             * destinations such as binary repositories.
+             */
+            virtual bool want_pre_post_phases() const
+                PALUDIS_ATTRIBUTE((warn_unused_result)) = 0;
+
+            /**
+             * Merge a package.
+             */
+            virtual void merge(const MergeOptions &) = 0;
+
+            ///\}
+
+            virtual ~RepositoryDestinationInterface();
+    };
+
+    class ERepositoryParams;
+
+    /**
+     * Interface for handling ERepository specific functionality.
+     *
+     * \see Repository
+     * \ingroup g_repository
+     * \nosubgrouping
+     */
+    class PALUDIS_VISIBLE RepositoryEInterface
+    {
+        public:
+            ///\name Information about a ERepository
+            ///\{
+
+            virtual std::string profile_variable(const std::string &) const = 0;
+            virtual std::string accept_keywords_variable() const = 0;
+            virtual std::string arch_variable() const = 0;
+
+            virtual const ERepositoryParams & params() const = 0;
+
+            ///\}
+
+            ///\name Profile setting and querying functions
+            ///\{
+
+            typedef RepositoryEInterfaceProfilesDescLine ProfilesDescLine;
+
+            struct ProfilesConstIteratorTag;
+            typedef WrappedForwardIterator<ProfilesConstIteratorTag, const ProfilesDescLine> ProfilesConstIterator;
+            virtual ProfilesConstIterator begin_profiles() const = 0;
+            virtual ProfilesConstIterator end_profiles() const = 0;
+
+            virtual ProfilesConstIterator find_profile(const FSEntry & location) const = 0;
+            virtual void set_profile(const ProfilesConstIterator & iter) = 0;
+            virtual void set_profile_by_arch(const UseFlagName &) = 0;
+
+            ///\}
+
+            ///\name Layout helpers
+            ///\{
+
+            virtual FSEntry info_variables_file(const FSEntry &) const = 0;
+
+            ///\}
+
+            virtual ~RepositoryEInterface();
+    };
+
+    /**
+     * Interface for handling QA tasks.
+     *
+     * \see Repository
+     * \ingroup g_repository
+     * \nosubgrouping
+     */
+    class PALUDIS_VISIBLE RepositoryQAInterface
+    {
+        public:
+            /**
+             * Perform QA checks on the repository.
+             */
+            virtual void check_qa(
+                    QAReporter &,
+                    const QACheckProperties &,
+                    const QACheckProperties &,
+                    const QAMessageLevel,
+                    const FSEntry &
+                    ) const = 0;
+
+            ///\name Basic operations
+            ///\{
+
+            virtual ~RepositoryQAInterface();
+
+            ///\}
+    };
+
+    /**
+     * Interface for making and verifying Manifest2-style manifests
+     *
+     * \see Repository
+     * \ingroup g_repository
+     * \nosubgrouping
+     */
+    class PALUDIS_VISIBLE RepositoryManifestInterface
+    {
+        public:
+            /**
+             * Makes the Manifest for a given package. Requires that all
+             * the needed DIST files, etc, have already been fetched.
+             */
+            virtual void make_manifest(const QualifiedPackageName &) = 0;
+
+            ///\name Basic operations
+            ///\{
+
+            virtual ~RepositoryManifestInterface();
+
+            ///\}
+    };
+
+    /**
+     * Interface for handling hooks.
+     *
+     * \see Repository
+     * \ingroup g_repository
+     * \nosubgrouping
+     */
+    class PALUDIS_VISIBLE RepositoryHookInterface
+    {
+        public:
+            /**
+             * Perform a hook.
+             */
+            virtual HookResult perform_hook(const Hook & hook) const
+                PALUDIS_ATTRIBUTE((warn_unused_result)) = 0;
+
+            ///\name Basic operations
+            ///\{
+
+            virtual ~RepositoryHookInterface();
+
+            ///\}
+    };
+}
+
+#endif
