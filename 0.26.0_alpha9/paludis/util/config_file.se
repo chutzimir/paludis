@@ -1,0 +1,50 @@
+#!/bin/bash
+# vim: set sw=4 sts=4 et ft=sh :
+
+make_enum_LineConfigFileOption()
+{
+    prefix lcfo
+
+    key lcfo_disallow_continuations     "Do not recognise line continuations"
+    key lcfo_disallow_comments          "Do not recognise comments"
+    key lcfo_preserve_whitespace        "Preserve exact whitespace"
+    key lcfo_no_skip_blank_lines        "Do not skip blank lines"
+
+    doxygen_comment << "END"
+        /**
+         * Options for a LineConfigFile.
+         *
+         * \see LineConfigFile
+         * \see LineConfigFileOptions
+         * \ingroup g_config_file
+         */
+END
+}
+
+make_enum_KeyValueConfigFileOption()
+{
+    prefix kvcfo
+
+    key kvcfo_disallow_continuations                 "Do not recognise line continuations"
+    key kvcfo_disallow_comments                      "Do not recognise comments"
+    key kvcfo_disallow_space_around_equals           "Do not allow spaces around equals"
+    key kvcfo_disallow_space_inside_unquoted_values  "Do not allow spaces inside unquoted values"
+    key kvcfo_disallow_single_quoted_strings         "Do not allow single quoted strings"
+    key kvcfo_disallow_double_quoted_strings         "Do not allow double quoted strings"
+    key kvcfo_disallow_unquoted_values               "Do not allow unquoted values"
+    key kvcfo_disallow_variables                     "Do not allow variable expansions"
+    key kvcfo_disallow_source                        "Do not allow the source command"
+    key kvcfo_preserve_whitespace                    "Do not strip trailing whitespace from values"
+    key kvcfo_ignore_export                          "Accept and ignore the word export at the beginning of a line"
+
+    doxygen_comment << "END"
+        /**
+         * Options for a KeyValueConfigFile.
+         *
+         * \see KeyValueConfigFile
+         * \see KeyValueConfigFileOptions
+         * \ingroup g_config_file
+         */
+END
+}
+
