@@ -1,0 +1,1642 @@
+/* vim: set sw=4 sts=4 et foldmethod=syntax : */
+
+/*
+ * Copyright (c) 2006, 2007, 2008 Ciaran McCreesh
+ *
+ * This file is part of the Paludis package manager. Paludis is free software;
+ * you can redistribute it and/or modify it under the terms of the GNU General
+ * Public License version 2, as published by the Free Software Foundation.
+ *
+ * Paludis is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+
+#include <paludis/install_task.hh>
+#include <paludis/dep_spec.hh>
+#include <paludis/user_dep_spec.hh>
+#include <paludis/action.hh>
+#include <paludis/metadata_key.hh>
+#include <paludis/util/exception.hh>
+#include <paludis/util/private_implementation_pattern-impl.hh>
+#include <paludis/util/tr1_functional.hh>
+#include <paludis/query.hh>
+#include <paludis/hook.hh>
+#include <paludis/repository.hh>
+#include <paludis/match_package.hh>
+#include <paludis/package_database.hh>
+#include <paludis/package_id.hh>
+#include <paludis/version_requirements.hh>
+#include <paludis/tasks_exceptions.hh>
+#include <paludis/util/visitor-impl.hh>
+#include <paludis/util/tokeniser.hh>
+#include <paludis/util/set.hh>
+#include <paludis/util/log.hh>
+#include <paludis/util/iterator_funcs.hh>
+#include <paludis/util/wrapped_forward_iterator-impl.hh>
+#include <paludis/util/make_shared_ptr.hh>
+#include <paludis/util/kc.hh>
+#include <paludis/util/tr1_functional.hh>
+#include <paludis/util/destringify.hh>
+#include <paludis/util/make_shared_ptr.hh>
+#include <paludis/handled_information.hh>
+#include <sstream>
+#include <functional>
+#include <algorithm>
+#include <list>
+#include <vector>
+#include <set>
+
+using namespace paludis;
+
+template class WrappedForwardIterator<InstallTask::TargetsConstIteratorTag, const std::string>;
+
+#include <paludis/install_task-se.cc>
+
+namespace paludis
+{
+    template<>
+    struct Implementation<InstallTask>
+    {
+        Environment * const env;
+        DepList dep_list;
+        FetchActionOptions fetch_options;
+        InstallActionOptions install_options;
+        UninstallActionOptions uninstall_options;
+
+        std::list<std::string> raw_targets;
+        tr1::shared_ptr<ConstTreeSequence<SetSpecTree, AllDepSpec> > targets;
+        tr1::shared_ptr<std::string> add_to_world_spec;
+        tr1::shared_ptr<const DestinationsSet> destinations;
+
+        bool pretend;
+        bool fetch_only;
+        bool preserve_world;
+
+        bool had_set_targets;
+        bool had_package_targets;
+        bool override_target_type;
+
+        InstallTaskContinueOnFailure continue_on_failure;
+
+        bool had_resolution_failures;
+
+        Implementation<InstallTask>(Environment * const e, const DepListOptions & o,
+                tr1::shared_ptr<const DestinationsSet> d) :
+            env(e),
+            dep_list(e, o),
+            fetch_options(
+                    FetchActionOptions::named_create()
+                    (k::safe_resume(), false)
+                    (k::fetch_unneeded(), false)
+                    ),
+            install_options(
+                    InstallActionOptions::named_create()
+                    (k::no_config_protect(), false)
+                    (k::debug_build(), iado_none)
+                    (k::checks(), iaco_default)
+                    (k::destination(), tr1::shared_ptr<Repository>())
+                    ),
+            uninstall_options(false),
+            targets(new ConstTreeSequence<SetSpecTree, AllDepSpec>(tr1::shared_ptr<AllDepSpec>(new AllDepSpec))),
+            destinations(d),
+            pretend(false),
+            fetch_only(false),
+            preserve_world(false),
+            had_set_targets(false),
+            had_package_targets(false),
+            override_target_type(false),
+            continue_on_failure(itcof_if_fetch_only),
+            had_resolution_failures(false)
+        {
+        }
+    };
+}
+
+InstallTask::InstallTask(Environment * const env, const DepListOptions & options,
+        const tr1::shared_ptr<const DestinationsSet> d) :
+    PrivateImplementationPattern<InstallTask>(new Implementation<InstallTask>(env, options, d))
+{
+}
+
+InstallTask::~InstallTask()
+{
+}
+
+void
+InstallTask::clear()
+{
+    _imp->targets.reset(new ConstTreeSequence<SetSpecTree, AllDepSpec>(tr1::shared_ptr<AllDepSpec>(new AllDepSpec)));
+    _imp->had_set_targets = false;
+    _imp->had_package_targets = false;
+    _imp->dep_list.clear();
+    _imp->raw_targets.clear();
+    _imp->had_package_targets = false;
+}
+
+void
+InstallTask::set_targets_from_user_specs(const tr1::shared_ptr<const Sequence<std::string> > & s)
+{
+    using namespace tr1::placeholders;
+    std::for_each(s->begin(), s->end(), tr1::bind(&InstallTask::_add_target, this, _1));
+}
+
+void
+InstallTask::set_targets_from_exact_packages(const tr1::shared_ptr<const PackageIDSequence> & s)
+{
+    using namespace tr1::placeholders;
+    std::for_each(s->begin(), s->end(), tr1::bind(&InstallTask::_add_package_id, this, _1));
+}
+
+namespace
+{
+    tr1::shared_ptr<DepListEntryHandled> handled_from_string(const std::string & s,
+            const Environment * const env)
+    {
+        Context context("When decoding DepListEntryHandled value '" + s + "':");
+
+        if (s.empty())
+            throw InternalError(PALUDIS_HERE, "Empty DepListEntryHandled value");
+
+        switch (s.at(0))
+        {
+            case 'S':
+                if (s.length() != 1)
+                    throw InternalError(PALUDIS_HERE, "S takes no extra value");
+                return make_shared_ptr(new DepListEntryHandledSuccess);
+
+            case 'U':
+                return make_shared_ptr(new DepListEntryHandledSkippedUnsatisfied(
+                            parse_user_package_dep_spec(s.substr(1), UserPackageDepSpecOptions())));
+
+            case 'D':
+                return make_shared_ptr(new DepListEntryHandledSkippedDependent(
+                            *env->package_database()->query(query::Matches(
+                                    parse_user_package_dep_spec(s.substr(1), UserPackageDepSpecOptions())),
+                                qo_require_exactly_one)->begin()));
+
+            case 'F':
+                if (s.length() != 1)
+                    throw InternalError(PALUDIS_HERE, "F takes no extra value");
+                return make_shared_ptr(new DepListEntryHandledFailed);
+
+            case 'P':
+                if (s.length() != 1)
+                    throw InternalError(PALUDIS_HERE, "P takes no extra value");
+                return make_shared_ptr(new DepListEntryUnhandled);
+
+            case 'N':
+                if (s.length() != 1)
+                    throw InternalError(PALUDIS_HERE, "N takes no extra value");
+                return make_shared_ptr(new DepListEntryNoHandlingRequired);
+
+            default:
+                throw InternalError(PALUDIS_HERE, "Unknown value '" + s + "'");
+        }
+    }
+}
+
+void
+InstallTask::set_targets_from_serialisation(const std::string & format, const tr1::shared_ptr<const Sequence<std::string> > & ss)
+{
+    if (format != "0.25")
+        throw InternalError(PALUDIS_HERE, "Serialisation format '" + format + "' not supported by this version of Paludis");
+
+    for (Sequence<std::string>::ConstIterator s(ss->begin()), s_end(ss->end()) ;
+            s != s_end ; ++s)
+    {
+        Context context("When adding serialised entry '" + *s + "':");
+
+        std::list<std::string> tokens;
+        tokenise<delim_kind::AnyOfTag, delim_mode::DelimiterTag>(*s, ";", "", std::back_inserter(tokens));
+
+        if (tokens.empty())
+            throw InternalError(PALUDIS_HERE, "Serialised value '" + *s + "' too short: no kind");
+        const DepListEntryKind kind(destringify<DepListEntryKind>(*tokens.begin()));
+        tokens.pop_front();
+
+        if (tokens.empty())
+            throw InternalError(PALUDIS_HERE, "Serialised value '" + *s + "' too short: no package_id");
+        const tr1::shared_ptr<const PackageID> package_id(*_imp->env->package_database()->query(
+                    query::Matches(parse_user_package_dep_spec(*tokens.begin(), UserPackageDepSpecOptions())), qo_require_exactly_one)->begin());
+        tokens.pop_front();
+
+        if (tokens.empty())
+            throw InternalError(PALUDIS_HERE, "Serialised value '" + *s + "' too short: no destination");
+        tr1::shared_ptr<Repository> destination;
+        if ("0" != *tokens.begin())
+            destination = _imp->env->package_database()->fetch_repository(RepositoryName(*tokens.begin()));
+        tokens.pop_front();
+
+        if (tokens.empty())
+            throw InternalError(PALUDIS_HERE, "Serialised value '" + *s + "' too short: no state");
+        const DepListEntryState state(destringify<DepListEntryState>(*tokens.begin()));
+        tokens.pop_front();
+
+        if (tokens.empty())
+            throw InternalError(PALUDIS_HERE, "Serialised value '" + *s + "' too short: no handled");
+        tr1::shared_ptr<DepListEntryHandled> handled(handled_from_string(*tokens.begin(), _imp->env));
+        tokens.pop_front();
+
+        if (! tokens.empty())
+            throw InternalError(PALUDIS_HERE, "Serialised value '" + *s + "' too long");
+
+        _imp->dep_list.push_back(DepListEntry::create()
+                .kind(kind)
+                .package_id(package_id)
+                .associated_entry(static_cast<DepListEntry *>(0))
+                .tags(make_shared_ptr(new DepListEntryTags))
+                .destination(destination)
+                .generation(0)
+                .state(state)
+                .handled(handled)
+                );
+    }
+}
+
+std::string
+InstallTask::serialised_format() const
+{
+    return "0.25";
+}
+
+namespace
+{
+    struct HandledDisplayer :
+        ConstVisitor<DepListEntryHandledVisitorTypes>
+    {
+        std::string result;
+        const bool undo_failures;
+
+        HandledDisplayer(const bool b) :
+            undo_failures(b)
+        {
+        }
+
+        void visit(const DepListEntryNoHandlingRequired &)
+        {
+            result = "N";
+        }
+
+        void visit(const DepListEntryHandledSuccess &)
+        {
+            result = "S";
+        }
+
+        void visit(const DepListEntryHandledFailed &)
+        {
+            if (undo_failures)
+                result = "P";
+            else
+                result = "F";
+        }
+
+        void visit(const DepListEntryUnhandled &)
+        {
+            result = "P";
+        }
+
+        void visit(const DepListEntryHandledSkippedUnsatisfied & s)
+        {
+            result = "U" + stringify(s.spec());
+        }
+
+        void visit(const DepListEntryHandledSkippedDependent & s)
+        {
+            result = "D=" + stringify(*s.id());
+        }
+    };
+}
+
+std::string
+InstallTask::serialise(const bool undo_failures) const
+{
+    std::ostringstream result;
+
+    for (DepList::ConstIterator d(_imp->dep_list.begin()), d_end(_imp->dep_list.end()) ;
+            d != d_end ; ++d)
+    {
+        switch (d->kind)
+        {
+            case dlk_already_installed:
+            case dlk_virtual:
+            case dlk_provided:
+            case dlk_block:
+            case dlk_masked:
+            case dlk_suggested:
+                continue;
+
+            case dlk_package:
+            case dlk_subpackage:
+                break;
+
+            case last_dlk:
+                throw InternalError(PALUDIS_HERE, "Bad d->kind");
+        }
+
+        if (! result.str().empty())
+            result << " ";
+
+        result << "'";
+
+        result << d->kind << ";";
+
+        result << "=" << *d->package_id << ";";
+
+        if (d->destination)
+            result << d->destination->name() << ";";
+        else
+            result << "0" << ";";
+
+        result << d->state << ";";
+
+        HandledDisplayer h(undo_failures);
+        d->handled->accept(h);
+        result << h.result;
+
+        result << "'";
+    }
+
+    return result.str();
+}
+
+void
+InstallTask::_add_target(const std::string & target)
+{
+    Context context("When adding install target '" + target + "':");
+
+    tr1::shared_ptr<SetSpecTree::ConstItem> s;
+    std::string modified_target(target);
+
+    bool done(false);
+    try
+    {
+        if ((target != "insecurity") && ((s = ((_imp->env->set(SetName(target)))))))
+        {
+            if (_imp->had_set_targets)
+            {
+                _imp->had_resolution_failures = true;
+                throw MultipleSetTargetsSpecified();
+            }
+
+            if (_imp->had_package_targets)
+            {
+                _imp->had_resolution_failures = true;
+                throw HadBothPackageAndSetTargets();
+            }
+
+            _imp->had_set_targets = true;
+            if (! _imp->override_target_type)
+                _imp->dep_list.options()->target_type = dl_target_set;
+            _imp->targets->add(s);
+            done = true;
+        }
+    }
+    catch (const SetNameError &)
+    {
+    }
+
+    if (! done)
+    {
+        Log::get_instance()->message(ll_debug, lc_context) << "target '" << target << "' is a package";
+
+        if (_imp->had_set_targets)
+        {
+            _imp->had_resolution_failures = true;
+            throw HadBothPackageAndSetTargets();
+        }
+
+        _imp->had_package_targets = true;
+        if (! _imp->override_target_type)
+            _imp->dep_list.options()->target_type = dl_target_package;
+
+        if (std::string::npos != target.find('/'))
+        {
+            tr1::shared_ptr<PackageDepSpec> spec(new PackageDepSpec(parse_user_package_dep_spec(target, UserPackageDepSpecOptions())));
+            spec->set_tag(tr1::shared_ptr<const DepTag>(new TargetDepTag));
+            _imp->targets->add(tr1::shared_ptr<TreeLeaf<SetSpecTree, PackageDepSpec> >(
+                        new TreeLeaf<SetSpecTree, PackageDepSpec>(spec)));
+        }
+        else
+        {
+            try
+            {
+                QualifiedPackageName q(_imp->env->package_database()->fetch_unique_qualified_package_name(
+                            PackageNamePart(target), query::MaybeSupportsAction<InstallAction>()));
+                modified_target = stringify(q);
+                tr1::shared_ptr<PackageDepSpec> spec(new PackageDepSpec(make_package_dep_spec().package(q)));
+                spec->set_tag(tr1::shared_ptr<const DepTag>(new TargetDepTag));
+                _imp->targets->add(tr1::shared_ptr<TreeLeaf<SetSpecTree, PackageDepSpec> >(
+                            new TreeLeaf<SetSpecTree, PackageDepSpec>(spec)));
+            }
+            catch (const NoSuchPackageError &)
+            {
+                _imp->had_resolution_failures = true;
+                throw;
+            }
+        }
+    }
+
+    _imp->raw_targets.push_back(modified_target);
+}
+
+void
+InstallTask::_add_package_id(const tr1::shared_ptr<const PackageID> & target)
+{
+    Context context("When adding install target '" + stringify(*target) + "' from ID:");
+
+    if (_imp->had_set_targets)
+    {
+        _imp->had_resolution_failures = true;
+        throw HadBothPackageAndSetTargets();
+    }
+
+    _imp->had_package_targets = true;
+    if (! _imp->override_target_type)
+        _imp->dep_list.options()->target_type = dl_target_package;
+
+    tr1::shared_ptr<PackageDepSpec> spec(new PackageDepSpec(make_package_dep_spec()
+                .package(target->name())
+                .version_requirement(VersionRequirement(vo_equal, target->version()))
+                .slot_requirement(make_shared_ptr(new UserSlotExactRequirement(target->slot())))
+                .repository(target->repository()->name())));
+
+    spec->set_tag(tr1::shared_ptr<const DepTag>(new TargetDepTag));
+    _imp->targets->add(tr1::shared_ptr<TreeLeaf<SetSpecTree, PackageDepSpec> >(
+                new TreeLeaf<SetSpecTree, PackageDepSpec>(spec)));
+
+    _imp->raw_targets.push_back(stringify(*spec));
+}
+
+void
+InstallTask::_build_dep_list()
+{
+    Context context("When building dependency list:");
+
+    on_build_deplist_pre();
+    _imp->dep_list.add(*_imp->targets, _imp->destinations);
+    on_build_deplist_post();
+}
+
+void
+InstallTask::_display_task_list()
+{
+    Context context("When displaying task list:");
+
+    if (_imp->pretend &&
+        0 != perform_hook(Hook("install_pretend_pre")
+                                    ("TARGETS", join(
+                                        _imp->raw_targets.begin(), _imp->raw_targets.end(), " "))
+                                    ("DEPLIST_HAS_ERRORS", stringify(_imp->dep_list.has_errors()))
+                        ).max_exit_status)
+        throw InstallActionError("Pretend install aborted by hook");
+
+    on_display_merge_list_pre();
+
+    /* display our task list */
+    for (DepList::Iterator dep(_imp->dep_list.begin()), dep_end(_imp->dep_list.end()) ;
+            dep != dep_end ; ++dep)
+    {
+        if (_imp->pretend &&
+                0 != perform_hook(Hook("install_pretend_display_item_pre")
+                    ("TARGET", stringify(*dep->package_id))
+                    ("KIND", stringify(dep->kind))).max_exit_status)
+            throw InstallActionError("Pretend install aborted by hook");
+
+        on_display_merge_list_entry(*dep);
+
+        if (_imp->pretend &&
+                0 != perform_hook(Hook("install_pretend_display_item_post")
+                    ("TARGET", stringify(*dep->package_id))
+                    ("KIND", stringify(dep->kind))).max_exit_status)
+            throw InstallActionError("Pretend install aborted by hook");
+    }
+
+    /* we're done displaying our task list */
+    on_display_merge_list_post();
+}
+
+namespace
+{
+    struct SummaryVisitor :
+        ConstVisitor<DepListEntryHandledVisitorTypes>
+    {
+        int total, successes, skipped, failures, unreached;
+        InstallTask & task;
+        const DepListEntry * entry;
+
+        SummaryVisitor(InstallTask & t) :
+            total(0),
+            successes(0),
+            skipped(0),
+            failures(0),
+            unreached(0),
+            task(t),
+            entry(0)
+        {
+        }
+
+        void visit(const DepListEntryHandledSkippedUnsatisfied & s)
+        {
+            ++skipped;
+            ++total;
+            task.on_display_failure_summary_skipped_unsatisfied(*entry, s.spec());
+        }
+
+        void visit(const DepListEntryHandledSkippedDependent & s)
+        {
+            ++skipped;
+            ++total;
+            task.on_display_failure_summary_skipped_dependent(*entry, s.id());
+        }
+
+        void visit(const DepListEntryHandledFailed &)
+        {
+            ++failures;
+            ++total;
+            task.on_display_failure_summary_failure(*entry);
+        }
+
+        void visit(const DepListEntryUnhandled &)
+        {
+            ++unreached;
+            ++total;
+        }
+
+        void visit(const DepListEntryNoHandlingRequired &)
+        {
+        }
+
+        void visit(const DepListEntryHandledSuccess &)
+        {
+            ++successes;
+            ++total;
+            task.on_display_failure_summary_success(*entry);
+        }
+    };
+}
+
+void
+InstallTask::_display_failure_summary()
+{
+    Context context("When displaying summary:");
+
+    if (! had_action_failures())
+        return;
+
+    on_display_failure_summary_pre();
+
+    /* display our summary */
+    SummaryVisitor s(*this);
+    for (DepList::Iterator dep(_imp->dep_list.begin()), dep_end(_imp->dep_list.end()) ;
+            dep != dep_end ; ++dep)
+    {
+        s.entry = &*dep;
+        dep->handled->accept(s);
+    }
+
+    /* we're done displaying our task list */
+    on_display_failure_summary_totals(s.total, s.successes, s.skipped, s.failures, s.unreached);
+    on_display_failure_summary_post();
+}
+
+bool
+InstallTask::_pretend()
+{
+    Context context("When performing pretend actions:");
+
+    bool pretend_failed(false);
+
+    on_pretend_all_pre();
+
+    SupportsActionTest<PretendAction> pretend_action_query;
+    for (DepList::Iterator dep(_imp->dep_list.begin()), dep_end(_imp->dep_list.end()) ;
+            dep != dep_end ; ++dep)
+        if (dep->package_id->supports_action(pretend_action_query))
+        {
+            on_pretend_pre(*dep);
+
+            PretendAction pretend_action;
+            dep->package_id->perform_action(pretend_action);
+            pretend_failed |= pretend_action.failed();
+
+            on_pretend_post(*dep);
+        }
+
+    on_pretend_all_post();
+
+    if (_imp->pretend)
+    {
+        if (0 != perform_hook(Hook("install_pretend_post")
+                                    ("TARGETS", join(
+                                        _imp->raw_targets.begin(), _imp->raw_targets.end(), " "))
+                                    ("DEPLIST_HAS_ERRORS", stringify(_imp->dep_list.has_errors()))
+                        ).max_exit_status)
+            throw InstallActionError("Pretend install aborted by hook");
+    }
+
+    return pretend_failed;
+}
+
+void
+InstallTask::_one(const DepList::Iterator dep, const int x, const int y, const int s, const int f)
+{
+    std::string cpvr(stringify(*dep->package_id));
+
+    bool live_destination(false);
+    if (dep->destination)
+        if ((*dep->destination)[k::destination_interface()] && (*dep->destination)[k::destination_interface()]->want_pre_post_phases())
+            live_destination = true;
+
+    if (already_done(*dep))
+    {
+        on_skip_already_done(*dep, x, y, s, f);
+        return;
+    }
+
+    /* we're about to fetch / install one item */
+    if (_imp->fetch_only)
+    {
+        if (0 != perform_hook(Hook("fetch_pre")
+                     ("TARGET", cpvr)
+                     ("X_OF_Y", stringify(x) + " of " + stringify(y))).max_exit_status)
+            throw InstallActionError("Fetch of '" + cpvr + "' aborted by hook");
+        on_fetch_pre(*dep, x, y, s, f);
+    }
+    else
+    {
+        if (0 != perform_hook(Hook("install_pre")
+                     ("TARGET", cpvr)
+                     ("X_OF_Y", stringify(x) + " of " + stringify(y))
+                     ("PALUDIS_NO_LIVE_DESTINATION", live_destination ? "" : "yes")).max_exit_status)
+            throw InstallActionError("Install of '" + cpvr + "' aborted by hook");
+        on_install_pre(*dep, x, y, s, f);
+    }
+
+    /* fetch / install one item */
+    try
+    {
+        SupportsActionTest<FetchAction> test_fetch;
+        if (dep->package_id->supports_action(test_fetch))
+        {
+            FetchAction fetch_action(_imp->fetch_options);
+            dep->package_id->perform_action(fetch_action);
+        }
+
+        if (! _imp->fetch_only)
+        {
+            _imp->install_options[k::destination()] = dep->destination;
+            InstallAction install_action(_imp->install_options);
+            dep->package_id->perform_action(install_action);
+        }
+    }
+    catch (const InstallActionError & e)
+    {
+        on_install_fail(*dep, x, y, s, f);
+        HookResult PALUDIS_ATTRIBUTE((unused)) dummy(perform_hook(Hook("install_fail")("TARGET", cpvr)("MESSAGE", e.message())));
+        throw;
+    }
+
+    /* we've fetched / installed one item */
+    if (_imp->fetch_only)
+    {
+        on_fetch_post(*dep, x, y, s, f);
+        if (0 != perform_hook(Hook("fetch_post")
+                     ("TARGET", cpvr)
+                     ("X_OF_Y", stringify(x) + " of " + stringify(y))).max_exit_status)
+            throw InstallActionError("Fetch of '" + cpvr + "' aborted by hook");
+    }
+    else
+    {
+        on_install_post(*dep, x, y, s, f);
+        if (0 != perform_hook(Hook("install_post")
+                     ("TARGET", cpvr)
+                     ("X_OF_Y", stringify(x) + " of " + stringify(y))
+                     ("PALUDIS_NO_LIVE_DESTINATION", live_destination ? "" : "yes")).max_exit_status)
+            throw InstallActionError("Install of '" + cpvr + "' aborted by hook");
+    }
+
+    if (_imp->fetch_only || ! live_destination)
+        return;
+
+    /* figure out whether we need to unmerge (clean) anything */
+    on_build_cleanlist_pre(*dep);
+
+    // manually invalidate repos, they're probably wrong now
+    for (PackageDatabase::RepositoryConstIterator r(_imp->env->package_database()->begin_repositories()),
+            r_end(_imp->env->package_database()->end_repositories()) ; r != r_end ; ++r)
+        (*r)->invalidate();
+
+    // look for packages with the same name in the same slot in the destination repos
+    tr1::shared_ptr<const PackageIDSequence> collision_list;
+
+    if (dep->destination)
+        collision_list = _imp->env->package_database()->query(
+                query::Matches(make_package_dep_spec()
+                    .package(dep->package_id->name())
+                    .slot_requirement(make_shared_ptr(new UserSlotExactRequirement(dep->package_id->slot())))
+                    .repository(dep->destination->name())) &
+                query::SupportsAction<UninstallAction>(),
+                qo_order_by_version);
+
+    // don't clean the thing we just installed
+    PackageIDSequence clean_list;
+    if (collision_list)
+        for (PackageIDSequence::ConstIterator c(collision_list->begin()),
+                c_end(collision_list->end()) ; c != c_end ; ++c)
+            if (dep->package_id->version() != (*c)->version())
+                clean_list.push_back(*c);
+    /* no need to sort clean_list here, although if the above is
+     * changed then check that this still holds... */
+
+    on_build_cleanlist_post(*dep);
+
+    /* ok, we have the cleanlist. we're about to clean */
+    if (clean_list.empty())
+        on_no_clean_needed(*dep);
+    else
+    {
+        if (0 != perform_hook(Hook("clean_all_pre")("TARGETS", join(
+                             indirect_iterator(clean_list.begin()), indirect_iterator(clean_list.end()), " "))).max_exit_status)
+            throw InstallActionError("Clean aborted by hook");
+        on_clean_all_pre(*dep, clean_list);
+
+        for (PackageIDSequence::ConstIterator c(clean_list.begin()),
+                c_end(clean_list.end()) ; c != c_end ; ++c)
+        {
+            /* clean one item */
+            if (0 != perform_hook(Hook("clean_pre")("TARGET", stringify(**c))
+                         ("X_OF_Y", stringify(x) + " of " + stringify(y))).max_exit_status)
+                throw InstallActionError("Clean of '" + cpvr + "' aborted by hook");
+            on_clean_pre(*dep, **c, x, y, s, f);
+
+            try
+            {
+                UninstallAction uninstall_action(_imp->uninstall_options);
+                (*c)->perform_action(uninstall_action);
+            }
+            catch (const UninstallActionError & e)
+            {
+                on_clean_fail(*dep, **c, x, y, s, f);
+                HookResult PALUDIS_ATTRIBUTE((unused)) dummy(perform_hook(Hook("clean_fail")
+                            ("TARGET", stringify(**c))("MESSAGE", e.message())));
+                throw;
+            }
+
+            on_clean_post(*dep, **c, x, y, s, f);
+            if (0 != perform_hook(Hook("clean_post")("TARGET", stringify(**c))
+                         ("X_OF_Y", stringify(x) + " of " + stringify(y))).max_exit_status)
+                throw InstallActionError("Clean of '" + cpvr + "' aborted by hook");
+        }
+
+        /* we're done cleaning */
+        if (0 != perform_hook(Hook("clean_all_post")("TARGETS", join(
+                             indirect_iterator(clean_list.begin()), indirect_iterator(clean_list.end()), " "))).max_exit_status)
+            throw InstallActionError("Clean aborted by hook");
+        on_clean_all_post(*dep, clean_list);
+    }
+
+    dep->handled.reset(new DepListEntryHandledSuccess);
+
+    /* if we installed paludis and a re-exec is available, use it. */
+    if (_imp->env->is_paludis_package(dep->package_id->name()))
+    {
+        DepList::Iterator d(dep);
+        do
+        {
+            ++d;
+            if (d == _imp->dep_list.end())
+                break;
+        }
+        while (dlk_package != d->kind);
+
+        if (d != _imp->dep_list.end())
+            on_installed_paludis();
+    }
+}
+
+void
+InstallTask::_main_actions()
+{
+    using namespace tr1::placeholders;
+
+    /* we're about to fetch / install the entire list */
+    if (_imp->fetch_only)
+    {
+        if (0 != perform_hook(Hook("fetch_all_pre")("TARGETS", join(
+                             _imp->raw_targets.begin(), _imp->raw_targets.end(), " "))).max_exit_status)
+            throw InstallActionError("Fetch aborted by hook");
+        on_fetch_all_pre();
+    }
+    else
+    {
+        bool any_live_destination(false);
+        for (DepList::Iterator dep(_imp->dep_list.begin()), dep_end(_imp->dep_list.end()) ;
+                dep != dep_end && ! any_live_destination ; ++dep)
+            if (dlk_package == dep->kind && dep->destination)
+                if ((*dep->destination)[k::destination_interface()] && (*dep->destination)[k::destination_interface()]->want_pre_post_phases())
+                    any_live_destination = true;
+
+        if (0 != perform_hook(Hook("install_all_pre")
+                     ("TARGETS", join(_imp->raw_targets.begin(), _imp->raw_targets.end(), " "))
+                     ("PALUDIS_NO_LIVE_DESTINATION", any_live_destination ? "" : "yes")).max_exit_status)
+            throw InstallActionError("Install aborted by hook");
+        on_install_all_pre();
+    }
+
+    /* fetch / install our entire list */
+    int x(0), y(std::count_if(_imp->dep_list.begin(), _imp->dep_list.end(),
+                tr1::bind(std::equal_to<DepListEntryKind>(), dlk_package, tr1::bind<DepListEntryKind>(tr1::mem_fn(&DepListEntry::kind), _1)))),
+        s(0), f(0);
+
+    for (DepList::Iterator dep(_imp->dep_list.begin()), dep_end(_imp->dep_list.end()) ;
+            dep != dep_end ; ++dep)
+    {
+        if (dlk_package != dep->kind)
+            continue;
+
+        ++x;
+
+        if (had_action_failures())
+        {
+            switch (_imp->continue_on_failure)
+            {
+                case itcof_if_fetch_only:
+                    if (_imp->fetch_only)
+                        break;
+                    ++s;
+                    continue;
+
+                case itcof_never:
+                    ++s;
+                    continue;
+
+                case itcof_if_satisfied:
+                    {
+                        tr1::shared_ptr<const PackageDepSpec> d(_unsatisfied(*dep));
+                        if (! d)
+                            break;
+                        dep->handled.reset(new DepListEntryHandledSkippedUnsatisfied(*d));
+                        on_skip_unsatisfied(*dep, *d, x, y, s, f);
+                        ++s;
+                        continue;
+                    }
+
+                case itcof_if_independent:
+                    {
+                        tr1::shared_ptr<const PackageID> d(_dependent(*dep));
+                        if (! d)
+                            break;
+                        dep->handled.reset(new DepListEntryHandledSkippedDependent(d));
+                        on_skip_dependent(*dep, d, x, y, s, f);
+                        ++s;
+                        continue;
+                    }
+
+                case itcof_always:
+                    break;
+
+                case last_itcof:
+                    throw InternalError(PALUDIS_HERE, "Bad continue_on_failure");
+            }
+        }
+
+        try
+        {
+            _one(dep, x, y, s, f);
+        }
+        catch (const InstallActionError & e)
+        {
+            dep->handled.reset(new DepListEntryHandledFailed);
+            on_install_action_error(e);
+            ++f;
+        }
+        catch (const FetchActionError & e)
+        {
+            dep->handled.reset(new DepListEntryHandledFailed);
+            on_fetch_action_error(e);
+            ++f;
+        }
+    }
+
+    /* go no further if we had failures */
+    if (had_action_failures())
+    {
+        _display_failure_summary();
+        return;
+    }
+
+    /* update world */
+    if (! _imp->fetch_only)
+    {
+        if (! _imp->preserve_world)
+        {
+            on_update_world_pre();
+
+            if (_imp->add_to_world_spec)
+            {
+                bool s_had_package_targets(_imp->had_package_targets), s_had_set_targets(_imp->had_set_targets);
+                if (_imp->add_to_world_spec)
+                {
+                    s_had_package_targets = ((std::string::npos != _imp->add_to_world_spec->find('/')));
+                    s_had_set_targets = (! s_had_package_targets) && (std::string::npos != _imp->add_to_world_spec->find_first_not_of(
+                                "() \t\r\n"));
+                }
+
+                tr1::shared_ptr<ConstTreeSequence<SetSpecTree, AllDepSpec> > all(new ConstTreeSequence<SetSpecTree, AllDepSpec>(
+                            tr1::shared_ptr<AllDepSpec>(new AllDepSpec)));
+                std::list<std::string> tokens;
+                tokenise_whitespace(*_imp->add_to_world_spec, std::back_inserter(tokens));
+                if ((! tokens.empty()) && ("(" == *tokens.begin()) && (")" == *previous(tokens.end())))
+                {
+                    tokens.erase(tokens.begin());
+                    tokens.erase(previous(tokens.end()));
+                }
+
+                for (std::list<std::string>::const_iterator t(tokens.begin()), t_end(tokens.end()) ;
+                        t != t_end ; ++t)
+                {
+                    if (s_had_package_targets)
+                        all->add(tr1::shared_ptr<TreeLeaf<SetSpecTree, PackageDepSpec> >(
+                                    new TreeLeaf<SetSpecTree, PackageDepSpec>(tr1::shared_ptr<PackageDepSpec>(
+                                            new PackageDepSpec(parse_user_package_dep_spec(*t, UserPackageDepSpecOptions()))))));
+                    else
+                        all->add(tr1::shared_ptr<TreeLeaf<SetSpecTree, NamedSetDepSpec> >(
+                                    new TreeLeaf<SetSpecTree, NamedSetDepSpec>(tr1::shared_ptr<NamedSetDepSpec>(
+                                            new NamedSetDepSpec(SetName(*t))))));
+                }
+
+                if (s_had_package_targets)
+                    world_update_packages(all);
+                else if (s_had_set_targets)
+                    world_update_set(SetName(*_imp->add_to_world_spec));
+            }
+            else
+            {
+                if (_imp->had_package_targets)
+                    world_update_packages(_imp->targets);
+                else if (_imp->had_set_targets)
+                {
+                    for (std::list<std::string>::const_iterator t(_imp->raw_targets.begin()), t_end(_imp->raw_targets.end()) ;
+                            t != t_end ; ++t)
+                        world_update_set(SetName(*t));
+                }
+            }
+
+            on_update_world_post();
+        }
+        else
+            on_preserve_world();
+    }
+
+    /* we've fetched / installed the entire list */
+    if (_imp->fetch_only)
+    {
+        on_fetch_all_post();
+        if (0 != perform_hook(Hook("fetch_all_post")("TARGETS", join(
+                             _imp->raw_targets.begin(), _imp->raw_targets.end(), " "))).max_exit_status)
+            throw InstallActionError("Fetch aborted by hook");
+    }
+    else
+    {
+        on_install_all_post();
+        if (0 != perform_hook(Hook("install_all_post")("TARGETS", join(
+                             _imp->raw_targets.begin(), _imp->raw_targets.end(), " "))).max_exit_status)
+            throw InstallActionError("Install aborted by hook");
+    }
+}
+
+void
+InstallTask::_execute()
+{
+    Context context("When executing install task:");
+
+    _build_dep_list();
+    _display_task_list();
+    bool pretend_failed(_pretend());
+
+    if (_imp->pretend)
+        return;
+
+    if (_imp->dep_list.has_errors() || pretend_failed)
+    {
+        on_not_continuing_due_to_errors();
+        return;
+    }
+
+    _main_actions();
+}
+
+void
+InstallTask::execute()
+{
+    try
+    {
+        _execute();
+    }
+    catch (const AmbiguousPackageNameError & e)
+    {
+        _imp->had_resolution_failures = true;
+        on_ambiguous_package_name_error(e);
+    }
+    catch (const NoSuchPackageError & e)
+    {
+        _imp->had_resolution_failures = true;
+        on_no_such_package_error(e);
+    }
+    catch (const AllMaskedError & e)
+    {
+        _imp->had_resolution_failures = true;
+        on_all_masked_error(e);
+    }
+    catch (const AdditionalRequirementsNotMetError & e)
+    {
+        _imp->had_resolution_failures = true;
+        on_additional_requirements_not_met_error(e);
+    }
+    catch (const DepListError & e)
+    {
+        _imp->had_resolution_failures = true;
+        on_dep_list_error(e);
+    }
+    catch (const HadBothPackageAndSetTargets & e)
+    {
+        _imp->had_resolution_failures = true;
+        on_had_both_package_and_set_targets_error(e);
+    }
+    catch (const MultipleSetTargetsSpecified & e)
+    {
+        _imp->had_resolution_failures = true;
+        on_multiple_set_targets_specified(e);
+    }
+}
+
+const DepList &
+InstallTask::dep_list() const
+{
+    return _imp->dep_list;
+}
+
+void
+InstallTask::set_no_config_protect(const bool value)
+{
+    _imp->install_options[k::no_config_protect()] = value;
+    _imp->uninstall_options[k::no_config_protect()] = value;
+}
+
+void
+InstallTask::set_fetch_only(const bool value)
+{
+    _imp->fetch_only = value;
+}
+
+void
+InstallTask::set_pretend(const bool value)
+{
+    _imp->pretend = value;
+}
+
+void
+InstallTask::set_preserve_world(const bool value)
+{
+    _imp->preserve_world = value;
+}
+
+void
+InstallTask::set_debug_mode(const InstallActionDebugOption value)
+{
+    _imp->install_options[k::debug_build()] = value;
+}
+
+void
+InstallTask::set_checks_mode(const InstallActionChecksOption value)
+{
+    _imp->install_options[k::checks()] = value;
+}
+
+void
+InstallTask::set_add_to_world_spec(const std::string & value)
+{
+    _imp->add_to_world_spec.reset(new std::string(value));
+}
+
+InstallTask::TargetsConstIterator
+InstallTask::begin_targets() const
+{
+    return TargetsConstIterator(_imp->raw_targets.begin());
+}
+
+InstallTask::TargetsConstIterator
+InstallTask::end_targets() const
+{
+    return TargetsConstIterator(_imp->raw_targets.end());
+}
+
+Environment *
+InstallTask::environment()
+{
+    return _imp->env;
+}
+
+const Environment *
+InstallTask::environment() const
+{
+    return _imp->env;
+}
+
+void
+InstallTask::on_installed_paludis()
+{
+}
+
+void
+InstallTask::set_safe_resume(const bool value)
+{
+    _imp->fetch_options[k::safe_resume()] = value;
+}
+
+HookResult
+InstallTask::perform_hook(const Hook & hook) const
+{
+    return _imp->env->perform_hook(hook);
+}
+
+void
+InstallTask::override_target_type(const DepListTargetType t)
+{
+    _imp->override_target_type = true;
+    _imp->dep_list.options()->target_type = t;
+}
+
+void
+InstallTask::world_update_set(const SetName & s)
+{
+    if (s == SetName("world") || s == SetName("system") || s == SetName("security")
+            || s == SetName("everything") || s == SetName("insecurity") || s == SetName("ununused"))
+    {
+        on_update_world_skip(s, "special sets cannot be added to world");
+        return;
+    }
+
+    for (PackageDatabase::RepositoryConstIterator r(_imp->env->package_database()->begin_repositories()),
+            r_end(_imp->env->package_database()->end_repositories()) ;
+            r != r_end ; ++r)
+        if ((**r)[k::world_interface()])
+            (**r)[k::world_interface()]->add_to_world(s);
+
+    on_update_world(s);
+}
+
+namespace
+{
+    struct WorldTargetFinder :
+        ConstVisitor<SetSpecTree>,
+        ConstVisitor<SetSpecTree>::VisitConstSequence<WorldTargetFinder, AllDepSpec>
+    {
+        using ConstVisitor<SetSpecTree>::VisitConstSequence<WorldTargetFinder, AllDepSpec>::visit_sequence;
+
+        Environment * const env;
+        InstallTask * const task;
+
+        WorldTargetFinder(Environment * const e, InstallTask * const t) :
+            env(e),
+            task(t)
+        {
+        }
+
+        void visit_leaf(const PackageDepSpec & a)
+        {
+            if (a.slot_requirement_ptr())
+                task->on_update_world_skip(a, "slot restrictions");
+            else if (a.version_requirements_ptr() && ! a.version_requirements_ptr()->empty())
+                task->on_update_world_skip(a, "version restrictions");
+            else
+            {
+                for (PackageDatabase::RepositoryConstIterator r(env->package_database()->begin_repositories()),
+                        r_end(env->package_database()->end_repositories()) ;
+                        r != r_end ; ++r)
+                    if ((**r)[k::world_interface()] && a.package_ptr())
+                        (**r)[k::world_interface()]->add_to_world(*a.package_ptr());
+                task->on_update_world(a);
+            }
+        }
+
+        void visit_leaf(const NamedSetDepSpec &)
+        {
+        }
+    };
+}
+
+void
+InstallTask::world_update_packages(tr1::shared_ptr<const SetSpecTree::ConstItem> a)
+{
+    WorldTargetFinder w(_imp->env, this);
+    a->accept(w);
+}
+
+bool
+InstallTask::had_resolution_failures() const
+{
+    return _imp->had_resolution_failures;
+}
+
+void
+InstallTask::set_continue_on_failure(const InstallTaskContinueOnFailure c)
+{
+    _imp->continue_on_failure = c;
+}
+
+namespace
+{
+    struct CheckSatisfiedVisitor :
+        ConstVisitor<DependencySpecTree>,
+        ConstVisitor<DependencySpecTree>::VisitConstSequence<CheckSatisfiedVisitor, AllDepSpec>
+    {
+        using ConstVisitor<DependencySpecTree>::VisitConstSequence<CheckSatisfiedVisitor, AllDepSpec>::visit_sequence;
+
+        const Environment * const env;
+        const PackageID & id;
+        tr1::shared_ptr<const PackageDepSpec> failure;
+        std::set<SetName> recursing_sets;
+
+        CheckSatisfiedVisitor(const Environment * const e,
+                const PackageID & i) :
+            env(e),
+            id(i)
+        {
+        }
+
+        void visit_leaf(const BlockDepSpec &)
+        {
+        }
+
+        void visit_leaf(const DependencyLabelsDepSpec &)
+        {
+        }
+
+        void visit_leaf(const PackageDepSpec & a)
+        {
+            if (! failure)
+                if (env->package_database()->query(query::Matches(a) & query::SupportsAction<InstalledAction>(), qo_whatever)->empty())
+                    failure.reset(new PackageDepSpec(a));
+        }
+
+        void visit_sequence(const ConditionalDepSpec & u,
+                DependencySpecTree::ConstSequenceIterator cur,
+                DependencySpecTree::ConstSequenceIterator end)
+        {
+            if (u.condition_met())
+                std::for_each(cur, end, accept_visitor(*this));
+        }
+
+        void visit_sequence(const AnyDepSpec &,
+                DependencySpecTree::ConstSequenceIterator cur,
+                DependencySpecTree::ConstSequenceIterator end)
+        {
+            if (failure)
+                return;
+
+            failure.reset();
+            for ( ; cur != end ; ++cur)
+            {
+                failure.reset();
+                cur->accept(*this);
+                if (! failure)
+                    break;
+            }
+        }
+
+        void visit_leaf(const NamedSetDepSpec & s)
+        {
+            tr1::shared_ptr<const SetSpecTree::ConstItem> set(env->set(s.name()));
+
+            if (! set)
+            {
+                Log::get_instance()->message(ll_warning, lc_context) << "Unknown set '" << s.name() << "'";
+                return;
+            }
+
+            if (! recursing_sets.insert(s.name()).second)
+            {
+                Log::get_instance()->message(ll_warning, lc_context) << "Recursively defined set '" << s.name() << "'";
+                return;
+            }
+
+            set->accept(*this);
+
+            recursing_sets.erase(s.name());
+        }
+    };
+}
+
+tr1::shared_ptr<const PackageDepSpec>
+InstallTask::_unsatisfied(const DepListEntry & e) const
+{
+    Context context("When checking whether dependencies for '" + stringify(*e.package_id) + "' are satisfied:");
+
+    CheckSatisfiedVisitor v(environment(), *e.package_id);
+
+    if (dl_deps_pre == _imp->dep_list.options()->uninstalled_deps_pre ||
+            dl_deps_pre_or_post == _imp->dep_list.options()->uninstalled_deps_pre)
+        if (e.package_id->build_dependencies_key())
+            e.package_id->build_dependencies_key()->value()->accept(v);
+
+    if (dl_deps_pre == _imp->dep_list.options()->uninstalled_deps_runtime ||
+            dl_deps_pre_or_post == _imp->dep_list.options()->uninstalled_deps_runtime)
+        if (e.package_id->run_dependencies_key())
+            e.package_id->run_dependencies_key()->value()->accept(v);
+
+    if (dl_deps_pre == _imp->dep_list.options()->uninstalled_deps_post ||
+            dl_deps_pre_or_post == _imp->dep_list.options()->uninstalled_deps_post)
+        if (e.package_id->post_dependencies_key())
+            e.package_id->post_dependencies_key()->value()->accept(v);
+
+    if ((dl_deps_pre == _imp->dep_list.options()->uninstalled_deps_suggested ||
+                dl_deps_pre_or_post == _imp->dep_list.options()->uninstalled_deps_suggested)
+            && dl_suggested_install == _imp->dep_list.options()->suggested)
+        if (e.package_id->suggested_dependencies_key())
+            e.package_id->suggested_dependencies_key()->value()->accept(v);
+
+    return v.failure;
+}
+
+namespace
+{
+    struct CheckHandledVisitor :
+        ConstVisitor<DepListEntryHandledVisitorTypes>
+    {
+        bool failure;
+        bool skipped;
+        bool success;
+
+        CheckHandledVisitor() :
+            failure(false),
+            skipped(false),
+            success(false)
+        {
+        }
+
+        void visit(const DepListEntryHandledSkippedUnsatisfied &)
+        {
+            skipped = true;
+        }
+
+        void visit(const DepListEntryHandledSuccess &)
+        {
+            success = true;
+        }
+
+        void visit(const DepListEntryHandledSkippedDependent &)
+        {
+            skipped = true;
+        }
+
+        void visit(const DepListEntryHandledFailed &)
+        {
+            failure = true;
+        }
+
+        void visit(const DepListEntryNoHandlingRequired &)
+        {
+        }
+
+        void visit(const DepListEntryUnhandled &)
+        {
+        }
+    };
+
+    struct CheckIndependentVisitor :
+        ConstVisitor<DependencySpecTree>,
+        ConstVisitor<DependencySpecTree>::VisitConstSequence<CheckIndependentVisitor, AllDepSpec>,
+        ConstVisitor<DependencySpecTree>::VisitConstSequence<CheckIndependentVisitor, AnyDepSpec>
+    {
+        using ConstVisitor<DependencySpecTree>::VisitConstSequence<CheckIndependentVisitor, AllDepSpec>::visit_sequence;
+        using ConstVisitor<DependencySpecTree>::VisitConstSequence<CheckIndependentVisitor, AnyDepSpec>::visit_sequence;
+
+        const Environment * const env;
+        const DepList & dep_list;
+        const tr1::shared_ptr<const PackageID> id;
+        tr1::shared_ptr<PackageIDSet> already_checked;
+
+        tr1::shared_ptr<const PackageID> failure;
+        std::set<SetName> recursing_sets;
+
+        CheckIndependentVisitor(
+                const Environment * const e,
+                const DepList & d,
+                const tr1::shared_ptr<const PackageID> & i,
+                const tr1::shared_ptr<PackageIDSet> & a) :
+            env(e),
+            dep_list(d),
+            id(i),
+            already_checked(a)
+        {
+        }
+
+        void visit_leaf(const BlockDepSpec &)
+        {
+        }
+
+        void visit_leaf(const DependencyLabelsDepSpec &)
+        {
+        }
+
+        void visit_leaf(const PackageDepSpec & a)
+        {
+            if (failure)
+                return;
+
+            for (DepList::ConstIterator d(dep_list.begin()), d_end(dep_list.end()) ;
+                    d != d_end ; ++d)
+            {
+                if (! d->handled)
+                    continue;
+
+                if (! match_package(*env, a, *d->package_id))
+                    continue;
+
+                CheckHandledVisitor v;
+                d->handled->accept(v);
+
+                if (v.failure || v.skipped)
+                    failure = d->package_id;
+                else if (v.success)
+                    return;
+            }
+
+            /* no match on the dep list, fall back to installed packages. if
+             * there are no matches here it's not a problem because of or-deps. */
+            tr1::shared_ptr<const PackageIDSequence> installed(env->package_database()->query(
+                        query::Matches(a) &
+                        query::SupportsAction<InstalledAction>(),
+                        qo_whatever));
+
+            for (PackageIDSequence::ConstIterator i(installed->begin()), i_end(installed->end()) ;
+                    i != i_end ; ++i)
+            {
+                if (already_checked->end() != already_checked->find(*i))
+                    continue;
+                already_checked->insert(*i);
+
+                CheckIndependentVisitor v(env, dep_list, *i, already_checked);
+
+                if (dl_deps_pre == dep_list.options()->uninstalled_deps_pre ||
+                        dl_deps_pre_or_post == dep_list.options()->uninstalled_deps_pre)
+                    if ((*i)->build_dependencies_key())
+                        (*i)->build_dependencies_key()->value()->accept(v);
+
+                if (dl_deps_pre == dep_list.options()->uninstalled_deps_runtime ||
+                        dl_deps_pre_or_post == dep_list.options()->uninstalled_deps_runtime)
+                    if ((*i)->run_dependencies_key())
+                        (*i)->run_dependencies_key()->value()->accept(v);
+
+                if (dl_deps_pre == dep_list.options()->uninstalled_deps_post ||
+                        dl_deps_pre_or_post == dep_list.options()->uninstalled_deps_post)
+                    if ((*i)->post_dependencies_key())
+                        (*i)->post_dependencies_key()->value()->accept(v);
+
+                if ((dl_deps_pre == dep_list.options()->uninstalled_deps_suggested ||
+                            dl_deps_pre_or_post == dep_list.options()->uninstalled_deps_suggested)
+                        && dl_suggested_install == dep_list.options()->suggested)
+                    if ((*i)->suggested_dependencies_key())
+                        (*i)->suggested_dependencies_key()->value()->accept(v);
+
+                if (v.failure)
+                {
+                    failure = v.failure;
+                    return;
+                }
+            }
+        }
+
+        void visit_sequence(const ConditionalDepSpec & u,
+                DependencySpecTree::ConstSequenceIterator cur,
+                DependencySpecTree::ConstSequenceIterator end)
+        {
+            if (u.condition_met())
+                std::for_each(cur, end, accept_visitor(*this));
+        }
+
+        void visit_leaf(const NamedSetDepSpec & s)
+        {
+            tr1::shared_ptr<const SetSpecTree::ConstItem> set(env->set(s.name()));
+
+            if (! set)
+            {
+                Log::get_instance()->message(ll_warning, lc_context) << "Unknown set '" << s.name() << "'";
+                return;
+            }
+
+            if (! recursing_sets.insert(s.name()).second)
+            {
+                Log::get_instance()->message(ll_warning, lc_context) << "Recursively defined set '" << s.name() << "'";
+                return;
+            }
+
+            set->accept(*this);
+
+            recursing_sets.erase(s.name());
+        }
+    };
+}
+
+bool
+InstallTask::had_action_failures() const
+{
+    for (DepList::ConstIterator dep(_imp->dep_list.begin()), dep_end(_imp->dep_list.end()) ;
+            dep != dep_end ; ++dep)
+    {
+        CheckHandledVisitor v;
+        dep->handled->accept(v);
+        if (v.failure)
+            return true;
+    }
+    return false;
+}
+
+
+tr1::shared_ptr<const PackageID>
+InstallTask::_dependent(const DepListEntry & e) const
+{
+    Context context("When checking whether dependencies for '" + stringify(*e.package_id) + "' are independent of failed packages:");
+
+    tr1::shared_ptr<PackageIDSet> already_checked(new PackageIDSet);
+    CheckIndependentVisitor v(environment(), _imp->dep_list, e.package_id, already_checked);
+    already_checked->insert(e.package_id);
+
+    if (dl_deps_pre == _imp->dep_list.options()->uninstalled_deps_pre ||
+            dl_deps_pre_or_post == _imp->dep_list.options()->uninstalled_deps_pre)
+        if (e.package_id->build_dependencies_key())
+            e.package_id->build_dependencies_key()->value()->accept(v);
+
+    if (dl_deps_pre == _imp->dep_list.options()->uninstalled_deps_runtime ||
+            dl_deps_pre_or_post == _imp->dep_list.options()->uninstalled_deps_runtime)
+        if (e.package_id->run_dependencies_key())
+            e.package_id->run_dependencies_key()->value()->accept(v);
+
+    if (dl_deps_pre == _imp->dep_list.options()->uninstalled_deps_post ||
+            dl_deps_pre_or_post == _imp->dep_list.options()->uninstalled_deps_post)
+        if (e.package_id->post_dependencies_key())
+            e.package_id->post_dependencies_key()->value()->accept(v);
+
+    if ((dl_deps_pre == _imp->dep_list.options()->uninstalled_deps_suggested ||
+                dl_deps_pre_or_post == _imp->dep_list.options()->uninstalled_deps_suggested)
+            && dl_suggested_install == _imp->dep_list.options()->suggested)
+        if (e.package_id->suggested_dependencies_key())
+            e.package_id->suggested_dependencies_key()->value()->accept(v);
+
+    return v.failure;
+}
+
+namespace
+{
+    struct AlreadyDoneVisitor :
+        ConstVisitor<DepListEntryHandledVisitorTypes>
+    {
+        bool result;
+
+        void visit(const DepListEntryHandledSuccess &)
+        {
+            result = true;
+        }
+
+        void visit(const DepListEntryHandledSkippedUnsatisfied &)
+        {
+            result = true;
+        }
+
+        void visit(const DepListEntryHandledSkippedDependent &)
+        {
+            result = true;
+        }
+
+        void visit(const DepListEntryHandledFailed &)
+        {
+            result = true;
+        }
+
+        void visit(const DepListEntryUnhandled &)
+        {
+            result = false;
+        }
+
+        void visit(const DepListEntryNoHandlingRequired &)
+        {
+            result = false;
+        }
+    };
+}
+
+bool
+InstallTask::already_done(const DepListEntry & e) const
+{
+    AlreadyDoneVisitor v;
+    e.handled->accept(v);
+    return v.result;
+}
+

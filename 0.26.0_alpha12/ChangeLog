@@ -1,0 +1,5907 @@
+ChangeLog for Paludis
+=====================
+
+This file lists every change made except typo and formatting fixes, which are
+only listed in SVN log. For a summary of what has changed between releases,
+see the NEWS file. This file is occasionally pruned to ChangeLog.old.bz2.
+
+2008-03-08 Ciaran McCreesh
+
+	* NEWS, configure.ac: Preparation for 0.26.0_alpha12.
+
+	+ Release: 0.26.0_alpha12
+
+2008-03-08 Ciaran McCreesh
+
+	* paludis/repositories/e/: Fix quoting bug which could result in
+	unwanted wildcard expansion when rewriting *DEPEND values.
+
+2008-03-08 David Leverton
+
+	* paludis/repositories/e/eapis/: Be more less strict about
+	variables.
+
+2008-03-08 David Leverton
+
+	* paludis/repositories/e/: Remove bash-side RESTRICT handling, and
+	implement RESTRICT=test in C++.
+
+2008-03-08 David Leverton
+
+	* doc/faq/: Remove reference to SKIP_FUNCTIONS=strip.
+
+2008-03-07 David Leverton
+
+	* src/output/: Fix resume command display after a signal.
+
+2008-03-07 Ciaran McCreesh
+
+	* paludis/stripper.cc: Fix cosmetic bug where a split would be shown
+	but not carried out.
+
+2008-03-07 Fernando J. Pereda
+
+	* paludis/: Merge hardlinks as sanely as possible.
+
+2008-03-07 Ciaran McCreesh
+
+	* NEWS, configure.ac: Preparation for 0.26.0_alpha11.
+
+	+ Release: 0.26.0_alpha11
+
+2008-03-07 David Leverton
+
+	* ruby/demos/: (ruby) Fix find_unused_distfiles.rb.
+
+2008-03-06 Ciaran McCreesh
+
+	* paludis/repositories/e/: Be less strict about vars in initrm,
+	initmisc.
+
+2008-03-06 Ciaran McCreesh
+
+	* paludis/: Replace builtin_strip with a common Stripper class.
+	Support stripping when using importare.
+
+	+ Fixes: ticket:424
+
+2008-03-05 David Leverton
+
+	* paludis/repositories/e/: Support "-spec" lines in repository
+	package.mask.
+
+2008-03-05 David Leverton
+
+	* hooks/demos/, src/clients/: Fix pretend_resume demo hook.
+
+2007-05-04 Richard Brown
+
+	* paludis/repositories/e/eapis/: Fix phases in install for binary
+	eapis.
+
+2007-05-04 Ciaran McCreesh
+
+	* src/clients/paludis/: Show the matching files for --owner when
+	--full-match is not specified.
+
+	+ Fixes: ticket:488
+
+2007-05-04 Ciaran McCreesh
+
+	* NEWS, configure.ac: Preparation for 0.26.0_alpha10.
+
+	+ Release: 0.26.0_alpha10
+
+2008-03-05 Ciaran McCreesh
+
+	* (lots): Add :*/:= slot support.
+
+2008-03-05 Ciaran McCreesh
+
+	* paludis/repositories/e/: Add initmisc, killoldmisc, tidyupmisc too.
+
+2008-03-04 Ciaran McCreesh
+
+	* paludis/repositories/e/: Add new initrm, killoldrm, tidyuprm phases
+	to the uninstall process. Ensure that T is set to a useful value in
+	pkg_{pre,post}rm.
+
+	+ Fixes: ticket:517
+
+2008-03-04 Ciaran McCreesh
+
+	* (lots): Serialise rather than rebuilding the dep list for resume and
+	exec().
+
+	+ Fixes: ticket:432
+
+2008-03-04 Stephen Bennett
+
+	* paludis/args/: Allow hidden alias arguments that don't appear in
+	help.
+
+2008-03-03 David Leverton
+
+	* paludis/repositories/e/: Fix USE-dep stringification.
+
+2008-03-01 David Leverton
+
+	* src/output/: Only display previous repository for packages that
+	are being installed.
+
+2008-03-01 David Leverton
+
+	* paludis/repositories/e/ebuild/: Filter out variables with names
+	that bash doesn't like.
+
+	+ See: gentoo#211949.
+
+2008-02-23 David Leverton
+
+	* src/output/: Indicate when a package to be installed was
+	previously installed from a different repository.
+
+2008-02-23 David Leverton
+
+	* paludis/environments/paludis/: Allow set names in
+	package_mask.conf and package_unmask.conf.
+
+2008-02-22 David Leverton
+
+	* paludis/environments/paludis/: Don't export an empty ${ROOT} for
+	non-specpath.
+
+2008-02-22 David Leverton
+
+	* paludis/repositories/e/: Clean up ${ROOT} trailing slash handling.
+
+2008-02-21 Fernando J. Pereda
+
+	* (lots): Add PackageID::transient_key so that --report doesn't show
+	transient packages (i.e. installed using importare) as missing.
+
+	+ Fixes: ticket:410
+
+2008-02-21 Bo Ørsted Andresen
+
+	* paludis/repositories/e/ebuild/exheres-0/: Implement expatch wrapper
+	and DEFAULT_SRC_PREPARE_PATCHES for exheres-0.
+
+2008-02-20 David Leverton
+
+	* paludis/syncers/: Add rsync+ssh.
+
+2008-02-20 David Leverton
+
+	* paludis/repositories/e/ebuild/: Move ${ROOT} cleaning so it
+	happens for uninstall too.
+
+2008-02-18 David Leverton
+
+	* hooks/: Fix news_TEST.
+
+2008-02-17 David Leverton
+
+	* paludis/util/: Send elog etc to stderr.
+
+2008-02-16 David Leverton
+
+	* paludis/syncers/: Use git remote rather than git config to
+	determine the current origin URL.  Support https for darcs, git
+	and tar, and rsync for git.
+
+	+ See: ticket:511
+
+2008-02-16 David Leverton
+
+	* src/clients/inquisitio/: Handle exceptions more gracefully.
+
+2008-02-16 Ciaran McCreesh
+
+	* (lots): Merge various metadata key things.
+
+2008-02-15 Ciaran McCreesh
+
+	* (lots): Replace PackageDepSpec::use_requirements with a more general
+	PackageDepSpec::additional_requirements.
+
+2008-02-15 Ciaran McCreesh
+
+	* (lots): Start removing the global concept of use flags: rename
+	UseDepSpec to ConditionalDepSpec, move the descent logic into the
+	spec.
+
+2008-02-14 Fernando J. Pereda
+
+	* paludis/util/: Fix i-node sorting for DirIterator when there are two or
+	more names for the same i-node in a directory.
+
+2008-02-13 David Leverton
+
+	* ruby/demos/: (ruby) Remove check_linkage.rb, long broken and
+	obsoleted by reconcilio.
+
+2008-02-12 David Leverton
+
+	* paludis/repositories/e/: Read "repository" as well as
+	"REPOSITORY" from the VDB, for compatibility with Portage.
+
+2008-02-12 David Leverton
+
+	* src/clients/inquisitio/: Default to --kind all if --repository
+	specified.
+
+2008-02-11 David Leverton
+
+	* paludis/, paludis/repositories/e/: Allow empty directory merge
+	warning to be made an error, and do so for exheres-0.
+
+2008-02-11 David Leverton
+
+	* paludis/syncers/: Do git switching the same way as for svn.
+
+2008-02-11 David Leverton
+
+	* paludis/syncers/: Use svn switch if appropriate.
+
+2008-02-11 David Leverton
+
+	* paludis/syncers/: Support darcs+file and svn+file syncers.
+
+2008-02-09 David Leverton
+
+	* paludis/repositories/e/qa/: Tweak reporting of non-Manifested
+	DIST files.
+
+2008-02-09 David Leverton
+
+	* paludis/repositories/e/: Don't include files/**/CVS/* in the
+	list of Manifest files.
+
+2008-02-08 David Leverton
+
+	* paludis/util/: Add some more SHA-1 tests.
+
+2008-02-07 Fernando J. Pereda
+
+	* paludis/util: Avoid doing stat calls by using information in dirent.
+
+2008-02-07 Fernando J. Pereda
+
+	* paludis/util: Add sorting by i-node to DirIterator
+
+2008-02-06 Richard Brown
+
+	* ruby/action.cc: (ruby) Docs tweak.
+
+2008-02-06 Richard Brown
+
+	* ruby/dep_list.cc: (ruby) Really fix DepListEntry.kind and .state doc.
+
+2008-02-06 Richard Brown
+
+	* ruby/dep_list.cc: (ruby) Fix entry_kind doc.
+
+2008-02-05 David Leverton
+
+	* paludis/repositories/e/qa/: pcmcia.eclass is deprecated.
+
+2008-02-04 David Leverton
+
+	* paludis/repositories/virtuals/: Don't die if a real package in
+	the virtual/ category provides an old-style virtual.
+
+2008-02-04 David Leverton
+
+	* src/clients/qualudis/: Add some blank lines to qualudis output,
+	and change the position of the check name.
+
+2008-02-04 David Leverton
+
+	* paludis/repositories/e/qa/: Downgrade "Package ... listed in
+	*DEPEND" to a maybe.
+
+2008-02-04 David Leverton
+
+	* paludis/repositories/e/qa/: Use .with_associated_id for
+	ebuild_count.
+
+2008-02-04 Ciaran McCreesh
+
+	* paludis/repositories/e/: Implement DEFAULT_SRC_CONFIGURE_PARAMS,
+	DEFAULT_SRC_CONFIGURE_OPTION_ENABLES, DEFAULT_SRC_CONFIGURE_OPTION_WITHS
+	for exheres-0.
+
+2008-02-04 David Leverton
+
+	* src/clients/paludis/: Add missing SYNOPSIS lines.
+
+2008-02-04 David Leverton
+
+	* paludis/repositories/e/qa/: Rename gpg check to manifest, and
+	make it verify the digests.
+
+2008-02-04 David Leverton
+
+	* paludis/repositories/e/: Don't explode if files/ doesn't exist
+	when generating Manifest.
+
+2008-02-04 David Leverton
+
+	* paludis/repositories/e/: Support checking/generating SHA-1 in
+	Manifest files.
+
+2008-02-04 David Leverton
+
+	* paludis/util/: Add a SHA-1 implementation.
+
+2008-02-04 David Leverton
+
+	* paludis/util/, src/clients/reconcilio/: Move byte_swap into
+	paludis/util/.
+
+2008-02-03 Ciaran McCreesh
+
+	* paludis/repositories/e/: For exheres, econf is only allowed in
+	src_configure and einstall is only allowed in src_install.
+
+2008-02-03 Piotr Jaroszyński
+
+	* paludis/hooker.cc: Warn if a Python hook is found but cannot be
+	used.
+
+2008-02-03 Ciaran McCreesh
+
+	* paludis/repositories/e/: Split up VDBRepository. Add an experimental new
+	Exndbam repository, which can replace VDB on systems that don't need
+	EAPI 0/1 support.
+
+2008-02-03 David Leverton
+
+	* paludis/repositories/e/ebuild/utils/: Don't loop infinitely if
+	given an unsupported option.
+
+2008-02-03 David Leverton
+
+	* paludis/syncers/: Support --exclude as well as --exclude-from.
+
+2008-02-02 Ciaran McCreesh
+
+	* paludis/, src/: Start switching over from sr to kc.
+
+2008-02-01 David Leverton
+
+	* ruby/: (ruby) Add MetadataSectionKey.
+
+2008-02-01 David Leverton
+
+	* paludis/repositories/e/: Don't require trailing space after a
+	label at the end of a dep string.
+
+2008-02-01 David Leverton
+
+	* paludis/repositories/e/ebuild/: Allow new phase functions to be
+	exported from exlibs, and make it a fatal error to try to export
+	something that shouldn't be.
+
+2008-02-01 David Leverton
+
+	* src/clients/qualudis/: Allow running qualudis from a subdirectory.
+
+2008-02-01 Ciaran McCreesh
+
+	* paludis/repositories/e/: More flexible cache, work for EAPIs that
+	aren't 0/1.
+
+	+ Fixes: ticket:482
+
+2008-01-31 Ciaran McCreesh
+
+	* paludis/repositories/e/: Rename builtin_prepare -> builtin_killold.
+	Add exheres-0 src_configure, src_prepare.
+
+	+ Fixes: ticket:259
+
+2008-01-31 Ciaran McCreesh
+
+	* paludis/repositories/e/: Recognise .tbz for unpack. Implement unpack
+	--if-compressed for exheres.
+
+	+ Fixes: ticket:487
+	+ Fixes: ticket:497
+
+2008-01-30 David Leverton
+
+	* doc/faq/: Add FAQ entry about terminology.
+
+2008-01-30 David Leverton
+
+	* paludis/repositories/e/: More helpful error messages for failing
+	to write to a cache file.
+
+2008-01-28 David Leverton
+
+	* paludis/: Allow _p anywhere in the list of suffixes.
+
+2008-01-27 David Leverton
+
+	* paludis/repositories/e/qa/: Fix gpg checking.
+
+2008-01-27 David Leverton
+
+	* ruby/: (ruby) Fix tests.
+
+2008-01-26 David Leverton
+
+	* paludis/repositories/e/qa/: Count lines properly.
+
+2008-01-26 David Leverton
+
+	* paludis/repositories/e/qa/: Add license_key check.
+
+2008-01-26 David Leverton
+
+	* paludis/repositories/e/: Make license_key and inherited_key
+	available in ERepositoryID.
+
+2008-01-26 David Leverton
+
+	* paludis/repositories/e/qa/: Add deprecated_functions check.
+
+2008-01-26 David Leverton
+
+	* paludis/repositories/e/qa/: Add function_keyword check.
+
+2008-01-26 David Leverton
+
+	* paludis/repositories/e/: Make virtual/ unimportant for VDB.
+
+2008-01-26 David Leverton
+
+	* paludis/repositories/e/: Add Layout::licenses_dirs.
+
+2008-01-26 David Leverton
+
+	* paludis/repositories/e/qa/: Add keywords_key check.
+
+2008-01-26 David Leverton
+
+	* paludis/repositories/e/: Add eclass_keywords metadata key.
+
+2008-01-24 David Leverton
+
+	* paludis/repositories/e/qa/: Add inherited_key check.
+
+2008-01-24 David Leverton
+
+	* paludis/repositories/e/qa/: Fix error handling.
+
+2008-01-23 David Leverton
+
+	* paludis/repositories/e/ebuild/utils/: Fix error checking for
+	lzma unpack.
+
+2008-01-23 David Leverton
+
+	* paludis/repositories/e/qa/: Add fetches_key check, equivalant to
+	the old src_uri_check.
+
+2008-01-23 Piotr Jaroszyński
+
+	* paludis/repositories/e/qa/: Check for lzma extractor.
+
+2008-01-23 Ciaran McCreesh
+
+	* NEWS, configure.ac: Preparation for 0.26.0_alpha9.
+
+2008-01-23 Ciaran McCreesh
+
+	* paludis/repositories/e/ebuild/utils/: Recent Portage unpacks lzma files,
+	in violation of PMS and without any way of ebuilds being able to check
+	for this behaviour. Emulate this stupidity.
+
+2008-01-23 Richard Brown
+
+	* configure.ac: Require --enable-ruby to use --enable-ruby-doc.
+
+2008-01-23 Victor Meyerson
+
+	* paludis/, src/output/: Display size of downloads as part of pretend
+	install output.
+
+2008-01-23 Ciaran McCreesh
+
+	* NEWS, configure.ac: Preparation for 0.26.0_alpha8.
+
+2008-01-22 Richard Brown
+
+	* doc/api/ruby/: (ruby) Document more template methods.
+
+2008-01-22 Ciaran McCreesh
+
+	* paludis/util/: Fix non-threaded build.
+
+	+ Fixes: ticket:480
+
+2008-01-22 Richard Brown
+
+	* ruby/: (ruby) Add Repository.get_environment_variable.
+
+2008-01-22 Ciaran McCreesh
+
+	* paludis/: Work around Linux clobbering set*id bits on rename.
+	Display more information about how we did a merge.
+
+2008-01-22 Ciaran McCreesh
+
+	* paludis/util/: Work around Unix signal handling weirdness to avoid
+	lockups when sending a SIGINT or SIGTERM to Paludis whilst a child
+	process is running.
+
+	+ Fixes: ticket:467
+
+2008-01-22 Richard Brown
+
+	* ruby/: (ruby) Add eql? and hash methods to PackageID and
+	QualifiedPackakgeName to make them work as hash keys.
+
+2008-01-22 David Leverton
+
+	* paludis/repositories/e/qa/: Restore subshell die check.
+
+2008-01-22 David Leverton
+
+	* paludis/repositories/e/qa/: Restore ${ROOT} abuse check.
+
+2008-01-22 David Leverton
+
+	* paludis/repositories/e/ebuild/: Fix ebuild_notice in utils/
+	scripts.
+
+2008-01-22 David Leverton
+
+	* doc/api/cplusplus/examples/, paludis/,
+	paludis/environments/no_config/, paludis/environments/paludis/,
+	paludis/repositories/e/, paludis/repositories/fake/,
+	paludis/repositories/unpackaged/, paludis/util/,
+	src/clients/adjutrix/, src/clients/reconcilio/, src/output/: Fix
+	GCC 4.3 build, thanks to Almathea.
+
+2008-01-22 David Leverton
+
+	* paludis/, hooks/: Don't show the resume command if there were
+	masks/blockers/etc.
+
+2008-01-22 David Leverton
+
+	* paludis/, paludis/util/, python/: Sort keywords by name first,
+	then by stable/testing/etc.
+
+2008-01-20 David Leverton
+
+	* paludis/repositories/e/qa/: Re-add changelog check.
+
+2008-01-19 Richard Brown
+
+	* ruby/: (ruby) PackageDepSpec.package should return
+	QualifiedPackageName.
+
+2008-01-19 David Leverton
+
+	* paludis/repositories/e/qa/: Restore categories check.
+
+2008-01-19 David Leverton
+
+	* paludis/repositories/e/: Add Layout::categories_file.
+
+2008-01-19 David Leverton
+
+	* src/clients/qualudis/: Display messages for the repository
+	directory itself in a slightly more sensible way.
+
+2008-01-19 Richard Brown
+
+	* ruby/: (ruby) PackageID.name should return a QualifiedPackageName
+
+2008-01-19 Richard Brown
+
+	* doc/api: (ruby) Add link to example_dep_tree.rb.
+
+2008-01-18 Richard Brown
+
+	* ruby/: (ruby) Add match_package_in_set and example_match_package.
+
+2008-01-18 David Leverton
+
+	* ruby/: (ruby) Make DepList::add accept a set spec tree.
+
+2008-01-18 David Leverton
+
+	* paludis/util/: Add tr1::true_type and tr1::false_type.
+
+2008-01-18 Richard Brown
+
+	* ruby/: (ruby) Docs tweak.
+
+2008-01-18 Piotr Jaroszyński
+
+	* doc/api/python/: Use options names compatible with both epydoc 2.1
+	and 3.0.
+
+2008-01-18 David Leverton
+
+	* ruby/demos/: Add config template support to playman.
+
+2008-01-18 Richard Brown
+
+	* ruby/: (ruby) Use VERSION for Paludis::Version.
+
+2008-01-17 David Leverton
+
+	* paludis/repositories/e/qa/: Re-add ebuild_count check.
+
+2008-01-17 David Leverton
+
+	* paludis/repositories/e/qa/: Restore variable_assigns check.
+
+2008-01-17 David Leverton
+
+	* paludis/repositories/e/qa/: Make header and whitespace checks
+	support eclasses.
+
+2008-01-17 David Leverton
+
+	* paludis/repositories/e/qa/: Support eclass contents checks.
+
+2008-01-17 David Leverton
+
+	* paludis/repositories/e/: Add more Layout methods for finding
+	exlib directories.
+
+2008-01-17 Mike Kelly
+
+	* ruby/demos/: Add playman to the ruby demos.
+
+2008-01-17 David Leverton
+
+	* paludis/repositories/e/qa/: Restore gpg check.
+
+2008-01-17 David Leverton
+
+	* paludis/repositories/e/qa/: Fix thread-safety.
+
+2008-01-17 David Leverton
+
+	* paludis/syncers/: Support git+file://, and keep "origin" up to
+	date.
+
+2008-01-17 David Leverton
+
+	* paludis/repositories/e/qa/: Fix segfault on excessively short
+	ebuilds.
+
+2008-01-16 David Leverton
+
+	* paludis/repositories/e/qa/: Re-add iuse_key check.
+
+2008-01-16 Ciaran McCreesh
+
+	* NEWS, configure.ac: Preparation for 0.26.0_alpha7.
+
+2008-01-16 David Leverton
+
+	* paludis/: Fix symlink ownership in the merger.
+
+2008-01-15 Mike Kelly
+
+	* paludis/repositories/e/: Add bracket_merged_variables EAPI
+	configuration variable. This should make things with labels work
+	properly in eclasses/exlibs.
+
+2008-01-15 Richard Brown
+
+	* Makefile.am: Add --enable-ruby-doc to distcheck.
+
+2008-01-15 Richard Brown
+
+	* doc/, configure.ac: (ruby) Use allison for rdoc template.
+
+2008-01-15 David Leverton
+
+	* paludis/repositories/e/qa/: Resurrect misc_files check.
+
+2008-01-14 David Leverton
+
+	* paludis/repositories/e/ebuild/utils/: Fix dohtml.
+
+2008-01-14 David Leverton
+
+	* paludis/repositories/e/qa/: Add restrict_key check.
+
+2008-01-14 David Leverton
+
+	* hooks/demos/: Add pretend_resume demo hook.
+
+	+ Fixes: ticket:473
+
+2008-01-13 Ciaran McCreesh
+
+	* NEWS, configure.ac: Preparation for 0.26.0_alpha6.
+
+2008-01-13 David Leverton
+
+	* paludis/: Clear setid bits on directories that were owned by
+	paludisbuild.
+
+2008-01-12 David Leverton
+
+	* paludis/repositories/e/ebuild/utils/: Add ecompress stubs for
+	compatibility with ebuilds that use it.
+
+	+ Fixes: ticket:472
+
+2008-01-12 Bo Ørsted Andresen
+
+	* paludis/repositories/e/ebuild/build_functions.bash: Make econf()
+	handle spaces properly (Gentoo bug #204668). Thanks to coldwind for
+	noticing.
+
+2008-01-11 David Leverton
+
+	* ruby/: (ruby) Add PackageDepSpec::tag=.
+
+2008-01-11 Richard Brown
+
+	* ruby/: (ruby) Add DepListOverrideMasksFunctions.
+
+2008-01-11 Richard Brown
+
+	* ruby/: (ruby) Fix segfault in env.set(non_existant_set)
+
+2008-01-11 David Leverton
+
+	* paludis/repositories/e/qa/: Resurrect files_dir_size check.
+
+2008-01-11 Richard Brown
+
+	* ruby/: (ruby) Fix DepListOptions.new upgrade parameter.
+
+2008-01-11 Fernando J. Pereda
+
+	* paludis/merger.cc: Do ownership fixing for the rename case too.
+
+2008-01-11 Richard Brown
+
+	* ruby/: (ruby) Re-add DepList.add and re-enable DepListEntry tests.
+
+2008-01-09 Mike Kelly
+
+	* paludis/repositories/e/: Clean up Manifest2 tests a bit.
+
+2008-01-09 David Leverton
+
+	* paludis/repositories/e/qa/: Resurrect the old dep_flags_check
+	checks as part of spec_keys.
+
+2008-01-09 David Leverton
+
+	* paludis/, paludis/repositories/e/, paludis/repositories/fake/,
+	ruby/: Add RepositoryUseInterface::use_expand_separator.
+
+2008-01-09 David Leverton
+
+	* ruby/: (ruby) Fix Ruby RepositoryUseInterface.
+
+2008-01-09 David Leverton
+
+	* paludis/, paludis/repositories/e/qa/, src/clients/qualudis/:
+	Make QAMessage::with_associated_key take the PackageID as well as
+	the MetadataKey.
+
+2008-01-08 David Leverton
+
+	* paludis/repositories/e/qa/: Re-add ebuild header check.
+
+2008-01-08 David Leverton
+
+	* paludis/repositories/e/qa/: Re-add check for redundant phase
+	functions.
+
+2008-01-08 Ciaran McCreesh
+
+	* paludis/: Split up exheres and pms-derived EAPIs. Start using
+	'default' for exheres. Use different coloured >>>/=== for different
+	EAPIs.
+
+	+ Fixes: ticket:355
+
+2008-01-08 Ciaran McCreesh
+
+	* paludis/, src/: Move echo_functions.bash to paludis/util/. Move
+	ebuild / exheres specific code out into conditional_functions.bash.
+
+2008-01-07 David Leverton
+
+	* paludis/repositories/e/qa/, src/clients/qualudis/: Cope better
+	with malformed metadata keys.
+
+2008-01-07 David Leverton
+
+	* src/clients/qualudis/: Add --show-associated-keys argument to
+	qualudis.
+
+2008-01-07 David Leverton
+
+	* paludis/repositories/e/qa/, paludis/repositories/fake/: Fix
+	homepage_key check.
+
+2008-01-07 David Leverton
+
+	* src/clients/qualudis/: Print each metadata key only once.
+
+2008-01-06 Piotr Jaroszyński
+
+	* python/: (python) Add Repository.some_ids_might_support_action.
+
+2008-01-06 David Leverton
+
+	* ruby/demos/: (ruby) Add mirror mode to find_unused_distfiles.rb
+
+2008-01-06 David Leverton
+
+	* ruby/: (ruby) Add bindings for URIDepLabel.
+
+2008-01-06 David Leverton
+
+	* ruby/: (ruby) Catch exceptions in MetadataKey value methods.
+
+2008-01-06 David Leverton
+
+	* ruby/: (ruby) Don't garbage collect child DepSpecs when we still
+	need them.
+
+2008-01-06 David Leverton
+
+	* paludis/: Fix LabelsDepSpec::clone.
+
+2008-01-05 David Leverton
+
+	* paludis/repositories/e/ebuild/: Work around bash silliness with
+	aliases in functions.
+
+2008-01-05 David Leverton
+
+	* paludis/repositories/e/ebuild/: Fix uninstalling packages
+	installed with recent portage.
+
+2008-01-04 Ciaran McCreesh
+
+	* NEWS, configure.ac: Preparation for 0.26.0_alpha5.
+
+2008-01-04 David Leverton
+
+	* paludis/repositories/e/ebuild/utils/: Implement dohtml -p.
+
+2008-01-04 Bo Ørsted Andresen
+
+	* bash-completion/: Add --no-suggestions to bash completions.
+
+2008-01-04 Ciaran McCreesh
+
+	* paludis/repositories/e/ebuild/utils/exheres-0/Makefile.am: Kill
+	dohtml in exheres-0.
+
+2008-01-04 David Leverton
+
+	* ruby/demos/: (ruby) Add options to not delete files that are too
+	big or too new to find_unused_distfiles.rb.
+
+2008-01-04 David Leverton
+
+	* ruby/demos/: (ruby) Make find_unused_distfiles.rb work again.
+
+2008-01-04 David Leverton
+
+	* ruby/: (ruby) Allow fetching metadata from repositories with [].
+
+2008-01-04 David Leverton
+
+	* paludis/repositories/e/ebuild/: Also filter declare statements.
+
+2008-01-04 David Leverton
+
+	* ruby/: (ruby) Add missing DependencyDepTag methods.
+
+2008-01-04 David Leverton
+
+	* ruby/: (ruby) Re-enable tests for composite DepSpecs and
+	DependencyDepTag.
+
+2008-01-04 Fernando J. Pereda
+
+	* paludis/repositories/, hooks/, paludis/merger.cc: Make symlink rewriting
+	EAPI-configurable and part of the merger.
+
+	+ Fixes: ticket:351
+
+2008-01-04 Fernando J. Pereda
+
+	* paludis/merger.cc, paludis/merger.hh,
+	paludis/selinux/security_context.cc, paludis/selinux/security_context.hh,
+	paludis/util/fs_entry.cc, paludis/util/fs_entry.hh, NEWS: Merge by rename
+	and merge to temporary and then rename.
+
+2008-01-03 David Leverton
+
+	* paludis/, paludis/repositories/e/, paludis/repositories/fake/,
+	python/, ruby/: Tidy up some of the EAPI options.
+
+2008-01-03 Baptiste Daroussin
+
+	* zsh-completion/: Update ZSH completion.
+
+	+ Fixes: ticket:466
+
+2008-01-03 David Leverton
+
+	* src/clients/reconcilio/: Make reconcilio display more detailed
+	messages for bad ELF files, and not allocate huge amounts of
+	memory for files wih bad section header counts.
+
+2008-01-02 Mike Kelly
+
+	* paludis/repositories/e/make_ebuild_repository.cc: Add support for a
+	metadata/layout.conf file to determine the default settings for
+	layout, eapi_when_unknown, eapi_when_unspecified, and profile_eapi for
+	a repository. If not present, the defaults from the distribution.conf
+	will be used, as before.
+
+2008-01-02 Piotr Jaroszyński
+
+	* src/clients/: Include *_OPTIONS in the clients' main context.
+
+2008-01-02 Mike Kelly
+
+	* doc/, paludis/, python/, ruby/, src/: Add MetadataSizeKey, and two
+	new PackageID keys, UNDOWNLOADEDDISTFILESIZE and TOTALDISTFILESIZE.
+
+2008-01-01 David Leverton
+
+	* paludis/repositories/e/: Fix upgrading from alpha4.
+
+2007-12-31 Ciaran McCreesh
+
+	* paludis/: Switch to using pipes to implement has_version etc.
+
+2007-12-31 Ciaran McCreesh
+
+	* paludis/util/: Make LogLevel use a .se.
+
+2007-12-31 David Leverton
+
+	* doc/api/cplusplus/examples/, paludis/,
+	paludis/environments/test/, paludis/repositories/e/,
+	paludis/repositories/fake/, python/: Add some more UseRequirement
+	variants, and change the syntax of the old ones.
+
+2007-12-30 Ciaran McCreesh
+
+	* paludis/: Kill PStream in favour of
+	Command.with_captured_stdout_stream. Provide sneaky pipe callback
+	support.
+
+2007-12-30 Piotr Jaroszyński
+
+	* python/: (python) Fix UseRequirements after r4105.
+
+	+ Fixes: ticket:464
+
+2007-12-30 Piotr Jaroszyński
+
+	* python/validated.hh: (python) Add operators to Validated.
+
+2007-12-30 Piotr Jaroszyński
+
+	* paludis/dep_spec.cc, paludis/dep_spec.se: Nuke unused code.
+
+2007-12-29 Ciaran McCreesh
+
+	* paludis/: [use?] and [use!?] deps in paludis-1, exheres-0. Change
+	how we handle UseRequirements to support this.
+
+	+ Fixes: ticket:312.
+
+2007-12-28 David Leverton
+
+	* paludis/repositories/e/ebuild/: Rework environment filtering,
+	removing the need to try to parse bash code with sed.
+
+2007-12-15 Fernando J. Pereda
+
+	* src/output/console_install_task.cc: Don't show suggestions for target
+	dependencies.
+
+2007-12-23 Fernando J. Pereda
+
+	* paludis/fuzzy_finder.cc, paludis/fuzzy_finder_TEST.cc: Fix a thinko and
+	add some test cases for FuzzyCandidatesFinder and FuzzyRepositoriesFinder.
+
+2007-12-16 Bo Ørsted Andresen
+
+	* trunk/doc/overview/gettingstarted.html.part: Add repositories id to
+	refer to in portage2paludis.bash. From Kim Højgaard Hansen (kimrhh).
+
+2007-12-16 Ciaran McCreesh
+
+	* paludis/, python/: Add initial_labels to a newly specialised
+	MetadataSpecTreeKey<DependencySpecTree>. Add EAPI paludis-1 support
+	for labels. Let FakeRepository's EAPI be overridden.
+
+2007-12-16 Ciaran McCreesh
+
+	* paludis/util/: Let IndirectIterator work on iterators too.
+
+2007-12-16 Ciaran McCreesh
+
+	* paludis/: DepLabel work.
+
+2007-12-16 Piotr Jaroszyński
+
+	* python/: (python) Add *_key to PackageID.
+
+2007-12-15 Richard Brown
+
+	* ruby/, doc/api/ruby: (ruby) Add example_package_database.rb,
+	AmbiguousPackageNameError.options.
+
+2007-12-15 Richard Brown
+
+	* ruby/: (ruby) Add Repository.format_key and
+	Repository.installed_root_key.
+
+2007-12-15 Richard Brown
+
+	* ruby/: (ruby) Fix MetadataFSEntryKey.
+
+2007-12-15 Richard Brown
+
+	* ruby/: (ruby) Add PackageDatabase.has_repository_named?
+
+2007-12-15 Piotr Jaroszyński
+
+	* paludis/repositories/e/ebuild_id.cc: Don't check the EAPI if not
+	necessary.
+
+2007-12-14 Stefan Kögl
+
+	* paludis/, python/, ruby/, src/clients/paludis/: Add glsa_file to
+	GLSADepTag.
+
+	+ Fixes: ticket:456
+
+2007-12-13 Richard Brown
+
+	* paludis/repositories/e/ebuild/src_test.bash: Fix faq location given
+	for test failures.
+
+2007-12-13 Piotr Jaroszyński
+
+	* python/mask_TEST.py: (python) Fix mask_TEST.
+
+2007-12-12 Richard Brown
+
+	* doc/api/, doc/api/ruby/, ruby/: (ruby) Add Repository.each_metadata
+	and Repository example.
+
+2007-12-12 Richard Brown
+
+	* doc/api/ruby/, ruby/: (ruby) Add PackageID example.
+
+2007-12-12 Richard Brown
+
+	* doc/api/ruby/, ruby/: (ruby) Add missing files.
+
+2007-12-12 Richard Brown
+
+	* doc/api/, doc/api/ruby/, ruby/: (ruby) Add Mask classes and keys.
+
+2007-12-06 Piotr Jaroszyński
+
+	* paludis/merger.cc: Don't warn when installing empty $ROOT.
+
+2007-12-04 David Leverton
+
+	* doc/api/cplusplus/examples/: Fix parallel build (probably).
+
+2007-12-04 Stephen Bennett
+
+	* paludis/selinux/: Add wrapper around setfilecon() for the benefit of
+	ferdy's merger changes.
+
+2007-12-03 Piotr Jaroszyński
+
+	* python/: Fix PackageDepSpec after r4057. Also allow converting Python
+	lists to Options classes.
+
+	+ Fixes: ticket:451
+
+2007-12-02 Piotr Jaroszyński
+
+	* paludis/repositories/e/e_repository_news.cc: Use
+	/var/lib/gentoo/news instead of paludis/news.
+
+2006-12-02 Ciaran McCreesh
+
+	* paludis, src/, ruby/: Abstractify PackageDepSpec, to allow
+	repositories to display deps in their native formats.
+
+	+ Fixes: ticket:333
+
+2007-11-30 David Leverton
+
+	* paludis/repositories/e/: Don't allow newlines in symlink targets
+	for VDB.
+
+2007-11-28 Ciaran McCreesh
+
+	* paludis/repositories/unpackaged/: Fix dep parser.
+
+2007-11-28 Bo Ørsted Andresen
+
+	* doc/configuration/hooks.html.part: Hooks doc tweak.
+
+2007-11-24 David Leverton
+
+	* ruby/demos/: (ruby) Fix find_unmanaged_files.rb.
+
+2007-11-24 Ciaran McCreesh
+
+	* doc/configuration/, paludis/environments/paludis/:
+	{keywords,use,licenses}.conf can now contain single- or double- quoted
+	tokens.
+
+2007-11-24 Ciaran McCreesh
+
+	* (lots): New improved tokeniser.
+
+2007-11-23 Ciaran McCreesh
+
+	* paludis/, doc/: Add mkt_author.
+
+	* src/: Add paludis, inquisitio --show-authors.
+
+2007-11-23 Bo Ørsted Andresen
+
+	* paludis/repositories/e/ebuild/builtin_saveenv.bash: Filter bash
+	variables in builtin_saveenv.bash for compatibility with bash-3.2_p20+.
+
+2007-11-23 David Leverton
+
+	* src/clients/, src/output/: Add --no-suggestions option, and use
+	it automatically when stdout is not a tty.
+
+2007-11-21 Piotr Jaroszyński
+
+	* paludis/merger.cc: Make merger warn if it merges an empty directory.
+
+2007-11-20 David Leverton
+
+	* paludis/, python/, ruby/, src/clients/paludis/: Make
+	fetch_unique_qualified_package_name take a query to limit the
+	potential results, and use it to pick out installable or installed
+	packages when appropriate.
+
+2007-11-19 Piotr Jaroszyński
+
+	* src/clients/accerso/accerso.cc, src/clients/adjutrix/adjutrix.cc,
+	src/clients/importare/importare.cc,
+	src/clients/inquisitio/inquisitio.cc, src/clients/instruo/instruo.cc,
+	src/clients/qualudis/qualudis.cc,
+	src/clients/reconcilio/reconcilio.cc: Add version suffix to -V.
+
+2007-11-19 Ciaran McCreesh
+
+	* paludis/args/, src/, doc/api/cplusplus/examples/: Support --no- for
+	various switch args.
+
+	+ Fixes: ticket:436
+
+2007-11-19 David Leverton
+
+	* src/clients/paludis/: Display repository keys in a sensible
+	order.
+
+2007-11-18 Piotr Jaroszyński
+
+	* doc/api/index.html.part: (python) Add missing link to example_about.
+
+2007-11-18 Richard Brown
+
+	* doc/api/index.html.part, doc/api/ruby/example_environment.rb,
+	doc/api/ruby/Makefile.am: (ruby) Add example_environment.
+
+2007-11-18 Ciaran McCreesh
+
+	* ruby/: (ruby) Fix how we use Data_Get_Struct to avoid magic C casting
+	between tr1::shared_ptr<>s of different types.
+
+2007-11-18 Ciaran McCreesh
+
+	* paludis/: Make stringify(ContentsEntry) work for subclassed entries
+	even if we don't know the subclass at compile time.
+
+2007-11-17 David Leverton
+
+	* doc/faq/: GCC 4.2.2 breaks things on ppc64.
+
+2007-11-17 Ciaran McCreesh
+
+	* (lots): Be kinder to stupid compilers: don't rely upon
+	tr1::shared_ptr<> being callable. Don't explicitly instantiate fully
+	specialised templates if the compiler doesn't allow it. Include -impl
+	headers in more places to work around compilers thinking they can
+	ignore explicit instantiations.
+
+2007-11-16 Ciaran McCreesh
+
+	* paludis/repositories/e/: Support primaryuri for EAPIs 0, 1.
+
+	+ Fixes: ticket:443
+
+2007-11-16 Ciaran McCreesh
+
+	* NEWS, configure.ac: Preparation for 0.26.0_alpha4.
+
+	+ Release: 0.26.0_alpha4
+
+2007-11-16 Piotr Jaroszyński
+
+	* doc/api/python/example_about.py, python/about.cc: (python) Do about
+	like in C++.
+
+	+ Fixes: ticket:440
+
+2007-11-16 Ciaran McCreesh
+
+	* (lots): MetadataSetKey -> MetadataCollectionKey.
+
+	+ Fixes: ticket:437
+
+2007-11-16 Ciaran McCreesh
+
+	* doc/api/: Explain how to compile C++ code.
+
+	+ Fixes: ticket:441
+
+2007-11-16 Ciaran McCreesh
+
+	* (lots): Replace RepositoryInfo with metadata keys. Change how we
+	handle ambiguous _imp. Introduce common Literal metadata key classes to
+	reduce duplicated code.
+
+	+ Fixes: ticket:438
+	+ Fixes: ticket:416
+
+2007-11-15 David Leverton
+
+	* paludis/environments/no_config/: Ignore master_repository_dir if
+	it's the same as repository_dir.
+
+2007-11-14 Piotr Jaroszyński
+
+	* python/additional_tests.cc, python/formatter.cc,
+	python/formatter_TEST.py: (python) StringifyFormatter and
+	PythonFormatter are now convertible to other Formatters.
+
+2007-11-14 Piotr Jaroszyński
+
+	* doc/api/python/Makefile.am, python/version_spec.cc: (python)
+	Reference examples in the docs.
+
+2007-11-14 Piotr Jaroszyński
+
+	* python/package_id.cc, python/package_id_TEST.py: (python) Add
+	__str__ to PackageID.
+
+2007-11-14 Piotr Jaroszyński
+
+	* +doc/api/python/example_about.py, doc/api/python/Makefile.am,
+	+python/about.cc, python/Makefile.am, python/paludis_python.hh,
+	python/paludis_python_so.cc: (python) Add Paludis version constants.
+
+2007-11-13 Mike Kelly
+
+	* paludis/repositories/e/manifest2_reader.cc,
+	paludis/repositories/e/manifest2_reader.hh: Add find() to
+	Manifest2Reader, so that we can pick out specific manifests by file
+	type (EBUILD, DIST, etc) and filename.
+
+2007-11-13 Piotr Jaroszyński
+
+	* doc/api/python/example_version_spec.py, python/version_spec.cc,
+	python/version_spec_TEST.py: (python) Add has_{try,scm}_part to
+	VersionSpec.
+
+2007-11-13 Piotr Jaroszyński
+
+	* doc/api/index.html.part, +doc/api/python/create_python_examples.py,
+	+doc/api/python/example_command_line.py,
+	+doc/api/python/example_version_spec.py,
+	doc/api/python/Makefile.am,
+	+doc/api/python/python_syntax.css: (python) Start of examples.
+
+2007-11-13 David Leverton
+
+	* paludis/repositories/e/: Don't segfault if we're given the wrong
+	kind of PackageID.
+
+2007-11-13 David Leverton
+
+	* ruby/: (ruby) Add Repository::some_ids_might_support_action.
+
+2007-11-13 Richard Brown
+
+	* doc/api/ruby/Makefile.am: (ruby) Fix automake for ruby docs.
+
+2007-11-13 Ciaran McCreesh
+
+	* (lots): Add MetadataSectionKey.
+
+2007-11-13 Richard Brown
+
+	* doc/api/ruby/create_ruby_examples.rb, doc/api/ruby/Makefile.am: Fix
+	distcheck.
+
+2007-11-13 Richard Brown
+
+	* doc/api/ruby/create_ruby_examples.rb: (ruby) Don't assume rubygems
+	has been autoloaded. Fix distcheck.
+
+2007-11-12 David Leverton
+
+	* src/clients/paludis/: Add some space to paludis
+	--list-sync-protocols.
+
+2007-11-11 Richard Brown
+
+	* doc/api/ruby/create_ruby_doc.rb, ruby/environment.cc,
+	ruby/paludis_ruby.cc, ruby/paludis_ruby.hh: (ruby) Remove redundant
+	code and fix global rdoc descriptions.
+
+2007-11-11 Richard Brown
+
+	* doc/api/ruby/create_ruby_examples.rb, doc/api/ruby/example_about.rb,
+	doc/api/ruby/example_action.rb, doc/api/ruby/example_command_line.rb,
+	doc/api/ruby/example_contents.rb, doc/api/ruby/example_dep_spec.rb,
+	doc/api/ruby/example_query.rb,
+	doc/api/ruby/example_version_operator.rb,
+	doc/api/ruby/example_version_spec.rb, doc/api/ruby/Makefile.am,
+	doc/api/ruby/ruby_syntax.css: (ruby) Add syntax highlighted ruby examples.
+
+2007-11-11 Mike Kelly
+
+	* bash-completion/contrarius, bash-completion/importare,
+	bash-completion/inquisitio, bash-completion/paludis,
+	bash-completion/reconcilio: More bash-completion updates from zlin.
+
+2007-11-11 Piotr Jaroszyński
+
+	* bash-completion/paludis: Update bash-completion.
+
+2007-11-11 Kim Højgaard-Hansen
+
+	* paludis/: Fix GCC 3.4 build.
+
+2007-11-11 Fernando J. Pereda
+
+	* paludis/fuzzy_finder.cc, paludis/fuzzy_finder.hh,
+	src/clients/adjutrix/find_reverse_deps.cc,
+	src/clients/adjutrix/what_needs_keywording.cc,
+	src/clients/paludis/do_contents.cc, src/clients/paludis/query.cc,
+	src/clients/paludis/uninstall.cc, src/output/console_install_task.cc: Use
+	Query to generate potential candidates for FuzzyCandidatesFinder.
+
+2007-11-11 Piotr Jaroszyński
+
+	* paludis/repositories/e/ebuild/builtin_strip.bash: Handle /usr/lib
+	being a symlink better.
+
+2007-11-10 David Leverton
+
+	* doc/faq/: Add FAQ entry about broken compilers.
+
+2007-11-09 Richard Brown
+
+	* doc/api/index.html.part, doc/api/ruby/example_version_operator.rb,
+	ruby/paludis_ruby.cc, ruby/paludis_ruby_TEST.rb: (ruby) Rename
+	Paludis::version_operator to Paludis::version_spec_comparator
+
+2007-11-09 Ciaran McCreesh
+
+	* src/output/: Better single / multiline tags logic.
+
+2007-11-09 Ciaran McCreesh
+
+	* src/output/: Show targets explicitly.
+
+2007-11-09 Ciaran McCreesh
+
+	* (lots): Don't use inline enums in typedefs. It confuses too many
+	compilers.
+
+2007-11-09 Richard Brown
+
+	* doc/api/ruby/example_version_operator.rb, ruby/paludis_ruby.cc,
+	ruby/paludis_ruby_TEST.rb: (ruby) Add version_operator and example.
+
+2007-11-08 Ciaran McCreesh
+
+	* paludis/repositories/unpackaged/, src/clients/importare/: Metadata
+	options for importare.
+
+2007-11-08 Richard Brown
+
+	* ruby/action.cc, ruby/action_TEST.rb: (ruby) Add binding for
+	PretendAction and SupportsInstalledActionTest.
+
+2007-11-08 Richard Brown
+
+	* ruby/action.cc, ruby/action_TEST.rb, ruby/paludis_ruby.cc: (ruby)
+	Add binding for UninstallAction.
+
+2007-11-08 Richard Brown
+
+	* ruby/action.cc, +ruby/action_TEST_cleanup.sh, ruby/action_TEST.rb,
+	+ruby/action_TEST_setup.sh, ruby/Makefile.am, ruby/paludis_ruby.cc:
+	(ruby) Add binding for InstallAction.
+
+2007-11-08 David Leverton
+
+	* paludis/: Protect more against sandbox clobbering PATH.
+
+2007-11-08 Ciaran McCreesh
+
+	* paludis/args/: New defaults: --debug-build split, --dl-blocks
+	accumulate, --dl-override-masks tilde-keyword license (and use 'none' to
+	ignore defaults), --show-reasons summary, --show-use-descriptions
+	changed, --show-package-descriptions new, --dl-downgrade warning
+
+2007-11-08 Ciaran McCreesh
+
+	* src/: --compact for paludis --query / inquisitio.
+
+2007-11-08 David Leverton
+
+	* paludis/util/: Handle carriage returns better in outputwrapper.
+
+2007-11-08 Ciaran McCreesh
+
+	* src/: paludis, importare, reconcilio --compact, --show-package-descriptions.
+
+2007-11-08 Piotr Jaroszyński
+
+	* python/dep_spec.cc, python/dep_spec.hh: (python) Clean up dep specs.
+
+2007-11-08 Ciaran McCreesh
+
+	* src/clients/inquisitio/: inquisitio --not.
+
+2007-11-08 Ciaran McCreesh
+
+	* src/clients/inquisitio/: inquisitio --all-versions.
+
+2007-11-07 Richard Brown
+
+	* ruby/action.cc, ruby/action_TEST.rb, ruby/paludis_ruby.cc: (ruby)
+	Add InfoAction and ConfigAction
+
+2007-11-07 Bo Ørsted Andresen
+
+	* ruby/, src/clients/inquisitio/: Fix -O3 build.
+
+2007-11-07 Richard Brown
+
+	* doc/api/ruby/example_action.rb, ruby/action.cc, ruby/action_TEST.rb,
+	ruby/paludis_ruby.cc, ruby/paludis_ruby.hh: (ruby) Add
+	FetchActionFailure.
+
+2007-11-06 Richard Brown
+
+	* doc/api/ruby/example_about.rb, ruby/paludis_ruby.cc: (ruby) Add
+	missing constants to ruby for example_about.
+
+2007-11-06 Richard Brown
+
+	* ruby/paludis_ruby.hh: (ruby) Fix missing MetadataKey include.
+
+2007-11-06 Ciaran McCreesh
+
+	* ruby/, doc/api/: (ruby) Add missing Query methods to Ruby. Implement
+	example_query in Ruby.
+
+2007-11-06 Ciaran McCreesh
+
+	* ruby/, doc/api/: (ruby) Add missing VersionSpec methods to Ruby.
+	Implement example_version_spec in Ruby.
+
+2007-11-06 Ciaran McCreesh
+
+	* ruby/, doc/api/: (ruby) Add missing PackageDepSpec methods to Ruby. Implement
+	example_dep_spec in Ruby.
+
+2007-11-06 Bo Ørsted Andresen
+
+	* paludis/, src/clients/adjutrix/: Fix -O3 build.
+
+2007-11-05 Ciaran McCreesh
+
+	* NEWS, configure.ac: Preparation for 0.26.0_alpha3.
+
+	+ Release: 0.26.0_alpha3
+
+2007-11-05 Ciaran McCreesh
+
+	* paludis/, src/output/, src/clients/paludis/: --continue-on-failure
+	if-independent.
+
+	+ Fixes: ticket:366
+
+2007-11-05 Ciaran McCreesh
+
+	* src/output/: Fix show-use-descriptions for new packages.
+
+	+ Fixes: ticket:427
+
+2007-11-05 Ciaran McCreesh
+
+	* paludis/repositories/unpackaged/: Don't include installed-unpackaged
+	packages in 'everything'.
+
+2007-11-04 Ciaran McCreesh
+
+	* paludis/, python/, ruby/, src/clients/qualudis/: Include status
+	updates whilst carrying out QA checks.
+
+2007-11-03 David Leverton
+
+	* paludis/environments/no_config/, src/clients/qualudis/: Hide
+	deprecation warnings for all NoConfigEnvironment clients, not just
+	qualudis.
+
+2007-11-03 Ciaran McCreesh
+
+	* paludis/repositories/e/, src/clients/qualudis/, doc/configuration/:
+	Don't show deprecated profile notices for qualudis.
+
+2007-11-03 Ciaran McCreesh
+
+	* paludis/repositories/e/qa/: Fix qualudis deadlock.
+
+2007-11-03 Ciaran McCreesh
+
+	* paludis/, src/clients/paludis/, src/clients/gtkpaludis/: Parallel sync
+	support.
+
+2007-11-03 Ciaran McCreesh
+
+	* paludis/repositories/: Prefix sync output.
+
+2007-11-03 Ciaran McCreesh
+
+	* paludis/util/system.cc: Use waitpid, not wait.
+
+2007-11-03 Ciaran McCreesh
+
+	* paludis/syncers/: Add a dummy syncer, for testing.
+
+2007-11-02 David Leverton
+
+	* paludis/: Digests should be in util.
+
+2007-11-02 Ciaran McCreesh
+
+	* (lots): Stop using libebt, libwrapiter. C++0x compliant iterators. Use
+	static_assert, concepts where available.
+
+2006-10-31 Ciaran McCreesh
+
+	* paludis/util/, paludis/repositories/e/: Kill idle actions.
+
+2007-10-30 David Leverton
+
+	* src/clients/inquisitio/: Fix -m exact.
+
+2007-10-30 Ciaran McCreesh
+
+	* NEWS, src/clients/inquisitio/: New improved inquisitio.
+
+	+ Fixes: ticket:388
+
+2007-10-30 Ciaran McCreesh
+
+	* configure.ac, doc/: If --enable-htmltidy, use htmltidy to verify
+	generated documentation.
+
+	* doc/: Fix current validation problems.
+
+	+ Fixes: ticket:420
+
+2007-10-30 Baptiste Daroussin
+
+	* zsh-completion/: Allow ZSH completion on package names.
+
+	+ Fixes: ticket:423
+	+ Fixes: gentoo#175575.
+
+2007-10-30 Bo Ørsted Andresen
+
+	* paludis/: Fix -O3 build.
+
+	+ Fixes: ticket:415
+
+2007-10-29 David Leverton
+
+	* configure.ac, src/clients/reconcilio/littlelf/elf.cc,
+	src/clients/reconcilio/littlelf/elf_dynamic_section.cc,
+	src/clients/reconcilio/littlelf/elf_dynamic_section.hh,
+	src/clients/reconcilio/littlelf/elf_relocation_section.cc,
+	src/clients/reconcilio/littlelf/elf_relocation_section.hh,
+	src/clients/reconcilio/littlelf/elf_sections.cc,
+	src/clients/reconcilio/littlelf/elf_sections.hh,
+	src/clients/reconcilio/littlelf/elf_symbol_section.cc,
+	src/clients/reconcilio/littlelf/elf_symbol_section.hh,
+	src/clients/reconcilio/util/byte_swap.hh,
+	src/clients/reconcilio/util/byte_swap_TEST.cc,
+	src/clients/reconcilio/util/Makefile.am: Support foreign-endian
+	ELF-files.
+
+2007-10-28 David Leverton
+
+	* doc/faq/stricter.html.part, paludis/repositories/e/e_key.cc,
+	paludis/repositories/e/Makefile.am,
+	paludis/repositories/e/vdb_contents_tokeniser.hh,
+	paludis/repositories/e/vdb_merger.cc,
+	paludis/repositories/e/vdb_merger.hh,
+	paludis/repositories/e/vdb_merger_TEST.cc,
+	paludis/repositories/e/vdb_merger_TEST_setup.sh,
+	paludis/repositories/e/vdb_repository_TEST.cc,
+	paludis/repositories/e/vdb_repository_TEST_setup.sh,
+	paludis/repositories/e/vdb_unmerger.cc,
+	paludis/repositories/e/vdb_unmerger_TEST.cc,
+	paludis/repositories/e/vdb_unmerger_TEST_setup.sh: Handle spaces
+	in the VDB better.
+
+2007-10-28 Alexander Færøy
+
+	* paludis/repositories/e/ebuild/utils/dosym: fix ebuild_notice message to
+	use dirname. From zlin.
+
+2007-10-27 David Leverton
+
+	* paludis/args/dep_list_args_group.cc: Unbreak --dl-deps-default.
+
+2007-10-26 David Leverton
+
+	* paludis/repositories/e/e_repository.cc,
+	paludis/repositories/e/e_repository_TEST.cc,
+	paludis/repositories/e/e_repository_TEST_setup.sh: Don't crash
+	when checking foreign arch flags.
+
+2007-10-26 David Leverton
+
+	* src/clients/reconcilio/littlelf/elf_relocation_section.cc: More
+	strictness.
+
+2007-10-26 David Leverton
+
+	* src/clients/reconcilio/littlelf/elf.cc,
+	src/clients/reconcilio/littlelf/elf_dynamic_section.cc,
+	src/clients/reconcilio/littlelf/elf_sections.cc,
+	src/clients/reconcilio/littlelf/elf_symbol_section.cc: Be more
+	strict / robust / compliant.
+
+2007-10-26 Ciaran McCreesh
+
+	* paludis/, python/: Kill repository NVIs, License interface.
+
+	+ Fixes: ticket:394
+
+2007-10-26 Ciaran McCreesh
+
+	* paludis/repositories/unpackaged/: --info output for unpackaged
+	repositories.
+
+2007-10-26 Ciaran McCreesh
+
+	* paludis/args/: Allow notes in client docs.
+
+2007-10-26 Ciaran McCreesh
+
+	* src/clients/paludis/: More verbose --info output.
+
+2007-10-25 Ciaran McCreesh
+
+	* NEWS, configure.ac: Preparation for 0.26.0_alpha2.
+
+2007-10-25 Ciaran McCreesh
+
+	* paludis/repositories/e/ebuild/: Strip IUSE +/- from VDB entries,
+	because built_with_use is stupid.
+
+2007-10-25 David Leverton
+
+	* src/clients/reconcilio/littlelf/elf_dynamic_section.cc,
+	src/clients/reconcilio/littlelf/elf_relocation_section.cc,
+	src/clients/reconcilio/littlelf/elf_sections.cc,
+	src/clients/reconcilio/littlelf/elf_symbol_section.cc:
+	Don't divide by zero or look past the end of a string.
+
+2007-10-25 Ciaran McCreesh
+
+	* src/clients/reconcilio/: Add examples to 'man reconcilio'.
+
+2007-10-25 Ciaran McCreesh
+
+	* src/clients/importare: Add examples to 'man importare'.
+
+2007-10-25 Ciaran McCreesh
+
+	* src/clients/paludis/: Add some examples to 'man paludis'.
+
+2007-10-25 Ciaran McCreesh
+
+	* paludis/args/: Allow clients to add an 'Examples' section to
+	documentation.
+
+2007-10-25 Ciaran McCreesh
+
+	* paludis/environments/paludis/: Cache sets.
+
+	+ Fixes: ticket:390
+
+2007-10-25 Ciaran McCreesh
+
+	* paludis/repositories/unpackaged/: Shorter filenames, to shut
+	automake up.
+
+2007-10-25 Ciaran McCreesh
+
+	* paludis/repositories/e/qa/: Saner handling of overlays.
+
+2007-10-24 David Leverton
+
+	* paludis/repositories/e/ebuild/ebuild.bash: Filter some more
+	functions from the saved environment, so we don't get the Portage
+	implementations.
+
+2007-10-24 Fernando J. Pereda
+
+	* NEWS, paludis/files.m4, paludis/fuzzy_finder.cc,
+	paludis/fuzzy_finder.hh, paludis/install_task.cc,
+	paludis/util/damerau_levenshtein.cc, paludis/util/damerau_levenshtein.hh,
+	paludis/util/damerau_levenshtein_TEST.cc, paludis/util/files.m4,
+	src/clients/adjutrix/find_reverse_deps.cc,
+	src/clients/adjutrix/what_needs_keywording.cc,
+	src/clients/contrarius/install.cc, src/clients/importare/importare.cc,
+	src/clients/paludis/do_contents.cc, src/clients/paludis/install.cc,
+	src/clients/paludis/paludis.cc, src/clients/paludis/query.cc,
+	src/clients/paludis/uninstall.cc, src/clients/reconcilio/install.cc,
+	src/output/console_install_task.cc, src/output/console_install_task.hh:
+	Introduce fuzzy finders for packages and repositories.
+
+2007-10-23 Ciaran McCreesh
+
+	* NEWS, configure.ac: Preparation for 0.26.0_alpha1.
+
+2007-10-22 Fernando J. Pereda
+
+	* paludis/repository.cc, paludis/repository.hh, paludis/repository-fwd.hh,
+	paludis/dep_list.cc: Introduce NoSuchSetError and
+	RecursivelyDefinedSetError and use them.
+
+2007-10-22 David Leverton
+
+	* src/clients/accerso/command_line.cc,
+	src/clients/adjutrix/command_line.cc,
+	src/clients/contrarius/command_line.cc,
+	src/clients/importare/command_line.cc,
+	src/clients/instruo/command_line.cc,
+	src/clients/paludis/command_line.cc,
+	src/clients/qualudis/qualudis_command_line.cc: List the relevant
+	*_OPTIONS environment variables and no others in the man pages.
+
+2007-10-21 Piotr Jaroszyński
+
+	* doc/configuration/hooks.html.part: Fix Python hook example.
+
+2007-10-21 Mike Kelly
+
+	* bash-completion/importare, bash-completion/Makefile.am,
+	bash-completion/reconcilio: More bashcomp updates from zlin.
+
+2007-10-21 Ciaran McCreesh
+
+	* configure.ac, hooks/gnu_info_index.bash, paludis/fetchers/dowget.in,
+	paludis/repositories/e/, paludis/repositories/unpackaged/: Detect
+	non-GNU things at runtime.
+
+	+ Fixes: ticket:408
+
+2007-10-20 Alexander Færøy
+
+	* paludis/util/log.hh: Include the stringify header.
+
+2007-10-19 David Leverton
+
+	* paludis/repositories/e/ebuild/ebuild.bash: Check CCACHE_DIR
+	after loading the user bashrc.
+
+2007-10-18 Ciaran McCreesh
+
+	* configure.ac, paludis/dep_spec.cc, paludis/dep_spec.se,
+	paludis/name.cc, paludis/name.se, paludis/repositories/e/: EAPI 1
+	support.
+
+	+ Fixes: ticket:402
+	+ Fixes: ticket:403
+	+ Fixes: ticket:404
+	+ Fixes: ticket:405
+
+2007-10-18 Piotr Jaroszyński
+
+	* doc/api/cplusplus/Makefile.am, doc/api/Makefile.am,
+	doc/api/python/Makefile.am, doc/Makefile.am, Makefile.am: Move python
+	docs to doc/api/python.
+
+2007-10-17 David Leverton
+
+	* paludis/repositories/e/ebuild_flat_metadata_cache.cc: Don't die
+	when the metadata cache specifies an unsupported EAPI.
+
+2007-10-17 Piotr Jaroszyński
+
+	* paludis/repositories/virtuals/installed_virtuals_repository.cc,
+	paludis/repositories/virtuals/installed_virtuals_repository.hh,
+	paludis/repositories/virtuals/virtuals_repository.cc,
+	paludis/repositories/virtuals/virtuals_repository.hh: Old style
+	virtuals are not important either.
+
+2007-10-17 Piotr Jaroszyński
+
+	* paludis/package_database.cc, paludis/package_database_TEST.cc,
+	paludis/repositories/e/e_repository.cc,
+	paludis/repositories/e/e_repository.hh, paludis/repository.cc,
+	paludis/repository.hh: Better ambiguity resolution for virtuals,
+	installed packages.
+
+	+ Fixes: ticket:391
+
+2007-10-16 David Leverton
+
+	* paludis/repositories/e/ebuild/ebuild.bash: Filter more variables
+	when restoring the environment.
+
+2007-10-15 Piotr Jaroszyński
+
+	* paludis/util/iterator.hh, paludis/util/iterator_TEST.cc,
+	src/clients/reconcilio/broken_linkage_finder/broken_linkage_finder.cc,
+	src/clients/reconcilio/broken_linkage_finder/elf_linkage_checker.cc,
+	-src/clients/reconcilio/util/iterator.hh,
+	-src/clients/reconcilio/util/iterator_TEST.cc,
+	src/clients/reconcilio/util/Makefile.am: Move nifty iterator stuff
+	from reconcilio/util to paludis/util.
+
+2007-10-15 Ciaran McCreesh
+
+	* paludis/repositories/e/qa/, src/clients/qualudis/: Honour directories
+	for qualudis, QA.
+
+2007-10-15 Piotr Jaroszyński
+
+	* paludis/util/action_queue.cc: Fix for threads disabled.
+
+2007-10-15 David Leverton
+
+	* paludis/util/action_queue.cc, paludis/util/action_queue.hh,
+	paludis/util/log.cc: Don't limit the queue size for Log.
+
+2007-10-15 Piotr Jaroszyński
+
+	* paludis/environments/no_config/no_config_environment.cc,
+	paludis/environments/paludis/keywords_conf.cc,
+	paludis/environments/paludis/licenses_conf.cc,
+	paludis/environments/paludis/mirrors_conf.cc,
+	paludis/environments/paludis/use_conf.cc,
+	paludis/environments/portage/portage_environment.cc,
+	paludis/hooker.cc, paludis/host_tuple_name.cc,
+	paludis/install_task.cc, paludis/repositories/cran/cran_dep_parser.cc,
+	paludis/repositories/cran/cran_installed_repository.cc,
+	paludis/repositories/cran/cran_package_id.cc,
+	paludis/repositories/e/dep_lexer.cc,
+	paludis/repositories/e/dep_parser.cc, paludis/repositories/e/eapi.cc,
+	paludis/repositories/e/eapi_phase.cc,
+	paludis/repositories/e/ebuild.cc,
+	paludis/repositories/e/ebuild_entries.cc,
+	paludis/repositories/e/ebuild_flat_metadata_cache.cc,
+	paludis/repositories/e/e_key.cc,
+	paludis/repositories/e/e_repository.cc,
+	paludis/repositories/e/e_repository_profile.cc,
+	paludis/repositories/e/make_ebin_repository.cc,
+	paludis/repositories/e/make_ebuild_repository.cc,
+	paludis/repositories/e/manifest2_reader.cc,
+	paludis/repositories/e/qa/visibility.cc,
+	paludis/repositories/e/vdb_merger.cc,
+	paludis/repositories/e/vdb_repository.cc,
+	paludis/repositories/e/vdb_unmerger.cc,
+	paludis/repositories/e/xml_things.cc,
+	paludis/repositories/fake/fake_package_id.cc,
+	paludis/repositories/unpackaged/ndbam.cc,
+	paludis/repositories/unpackaged/ndbam_merger.cc,
+	paludis/repositories/unpackaged/ndbam_unmerger.cc,
+	paludis/set_file.cc, paludis/util/config_file.cc,
+	paludis/util/files.m4, -paludis/util/tokeniser.cc,
+	paludis/util/tokeniser.hh, paludis/util/tokeniser_TEST.cc,
+	src/clients/adjutrix/downgrade_check.cc,
+	src/clients/contrarius/stage.cc,
+	src/clients/contrarius/target_config.cc,
+	src/clients/reconcilio/broken_linkage_finder/configuration.cc,
+	src/clients/reconcilio/broken_linkage_finder/libtool_linkage_checker.cc,
+	src/output/console_query_task.cc: Stop instantiating tokeniser.
+
+	+ Fixes: ticket:396
+
+2007-10-15 David Leverton
+
+	* src/clients/reconcilio/broken_linkage_finder/broken_linkage_finder.cc:
+	Fix string::compare usage.
+
+2007-10-15 David Leverton
+
+	* src/clients/reconcilio/broken_linkage_finder/broken_linkage_finder.cc,
+	src/clients/reconcilio/broken_linkage_finder/configuration.cc,
+	src/clients/reconcilio/broken_linkage_finder/configuration.hh,
+	src/clients/reconcilio/broken_linkage_finder/configuration_TEST.cc,
+	src/clients/reconcilio/broken_linkage_finder/elf_linkage_checker.cc,
+	src/clients/reconcilio/broken_linkage_finder/elf_linkage_checker.hh,
+	src/clients/reconcilio/broken_linkage_finder/libtool_linkage_checker.cc,
+	src/clients/reconcilio/broken_linkage_finder/libtool_linkage_checker.hh,
+	src/clients/reconcilio/broken_linkage_finder/linkage_checker.hh:
+	Always recognise libraries in directories listed in ld.so.conf,
+	even if we're not actually checking them for brokenness.
+
+2007-10-15 David Leverton
+
+	* src/clients/reconcilio/broken_linkage_finder/broken_linkage_finder.cc,
+	src/clients/reconcilio/broken_linkage_finder/broken_linkage_finder.hh,
+	src/clients/reconcilio/broken_linkage_finder/configuration.cc,
+	src/clients/reconcilio/broken_linkage_finder/configuration.hh,
+	src/clients/reconcilio/broken_linkage_finder/elf_linkage_checker.cc,
+	src/clients/reconcilio/broken_linkage_finder/elf_linkage_checker.hh:
+	Move private methods to the Implementations.
+
+2007-10-14 David Leverton
+
+	* src/clients/reconcilio/littlelf/elf.cc: Tweak exception handling
+	some more.
+
+2007-10-14 Piotr Jaroszyński
+
+	* python/formatter.cc, python/metadata_key_TEST.py: (python) Fix and
+	clean up Formatters.
+
+2007-10-14 Piotr Jaroszyński
+
+	* paludis/dep_tree.hh, python/action.cc, python/additional_tests.cc,
+	+python/dep_label.cc, +python/dep_label_TEST.py, python/formatter.cc,
+	python/Makefile.am, python/mask.cc, python/metadata_key.cc,
+	python/metadata_key_TEST.py, python/nice_names.nn,
+	python/paludis_python.hh, python/paludis_python_so.cc: (python) Add
+	Labels and support for MetadataSpecTreeKey<FetchableURISpecTree>. More
+	work on Formatters. Docs.
+
+	+ Fixes: ticket:382
+
+2007-10-14 Piotr Jaroszyński
+
+	* paludis/stringify_formatter.cc, paludis/stringify_formatter.hh,
+	paludis/stringify_formatter-impl.hh: StringifyFormatter can now format
+	strings.
+
+2007-10-13 Piotr Jaroszyński
+
+	* paludis/repositories/unpackaged/Makefile.am: Fix distcheck.
+
+2007-10-13 Piotr Jaroszyński
+
+	* */Makefile.am: Fix distcheck.
+
+2007-10-13 Ciaran McCreesh
+
+	* doc/examples/example_formatter.cc, paludis/dep_tree.hh,
+	paludis/metadata_key.hh,
+	paludis/repositories/cran/dep_spec_pretty_printer.cc,
+	paludis/repositories/cran/dep_spec_pretty_printer.hh,
+	paludis/repositories/cran/keys.cc, paludis/repositories/cran/keys.hh,
+	paludis/repositories/e/dep_spec_pretty_printer.cc,
+	paludis/repositories/e/dep_spec_pretty_printer.hh,
+	paludis/repositories/e/e_key.cc, paludis/repositories/e/e_key.hh,
+	paludis/repositories/fake/fake_package_id.cc,
+	paludis/repositories/fake/fake_package_id.hh,
+	paludis/repositories/virtuals/package_id.cc,
+	paludis/repositories/virtuals/package_id.hh,
+	paludis/stringify_formatter_TEST.cc, python/metadata_key.cc:
+	The standard says we can't call it ::Formatter, since we have a Formatter
+	at namespace level.
+
+2007-10-13 Piotr Jaroszyński
+
+	* src/clients/accerso/accerso.cc, src/clients/adjutrix/adjutrix.cc,
+	src/clients/contrarius/contrarius.cc,
+	src/clients/importare/importare.cc,
+	src/clients/inquisitio/inquisitio.cc, src/clients/instruo/instruo.cc,
+	src/clients/qualudis/qualudis.cc,
+	src/clients/reconcilio/reconcilio.cc: Standardise --help, --version.
+
+	+ Fixes: ticket:389
+
+2007-10-13 Ciaran McCreesh
+
+	* */Makefile.am: Change how we handle distcheck deps.
+
+2007-10-13 Ciaran McCreesh
+
+	* paludis/repositories/unpackaged/: Support the 'everything' and
+	'ununused' packages in InstalledUnpackagedRepository.
+
+2007-10-13 Ciaran McCreesh
+
+	* paludis/repositories/unpackaged/: Require 'ndbam.conf' in NDBAM
+	repositories. Don't try to populate an NDBAM repository if the
+	directory is not empty.
+
+2007-10-13 Ciaran McCreesh
+
+	* paludis/environment_implementation.cc, paludis/install_task.cc,
+	paludis/uninstall_list.cc, src/output/console_install_task.cc: The
+	special set 'ununused' can now be used to indicate that a package
+	should be considered 'used' for --uninstall-unused etc.
+
+2007-10-13 Ciaran McCreesh
+
+	* configure.ac, paludis/repositories/unpackaged/,
+	src/clients/importare/: Add UnpackagedRepository, for managing
+	unpackaged images, and importare, a client for installing unmanaged
+	images.
+
+	+ Fixes: ticket:399
+
+2007-10-13 Ciaran McCreesh
+
+	* paludis/unmerger.sr: Unmerger only needs a const Environment.
+
+2007-10-13 Ciaran McCreesh
+
+	* paludis/install_task.cc, paludis/install_task.hh: Add
+	InstallTask::add_exact_package. Only run FetchAction on IDs that
+	support it.
+
+2007-10-13 Ciaran McCreesh
+
+	* paludis/util/mutex.cc, paludis/util/mutex.hh: Add
+	Lock::acquire_then_release_old.
+
+2007-10-13 Ciaran McCreesh
+
+	* paludis/util/fs_entry.cc, paludis/util/fs_entry.hh,
+	paludis/util/fs_entry_TEST.cc: Add FSEntry::symlink method.
+
+2007-10-12 Mike Kelly
+
+	* bash-completion/accerso, bash-completion/adjutrix,
+	bash-completion/instruo, bash-completion/Makefile.am,
+	bash-completion/paludis, bash-completion/qualudis,
+	bash-completion/reconcilio: Update bashcomp with a patch from zlin.
+
+2007-10-12 Piotr Jaroszyński
+
+	* python/Makefile.am: (python) Move *-nn.{hh,cc} to DISTCLEANFILES.
+
+2007-10-12 Piotr Jaroszyński
+
+	* python/Makefile.am: (python) Add *-nn.{hh,cc} to CLEANFILES.
+
+2007-10-11 Piotr Jaroszyński
+
+	* python/action.cc, python/action_TEST.py: (python) Add tests for
+	InfoAction.
+
+2007-10-11 Piotr Jaroszyński
+
+	* paludis/action.hh, python/action.cc: (python) Add InfoAction and
+	docs.
+
+2007-10-11 David Leverton
+
+	* python/Makefile.am, ruby/dep_list.cc,
+	ruby/Makefile.am: (ruby) (python) Fix rdoc, and remove references
+	to dead directories.
+
+2007-10-10 Ciaran McCreesh
+
+	* configure.ac, doc/examples/example_about.cc,
+	doc/examples/example_command_line.cc, paludis/about.hh.in,
+	src/clients/paludis/paludis.cc: Add PALUDIS_VERSION_SUFFIX, for
+	"_alpha" etc.
+
+2007-10-10 Piotr Jaroszyński
+
+	* ruby/Makefile.am: (ruby) Add PALUDIS_QA_DATA_DIR to TESTS_ENV.
+
+2007-10-10 Piotr Jaroszyński
+
+	* python/Makefile.am: (python) Add PALUDIS_QA_DATA_DIR to TESTS_ENV.
+
+2007-10-10 Piotr Jaroszyński
+
+	* Makefile.am,
+	src/clients/reconcilio/broken_linkage_finder/Makefile.am,
+	src/clients/reconcilio/littlelf/Makefile.am,
+	src/clients/reconcilio/util/Makefile.am: Fix distcheck.
+
+2007-10-10 Ciaran McCreesh
+
+	* configure.ac, doc/Makefile.am, doc/doxygen.conf.in: Only fetch tags
+	if --enable-doxygen-tags.
+
+2007-10-10 Ciaran McCreesh
+
+	* Makefile.am: Fix distcheck.
+
+2007-10-10 David Leverton
+
+	* src/clients/reconcilio/littlelf/elf.cc: Fix exception handling.
+
+2007-10-09 David Leverton
+
+	* src/clients/reconcilio/util/iterator.hh,
+	src/clients/reconcilio/util/iterator_TEST.cc: Make the member a
+	template parameter.
+
+2007-10-09 David Leverton
+
+	* configure.ac, paludis/repositories/e/ebuild/ebuild.bash,
+	src/clients/reconcilio/broken_linkage_finder/broken_linkage_finder.cc,
+	src/clients/reconcilio/broken_linkage_finder/broken_linkage_finder.hh,
+	src/clients/reconcilio/broken_linkage_finder/configuration.cc,
+	src/clients/reconcilio/broken_linkage_finder/configuration.hh,
+	src/clients/reconcilio/broken_linkage_finder/configuration_TEST.cc,
+	src/clients/reconcilio/broken_linkage_finder/configuration_TEST_cleanup.sh,
+	src/clients/reconcilio/broken_linkage_finder/configuration_TEST_setup.sh,
+	src/clients/reconcilio/broken_linkage_finder/elf_linkage_checker.cc,
+	src/clients/reconcilio/broken_linkage_finder/elf_linkage_checker.hh,
+	src/clients/reconcilio/broken_linkage_finder/libtool_linkage_checker.cc,
+	src/clients/reconcilio/broken_linkage_finder/libtool_linkage_checker.hh,
+	src/clients/reconcilio/broken_linkage_finder/linkage_checker.cc,
+	src/clients/reconcilio/broken_linkage_finder/linkage_checker.hh,
+	src/clients/reconcilio/broken_linkage_finder/Makefile.am,
+	src/clients/reconcilio/command_line.cc,
+	src/clients/reconcilio/command_line.hh,
+	src/clients/reconcilio/fix_linkage.cc,
+	src/clients/reconcilio/fix_linkage.hh,
+	src/clients/reconcilio/install.cc,
+	src/clients/reconcilio/install.hh,
+	src/clients/reconcilio/littlelf/elf.cc
+	src/clients/reconcilio/littlelf/elf_dynamic_section.cc
+	src/clients/reconcilio/littlelf/elf_dynamic_section.hh
+	src/clients/reconcilio/littlelf/elf.hh
+	src/clients/reconcilio/littlelf/elf_relocation_section.cc
+	src/clients/reconcilio/littlelf/elf_relocation_section.hh
+	src/clients/reconcilio/littlelf/elf_sections.cc
+	src/clients/reconcilio/littlelf/elf_sections.hh
+	src/clients/reconcilio/littlelf/elf_symbol_section.cc
+	src/clients/reconcilio/littlelf/elf_symbol_section.hh
+	src/clients/reconcilio/littlelf/elf_types.hh
+	src/clients/reconcilio/littlelf/Makefile.am,
+	src/clients/reconcilio/Makefile.am,
+	src/clients/reconcilio/man_reconcilio.cc,
+	src/clients/reconcilio/reconcilio.cc,
+	src/clients/reconcilio/util/iterator.hh,
+	src/clients/reconcilio/util/iterator_TEST.cc,
+	src/clients/reconcilio/util/Makefile.am,
+	src/clients/reconcilio/util/realpath.cc,
+	src/clients/reconcilio/util/realpath.hh,
+	src/clients/reconcilio/util/realpath_TEST.cc,
+	src/clients/reconcilio/util/realpath_TEST_cleanup.sh,
+	src/clients/reconcilio/util/realpath_TEST_setup.sh,
+	src/clients/reconcilio/util/wildcard_expander.cc,
+	src/clients/reconcilio/util/wildcard_expander.hh,
+	src/clients/reconcilio/util/wildcard_expander_TEST.cc,
+	src/clients/reconcilio/util/wildcard_expander_TEST_cleanup.sh,
+	src/clients/reconcilio/util/wildcard_expander_TEST_setup.sh: Add
+	reconcilio, a replacement for revdep-rebuild, with littlelf
+	library by Tiziano Müller.
+
+2007-10-09 Fernando J. Pereda
+
+	* paludis/merger.cc: Correctly report read/write errors while merging files
+
+	+ Fixes: ticket:349
+
+2007-10-09 Ciaran McCreesh
+
+	* doc/examples/example_dep_label.cc, doc/examples/example_dep_tree.cc,
+	paludis/package_id.hh, paludis/repositories/cran/cran_package_id.cc,
+	paludis/repositories/cran/cran_package_id.hh,
+	paludis/repositories/e/e_repository.cc,
+	paludis/repositories/e/ebuild_entries.cc,
+	paludis/repositories/e/ebuild_flat_metadata_cache.cc,
+	paludis/repositories/e/ebuild_id.cc,
+	paludis/repositories/e/ebuild_id.hh,
+	paludis/repositories/e/qa/extractors.cc,
+	paludis/repositories/e/qa/extractors_TEST.cc,
+	paludis/repositories/e/vdb_id.cc, paludis/repositories/e/vdb_id.hh,
+	paludis/repositories/fake/fake_package_id.cc,
+	paludis/repositories/fake/fake_package_id.hh,
+	paludis/repositories/gems/gem_specification.cc,
+	paludis/repositories/gems/gem_specification.hh,
+	paludis/repositories/virtuals/package_id.cc,
+	paludis/repositories/virtuals/package_id.hh: Kill
+	PackageID::license_key. Rename PackageID::src_uri_key -> fetches_key.
+
+	+ Fixes: ticket:392
+	+ Fixes: ticket:393
+
+2007-10-09 David Leverton
+
+	* python/Makefile.am: (python) Fix --disable-python build.
+
+2007-10-09 Ciaran McCreesh
+
+	* paludis/util/private_implementation_pattern-impl.hh,
+	paludis/util/private_implementation_pattern.hh: Inline _imp->.
+
+	+ Fixes: ticket:395
+
+2007-10-09 Ciaran McCreesh
+
+	* doc/doc_main.doxygen, doc/examples/Makefile.am,
+	doc/examples/example_name.cc, doc/examples/example_package_database.cc,
+	doc/examples/example_version_operator.cc,
+	doc/examples/example_version_spec.cc, paludis/name-fwd.hh,
+	paludis/name.cc, paludis/name.hh, paludis/name.se, paludis/name.sr,
+	paludis/package_database-fwd.hh, paludis/package_database.cc,
+	paludis/package_database.hh, paludis/package_database.se,
+	paludis/repository_info-fwd.hh, paludis/repository_info.cc,
+	paludis/repository_info.hh, paludis/version_operator-fwd.hh,
+	paludis/version_operator.cc, paludis/version_operator.hh,
+	paludis/version_operator.se, paludis/version_requirements-fwd.hh,
+	paludis/version_requirements.hh, paludis/version_requirements.sr,
+	paludis/version_spec-fwd.hh, paludis/version_spec.cc,
+	paludis/version_spec.hh, paludis/version_spec.sr: More doxygen work.
+
+2007-10-08 Piotr Jaroszyński
+
+	* +python/formatter_TEST.py: (python) Add missing test for Formatters.
+
+2007-10-08 Piotr Jaroszyński
+
+	* python/additional_tests.cc, python/dep_spec.cc, python/dep_spec.hh,
+	+python/formatter.cc, python/Makefile.am, +python/nice_names.nn,
+	python/paludis_python.hh, python/paludis_python_so.cc: (python) Add
+	Formatters.
+
+2007-10-08 Piotr Jaroszyński
+
+	* +misc/make_nn.bash: Add NiceNames generator.
+
+2007-10-08 Ciaran McCreesh
+
+	* doc/doc_main.doxygen, doc/examples/Makefile.am,
+	doc/examples/example_match_package.cc, doc/examples/example_query.cc,
+	doc/examples/example_query_delegate.cc, paludis/files.m4,
+	paludis/match_package.hh, paludis/query-fwd.hh, paludis/query.cc,
+	paludis/query.hh, paludis/query_delegate-fwd.hh,
+	paludis/query_delegate.cc, paludis/query_delegate.hh, python/query.cc:
+	Split out QueryDelegate into its own file. More doxygen work.
+
+2007-10-07 Ciaran McCreesh
+
+	* paludis/repositories/e/ebuild/ebuild.bash: Force a few things into
+	PATH, to work around crazy setups.
+
+	+ Fixes: ticket:374
+
+2007-10-07 Ciaran McCreesh
+
+	* (lots): NamedSetDepSpec.
+
+	+ Fixes: ticket:305
+
+2007-10-06 David Leverton
+
+	* src/output/console_install_task.cc: Catch both SIGINT and
+	SIGTERM.
+
+2007-10-06 David Leverton
+
+	* src/output/console_query_task.cc: Improve display of licenses,
+	and remove some extraneous blank lines.
+
+2007-10-06 Ciaran McCreesh
+
+	* paludis/dep_list.cc, paludis/query-fwd.hh, paludis/query.cc,
+	paludis/query.hh: Delay metadata generation where possible.
+
+	+ Fixes: ticket:379
+
+2007-10-05 Ciaran McCreesh
+
+	* paludis/install_task.cc, paludis/override_functions.cc: Use
+	visitor_cast<>.
+
+	+ Fixes: ticket:387
+
+2007-10-05 David Leverton
+
+	* paludis/args/dep_list_args_group.cc,
+	paludis/args/dep_list_args_group.hh,
+	paludis/args/install_args_group.cc,
+	paludis/args/install_args_group.hh, paludis/args/Makefile.am,
+	src/clients/contrarius/install.cc,
+	src/clients/paludis/command_line.cc,
+	src/clients/paludis/command_line.hh,
+	src/clients/paludis/install.cc, src/clients/paludis/paludis.cc,
+	src/clients/paludis/uninstall.cc,
+	src/output/console_install_task.cc,
+	src/output/console_install_task.hh: Move a bunch of command line
+	and resume command handling code out of src/clients/paludis/.
+
+	+ Fixes: ticket:368
+
+2007-10-05 Ciaran McCreesh
+
+	* doc/doc_main.doxygen, doc/examples/Makefile.am,
+	doc/examples/example_dep_tag.cc, doc/examples/example_environment.cc,
+	paludis/dep_label.hh, paludis/dep_spec.hh, paludis/dep_tag-fwd.hh,
+	paludis/dep_tag.cc, paludis/dep_tag.hh, paludis/dep_tag.sr,
+	paludis/dep_tree.hh, paludis/distribution-fwd.hh,
+	paludis/distribution.hh, paludis/distribution.sr,
+	paludis/environment-fwd.hh, paludis/environment.cc,
+	paludis/environment.hh, paludis/environment_implementation.hh,
+	paludis/files.m4, ruby/qa.cc, -paludis/environment.se: More doc work.
+	Remove some legacy code.
+
+2007-10-05 David Leverton
+
+	* (lots): Merge libpaludisdeplist, -digests, -environments,
+	-merger, -repositories, -tasks into libpaludis.
+
+2007-10-05 David Leverton
+
+	* python/paludis_python_so.cc: Work even with QA disabled.
+
+2007-10-05 Ciaran McCreesh
+
+	* paludis/repositories/e/Makefile.am,
+	paludis/repositories/e/vdb_repository_TEST.cc: Fix VDB repository
+	tests.
+
+2007-10-04 Ciaran McCreesh
+
+	* doc/doc_main.doxygen, doc/examples/Makefile.am,
+	doc/examples/example_contents.cc, doc/examples/example_dep_label.cc,
+	doc/examples/example_dep_spec.cc,
+	doc/examples/example_dep_spec_flattener.cc,
+	doc/examples/example_dep_tree.cc, paludis/dep_list/dep_list.cc,
+	paludis/dep_spec_flattener.cc, paludis/dep_spec_flattener.hh,
+	paludis/dep_tree.cc, paludis/dep_tree.hh,
+	paludis/repositories/e/e_key.cc,
+	paludis/repositories/e/ebuild_entries.cc,
+	paludis/repositories/e/vdb_repository.cc,
+	paludis/repositories/fake/fake_installed_repository.cc,
+	paludis/tasks/uninstall_task.cc, paludis/util/files.m4,
+	paludis/util/visitor_cast.hh, python/dep_spec.cc,
+	src/clients/gtkpaludis/libgtkpaludis/packages_list_model.cc: Make
+	DepSpecFlattener a template to avoid the need for icky casting.
+
+2007-10-04 David Leverton
+
+	* paludis/Makefile.am.m4: Install -impl.hh files too.
+
+2007-10-04 Ciaran McCreesh
+
+	* doc/examples/Makefile.am, doc/examples/example_dep_label.cc,
+	doc/examples/example_dep_tree.cc, paludis/dep_tree-fwd.hh,
+	paludis/dep_tree.hh: More doxygen work.
+
+2007-10-04 Ciaran McCreesh
+
+	* configure.ac, doc/doc_main.doxygen, doc/examples/Makefile.am,
+	doc/examples/example_action.cc, doc/examples/example_command_line.cc,
+	doc/examples/example_command_line.hh,
+	doc/examples/example_contents.cc, doc/examples/example_dep_label.cc,
+	doc/examples/example_dep_spec.cc, paludis/args/Makefile.am,
+	paludis/args/args_handler.hh, paludis/dep_label.hh,
+	paludis/dep_spec.cc, paludis/dep_spec.hh, paludis/dep_spec.se,
+	src/Makefile.am, src/clients/accerso/Makefile.am,
+	src/clients/accerso/accerso.cc, src/clients/accerso/command_line.hh,
+	src/clients/adjutrix/Makefile.am,
+	src/clients/adjutrix/command_line.hh,
+	src/clients/contrarius/Makefile.am,
+	src/clients/contrarius/command_line.hh,
+	src/clients/inquisitio/Makefile.am,
+	src/clients/inquisitio/command_line.hh,
+	src/clients/inquisitio/inquisitio.cc, src/clients/instruo/Makefile.am,
+	src/clients/instruo/command_line.hh, src/clients/instruo/instruo.cc,
+	src/clients/paludis/Makefile.am, src/clients/paludis/command_line.hh,
+	src/clients/paludis/install.cc, src/clients/paludis/paludis.cc,
+	src/clients/qualudis/Makefile.am, src/clients/qualudis/qualudis.cc,
+	src/clients/qualudis/qualudis_command_line.hh,
+	+paludis/args/checks_arg.cc, +paludis/args/checks_arg.hh,
+	+paludis/args/debug_build_arg.cc, +paludis/args/debug_build_arg.hh,
+	+paludis/args/deps_option_arg.cc, +paludis/args/deps_option_arg.hh,
+	+paludis/args/do_help.hh, +paludis/args/log_level_arg.cc,
+	+paludis/args/log_level_arg.hh, -src/common_args,
+	-src/common_args/Makefile.am, -src/common_args/checks_arg.cc,
+	-src/common_args/checks_arg.hh, -src/common_args/debug_build_arg.cc,
+	-src/common_args/debug_build_arg.hh,
+	-src/common_args/deps_option_arg.cc,
+	-src/common_args/deps_option_arg.hh, -src/common_args/do_help.hh,
+	-src/common_args/log_level_arg.cc, -src/common_args/log_level_arg.hh:
+	More doxygen work. Move common args into paludis/args/ so that
+	examples can make use of them.
+
+2007-10-03 Ciaran McCreesh
+
+	* (lots): Be consistent in use of plurals for labels.
+
+2007-10-03 Ciaran McCreesh
+
+	* (lots): Split up dep spec heirarchies some more.
+
+	+ Fixes: ticket:381
+
+2007-10-01 Ciaran McCreesh
+
+	* doc/examples/example_dep_label.cc, paludis/repositories/e/e_key.cc,
+	paludis/repositories/e/eapi.cc, paludis/repositories/e/eapi.sr,
+	paludis/repositories/e/eapis/0.conf,
+	paludis/repositories/e/eapis/exheres-0.conf,
+	paludis/repositories/e/eapis/paludis-1.conf,
+	paludis/repositories/e/ebuild_entries.cc: Fix mirror, fetch restricts.
+
+	+ Fixes: ticket:383
+
+2007-10-01 David Leverton
+
+	* paludis/args/args_group.cc, paludis/args/args_group.hh,
+	paludis/args/args_handler.cc, paludis/args/args_handler.hh,
+	paludis/args/args_option.cc, paludis/args/args_option.hh,
+	paludis/args/args_TEST.cc: Allow removing arguments / changing the
+	defaults after construction.
+
+2007-09-28 Ciaran McCreesh
+
+	* paludis/tasks/install_task.hh, src/clients/contrarius/install.cc,
+	src/clients/paludis/install.cc, src/output/console_install_task.cc,
+	src/output/console_install_task.hh: Use sigaction rather than signal
+	for signal handling. Do signal handling as part of ConsoleInstallTask.
+
+2007-09-27 Ciaran McCreesh
+
+	* paludis/dep_list/condition_tracker.hh,
+	paludis/dep_list/dep_list-fwd.hh, paludis/dep_spec-fwd.hh,
+	paludis/dep_spec.hh, paludis/dep_spec_flattener.hh,
+	paludis/dep_tag.hh, paludis/environment.hh, paludis/match_package.hh,
+	paludis/metadata_key.hh, paludis/repositories/cran/cran_dep_parser.hh,
+	paludis/repositories/e/check_fetched_files_visitor.hh,
+	paludis/repositories/e/e_repository_profile.hh,
+	paludis/repositories/e/fetch_visitor.hh, paludis/repository.hh: Make
+	dep_spec-fwd a proper fwd.
+
+2007-09-26 Ciaran McCreesh
+
+	* doc/Makefile.am, doc/doc_main.doxygen, doc/doc_mainpage.doxygen,
+	doc/doxygen.conf.in, doc/examples/Makefile.am,
+	doc/examples/example_action.cc, doc/examples/example_dep_label.cc,
+	doc/header.html, doc/index.html.skel, paludis/about.hh.in,
+	paludis/action-fwd.hh, paludis/action.hh, paludis/action.se,
+	paludis/action.sr, paludis/contents-fwd.hh, paludis/contents.hh,
+	-doc/examples/pwp_basic_cplusplus_app.cc,
+	-doc/examples/pwp_basic_ruby_app.rb,
+	-doc/programmingwithpaludis.html.skel: Start reworking docs, examples.
+
+2007-09-26 Ciaran McCreesh
+
+	* paludis/dep_label-fwd.hh, paludis/dep_label.hh, paludis/dep_spec.cc,
+	paludis/dep_spec.hh, paludis/dep_tag.cc, paludis/metadata_key.cc,
+	paludis/metadata_key.hh, paludis/repositories/cran/keys.cc,
+	paludis/repositories/cran/keys.hh,
+	paludis/repositories/e/check_fetched_files_visitor.cc,
+	paludis/repositories/e/e_key.cc, paludis/repositories/e/e_key.hh,
+	paludis/repositories/e/ebuild_entries.cc,
+	paludis/repositories/e/fetch_visitor.cc,
+	paludis/repositories/e/fetch_visitor.hh,
+	paludis/repositories/e/fetch_visitor_TEST.cc,
+	paludis/repositories/e/vdb_id.cc,
+	paludis/repositories/fake/fake_package_id.cc,
+	paludis/repositories/fake/fake_package_id.hh, python/metadata_key.cc:
+	Carry around default labels with src_uri_key.
+
+2007-09-26 Ciaran McCreesh
+
+	* paludis/distribution.cc,
+	paludis/environments/no_config/no_config_environment.cc,
+	paludis/environments/paludis/bashable_conf.cc,
+	paludis/environments/paludis/keywords_conf.cc,
+	paludis/environments/paludis/licenses_conf.cc,
+	paludis/environments/paludis/mirrors_conf.hh,
+	paludis/environments/paludis/package_mask_conf.cc,
+	paludis/environments/paludis/paludis_config.cc,
+	paludis/environments/paludis/paludis_environment.cc,
+	paludis/environments/paludis/use_conf.cc,
+	paludis/environments/portage/portage_environment.cc, paludis/files.m4,
+	paludis/repositories/cran/cran_installed_repository.cc,
+	paludis/repositories/cran/cran_package_id.cc,
+	paludis/repositories/cran/cran_repository.cc,
+	paludis/repositories/cran/description_file.hh,
+	paludis/repositories/e/e_repository.cc,
+	paludis/repositories/e/e_repository_mask_file.cc,
+	paludis/repositories/e/e_repository_mask_file.hh,
+	paludis/repositories/e/e_repository_news.cc,
+	paludis/repositories/e/e_repository_news.hh,
+	paludis/repositories/e/e_repository_profile.cc,
+	paludis/repositories/e/e_repository_profile_file.cc,
+	paludis/repositories/e/e_repository_sets.cc,
+	paludis/repositories/e/eapi.cc,
+	paludis/repositories/e/ebin_entries.cc,
+	paludis/repositories/e/ebuild.cc,
+	paludis/repositories/e/exheres_layout.cc,
+	paludis/repositories/e/manifest2_reader.cc,
+	paludis/repositories/e/qa/extractors.cc,
+	paludis/repositories/e/qa/spec_keys.cc,
+	paludis/repositories/e/traditional_layout.cc,
+	paludis/repositories/e/use_desc.cc,
+	paludis/repositories/e/vdb_repository.cc,
+	paludis/repositories/e/xml_things.cc, paludis/repository.cc,
+	paludis/set_file.cc, paludis/util/files.m4, ruby/paludis_ruby.cc,
+	src/clients/adjutrix/display_default_system_resolution.cc,
+	src/clients/contrarius/stage.cc,
+	src/clients/contrarius/target_config.cc, +paludis/util/config_file.cc,
+	+paludis/util/config_file.hh, +paludis/util/config_file.se,
+	+paludis/util/config_file_TEST.cc,
+	+paludis/util/config_file_TEST_cleanup.sh,
+	+paludis/util/config_file_TEST_setup.sh, -paludis/config_file.cc,
+	-paludis/config_file.hh, -paludis/config_file.se,
+	-paludis/config_file_TEST.cc, -paludis/config_file_TEST_cleanup.sh,
+	-paludis/config_file_TEST_setup.sh: Move config_file into util/.
+
+2007-09-25 David Leverton
+
+	* paludis/fetchers/dowget.in: Source configuration bashrc in wget
+	fetcher.
+
+2007-09-25 Mike Kelly
+
+	* configure.ac: Add a --with-svn-revision option so that the -scm
+	ebuild can show the revision used in the --version output.
+
+2007-09-25 Ciaran McCreesh
+
+	* src/output/colour_formatter.cc: Fix query indenting.
+
+	+ Fixes: ticket:375
+
+2007-09-25 Ciaran McCreesh
+
+	* paludis/repositories/e/ebuild_entries.cc,
+	paludis/repositories/e/fetch_visitor.cc,
+	paludis/repositories/e/fetch_visitor.hh,
+	paludis/repositories/e/fetch_visitor_TEST.cc: Fix safe resume.
+
+	+ Fixes: ticket:372
+
+2007-09-25 Ciaran McCreesh
+
+	* (lots): Rename const iterators to ConstIterator, mutable to
+	Iterator.
+
+	+ Fixes: ticket:365
+
+2007-09-25 Richard Brown
+
+	* doc/configuration.html.skel, doc/faq.html.skel: Docs tweak.
+
+2007-09-24 David Leverton
+
+	* paludis/repositories/e/ebuild/run_test.bash: Plug yet more env
+	leakage.
+
+2007-09-24 Ciaran McCreesh
+
+	* paludis/Makefile.am.m4: Fix parallel builds.
+
+2007-09-23 Ciaran McCreesh
+
+	* src/clients/instruo/command_line.cc: Fix man instruo.
+
+	+ Fixes: ticket:376
+
+2007-09-23 Ciaran McCreesh
+
+	* src/output/colour_formatter.cc: Show -signs for disabled USE things.
+
+	+ Fixes: ticket:377
+
+2007-09-23 Ciaran McCreesh
+
+	* paludis/action-fwd.hh, paludis/action.cc, paludis/action.hh,
+	paludis/repositories/cran/cran_installed_repository.cc,
+	paludis/repositories/cran/cran_package_id.cc,
+	paludis/repositories/cran/cran_repository.cc,
+	paludis/repositories/e/e_key.cc,
+	paludis/repositories/e/e_repository.cc,
+	paludis/repositories/e/e_repository.hh,
+	paludis/repositories/e/e_repository_entries.hh,
+	paludis/repositories/e/eapi.cc, paludis/repositories/e/eapi.sr,
+	paludis/repositories/e/eapis/0.conf,
+	paludis/repositories/e/eapis/exheres-0.conf,
+	paludis/repositories/e/eapis/paludis-1.conf,
+	paludis/repositories/e/ebuild.cc, paludis/repositories/e/ebuild.hh,
+	paludis/repositories/e/ebuild.sr,
+	paludis/repositories/e/ebuild/Makefile.am,
+	paludis/repositories/e/ebuild/builtin_infovars.bash,
+	paludis/repositories/e/ebuild/ebuild.bash,
+	paludis/repositories/e/ebuild/pkg_info.bash,
+	paludis/repositories/e/ebuild_entries.cc,
+	paludis/repositories/e/ebuild_entries.hh,
+	paludis/repositories/e/ebuild_id.cc, paludis/repositories/e/vdb_id.cc,
+	paludis/repositories/e/vdb_repository.cc,
+	paludis/repositories/e/vdb_repository.hh,
+	paludis/repositories/fake/fake_installed_repository.cc,
+	paludis/repositories/fake/fake_package_id.cc,
+	paludis/repositories/fake/fake_repository.cc,
+	paludis/repositories/gems/gem_specification.cc,
+	paludis/repositories/gems/gems_repository.cc,
+	paludis/repositories/gems/installed_gems_repository.cc,
+	paludis/repositories/virtuals/installed_virtuals_repository.cc,
+	paludis/repositories/virtuals/package_id.cc,
+	paludis/repositories/virtuals/virtuals_repository.cc,
+	paludis/repository.hh, src/clients/paludis/Makefile.am,
+	src/clients/paludis/command_line.cc, src/clients/paludis/info.cc,
+	src/clients/paludis/info.hh, src/clients/paludis/paludis.cc: Better
+	--info, pkg_info support.
+
+	+ Fixes: ticket:367
+
+2007-09-23 David Leverton
+
+	* paludis/environments/paludis/paludis_config.cc: Don't call the
+	environment before it has its vtable.
+
+2007-09-22 Ciaran McCreesh
+
+	* (lots): Formatters.
+
+2007-09-21 Ciaran McCreesh
+
+	* paludis/util/join.hh, paludis/util/join_TEST.cc: Allow join to use a
+	function other than stringify.
+
+2007-09-21 Ciaran McCreesh
+
+	* paludis/util/set-impl.hh, paludis/util/set.hh: Add set.erase.
+
+2007-09-21 Ciaran McCreesh
+
+	* paludis/dep_list/override_functions.cc, paludis/dep_tag.cc,
+	paludis/metadata_key.cc, paludis/metadata_key.hh, paludis/name-fwd.hh,
+	paludis/package_id.hh, paludis/repositories/cran/cran_package_id.cc,
+	paludis/repositories/cran/cran_package_id.hh,
+	paludis/repositories/e/e_key.cc, paludis/repositories/e/e_key.hh,
+	paludis/repositories/e/ebuild_id.cc,
+	paludis/repositories/e/ebuild_id.hh,
+	paludis/repositories/e/qa/spec_keys.cc,
+	paludis/repositories/e/vdb_id.cc, paludis/repositories/e/vdb_id.hh,
+	paludis/repositories/e/vdb_repository.cc,
+	paludis/repositories/fake/fake_package_id.cc,
+	paludis/repositories/fake/fake_package_id.hh,
+	paludis/repositories/gems/gem_specification.cc,
+	paludis/repositories/gems/gem_specification.hh,
+	paludis/repositories/gems/gem_specification_TEST.cc,
+	paludis/repositories/virtuals/package_id.cc,
+	paludis/repositories/virtuals/package_id.hh,
+	python/additional_tests.cc, python/metadata_key.cc,
+	python/metadata_key_TEST.py, python/name.cc, ruby/package_id.cc,
+	ruby/package_id_TEST.rb, src/clients/instruo/instruo.cc,
+	src/clients/qualudis/qualudis.cc, src/output/console_query_task.cc:
+	Kill global use_key, inherited_key.
+
+2007-09-21 Ciaran McCreesh
+
+	* paludis/repositories/virtuals/virtuals_repository.cc,
+	paludis/repositories/virtuals/virtuals_repository_TEST.cc: Don't
+	create multiple identical ::virtuals entries.
+
+	+ Fixes: ticket:370
+
+2007-09-19 David Leverton
+
+	* paludis/environments/paludis/keywords_conf.cc: -* in
+	keywords.conf isn't supposed to accept KEYWORDS="-*".
+
+2007-09-19 David Leverton
+
+	* paludis/merger/merger.cc, paludis/merger/merger_TEST.cc,
+	paludis/merger/merger_TEST_setup.sh,
+	paludis/repositories/e/vdb_merger.cc,
+	paludis/repositories/e/vdb_merger_TEST_setup.sh,
+	python/mask_TEST.py: Make mergers work when ${ROOT} contains
+	symlinks.
+
+	+ Fixes: ticket:313
+
+2007-09-18 David Leverton
+
+	* paludis/tasks/report_task.cc, paludis/tasks/report_task.hh,
+	src/clients/paludis/report.cc: Fix masked and missing checks in
+	report.
+
+2007-09-11 Ciaran McCreesh
+
+	* paludis/dep_list/dep_list_TEST_blockers.cc,
+	paludis/repositories/cran/cran_installed_repository.cc,
+	paludis/repositories/fake/fake_installed_repository.cc,
+	paludis/repositories/virtuals/installed_virtuals_repository.cc: Be
+	consistent with installed repository names.
+
+	+ Fixes: ticket:274
+
+2007-09-11 Piotr Jaroszyński
+
+	* python/dep_list.cc, python/dep_list_TEST.py: (python) Fix wrt r3486.
+
+2007-09-11 Ciaran McCreesh
+
+	* paludis/repositories/e/ebuild/exheres-0/Makefile.am,
+	paludis/repositories/e/ebuild/exheres-0/portage_stubs.bash,
+	paludis/repositories/e/ebuild/portage_stubs.bash,
+	src/clients/paludis/applets.cc, src/clients/paludis/applets.hh,
+	src/clients/paludis/command_line.cc,
+	src/clients/paludis/command_line.hh, src/clients/paludis/paludis.cc:
+	Implement portageq match. Ban portageq in exheres.
+
+	+ Fixes: ticket:364
+
+2007-09-11 Ciaran McCreesh
+
+	* paludis/environments/portage/portage_environment_TEST_setup.sh: Don't
+	require /var/db/pkg.
+
+	+ Fixes: ticket:362
+
+2007-09-11 Ciaran McCreesh
+
+	* paludis/dep_list/Makefile.am, paludis/dep_list/dep_list.cc,
+	paludis/dep_list/dep_list.hh, paludis/dep_list/dep_list.sr,
+	paludis/dep_list/handled_information-fwd.hh,
+	paludis/dep_list/handled_information.cc,
+	paludis/dep_list/handled_information.hh, paludis/distribution.cc,
+	paludis/distribution.sr, paludis/distributions/gentoo.conf,
+	paludis/environment.hh, paludis/environment_implementation.cc,
+	paludis/environment_implementation.hh,
+	paludis/environments/adapted/adapted_environment.cc,
+	paludis/environments/adapted/adapted_environment.hh,
+	paludis/tasks/Makefile.am, paludis/tasks/install_task.cc,
+	paludis/tasks/install_task.hh, paludis/tasks/install_task.se,
+	python/dep_list.cc, python/dep_list_TEST.py,
+	src/clients/contrarius/install.cc, src/clients/paludis/command_line.cc,
+	src/clients/paludis/command_line.hh, src/clients/paludis/install.cc,
+	src/output/console_install_task.cc, src/output/console_install_task.hh,
+	src/output/console_query_task.cc: Implement --continue-on-failure.
+
+	+ Fixes: ticket:155
+
+2007-09-10 Piotr Jaroszyński
+
+	* python/Makefile.am: (python) Fix distcheck.
+
+2007-09-10 Piotr Jaroszyński
+
+	* configure.ac: Fix ./configure --disable-python.
+
+2007-09-10 Piotr Jaroszyński
+
+	* configure.ac, paludis/hooker.cc, paludis/hooker_TEST.cc,
+	paludis/Makefile.am.m4: Check whether to enable Python Hooks in
+	configure.ac.
+
+2007-09-10 Piotr Jaroszyński
+
+	* configure.ac, doc/hooks.html.skel, paludis/hooker.cc,
+	paludis/hooker.hh, paludis/hooker_TEST.cc,
+	paludis/hooker_TEST_setup.sh, paludis/Makefile.am.m4,
+	+paludis/python_hooks.cc, python/Makefile.am,
+	+python/paludis_output_wrapper.py: Python Hooks.
+
+2007-09-09 Piotr Jaroszyński
+
+	* paludis/tasks/Makefile.am: Add version info to libpaludistasks.so.
+
+2007-09-08 Stephen Bennett
+
+	* paludis/dep_label-fwd.hh, paludis/dep_label.hh,
+	paludis/dep_label.cc: Make dependency label class heirarchy more
+	heirarchical.
+
+2007-09-08 David Leverton
+
+	* paludis/repositories/cran/cran_dep_parser_TEST.cc,
+	python/dep_spec.cc, python/dep_spec.hh: Fix CRAN tests and Python.
+
+2007-09-08 Stephen Bennett
+
+	* paludis/repositories/cran/dep_spec_pretty_printer.cc,
+	paludis/repositories/cran/dep_spec_pretty_printer.hh,
+	paludis/repositories/e/qa/extractors.cc,
+	paludis/repositories/e/qa/spec_keys.cc,
+	paludis/repositories/e/qa/visibility.cc: Fix QA and CRAN compile.
+
+2007-09-07 Stephen Bennett
+
+	* paludis/dep_label.cc, paludis/dep_label-fwd.hh,
+	paludis/dep_label.hh, paludis/dep_list/condition_tracker.cc,
+	paludis/dep_list/condition_tracker.hh, paludis/dep_list/dep_list.cc,
+	paludis/dep_list/query_visitor.cc, paludis/dep_list/query_visitor.hh,
+	paludis/dep_list/range_rewriter.cc,
+	paludis/dep_list/range_rewriter.hh,
+	paludis/dep_list/show_suggest_visitor.cc,
+	paludis/dep_list/show_suggest_visitor.hh,
+	paludis/dep_list/uninstall_list.cc, paludis/dep_spec.cc,
+	paludis/dep_spec-fwd.hh, paludis/dep_tag.cc,
+	paludis/repositories/e/dep_parser.cc,
+	paludis/repositories/e/dep_parser.hh,
+	paludis/repositories/e/dep_parser_TEST.cc,
+	paludis/repositories/e/dep_spec_pretty_printer.cc,
+	paludis/repositories/e/dep_spec_pretty_printer.hh,
+	paludis/repositories/e/eapi.cc,
+	paludis/repositories/e/eapis/exheres-0.conf,
+	paludis/repositories/e/eapi.sr,
+	src/clients/adjutrix/find_reverse_deps.cc: Initial (parser) support
+	for dependency labels.
+
+2007-09-04 Ciaran McCreesh
+
+	* paludis/dep_list/dep_list.cc,
+	paludis/dep_list/show_suggest_visitor.cc, paludis/files.m4,
+	paludis/package_database-fwd.hh, paludis/package_database.cc,
+	paludis/package_database.hh, paludis/query-fwd.hh, paludis/query.cc,
+	paludis/query.hh, paludis/repositories/e/e_repository_sets.cc,
+	paludis/tasks/find_unused_packages_task.cc,
+	paludis/tasks/install_task.cc, paludis/tasks/install_task.hh,
+	paludis/tasks/report_task.cc, python/query.cc, ruby/package_database.cc,
+	ruby/package_database_TEST.rb, src/clients/accerso/accerso.cc,
+	src/clients/adjutrix/downgrade_check.cc,
+	src/clients/adjutrix/find_insecure_packages.cc,
+	src/clients/adjutrix/find_reverse_deps.cc,
+	src/clients/adjutrix/keywords_graph.cc,
+	src/clients/contrarius/install.cc,
+	src/clients/gtkpaludis/libgtkpaludis/packages_list_model.cc,
+	src/clients/gtkpaludis/libgtkpaludis/version_info_model.cc,
+	src/clients/inquisitio/do_search.cc, src/clients/instruo/instruo.cc,
+	src/clients/paludis/install.cc, src/output/console_install_task.cc,
+	src/output/console_install_task.hh: Move common task code. Clean up
+	headers a bit.
+
+2007-09-04 David Leverton
+
+	* paludis/repositories/e/Makefile.am: Fix distcheck.
+
+2007-09-03 David Leverton
+
+	* paludis/repositories/e/e_repository.cc,
+	paludis/repositories/e/layout.cc,
+	paludis/repositories/e/layout.hh,
+	paludis/repositories/e/Makefile.am,
+	paludis/repositories/e/traditional.exclude,
+	paludis/repositories/e/traditional_layout.cc,
+	paludis/repositories/e/traditional_layout.hh, paludis/syncer.cc,
+	paludis/syncers/dorsync.in, paludis/syncers/dotar.in,
+	paludis/syncer.sr: Move default rsync excludes out of the syncers,
+	and hide old-style digest files.
+
+	+ Fixes: ticket:358
+
+2007-09-03 Ciaran McCreesh
+
+	* doc/configuration.html.skel, paludis/distribution.cc,
+	paludis/distribution.sr, paludis/distributions/gentoo.conf,
+	paludis/environments/portage/portage_environment.cc,
+	paludis/repositories/cran/cran_installed_repository_TEST.cc,
+	paludis/repositories/cran/cran_repository.cc,
+	paludis/repositories/cran/cran_repository.sr,
+	paludis/repositories/cran/cran_repository_TEST.cc,
+	paludis/repositories/e/e_repository.cc,
+	paludis/repositories/e/e_repository_TEST.cc,
+	paludis/repositories/e/e_repository_params.sr,
+	paludis/repositories/e/ebin.cc, paludis/repositories/e/ebin.sr,
+	paludis/repositories/e/ebuild.cc, paludis/repositories/e/ebuild.sr,
+	paludis/repositories/e/ebuild_entries.cc,
+	paludis/repositories/e/ebuild_id.cc,
+	paludis/repositories/e/make_ebin_repository.cc,
+	paludis/repositories/e/make_ebuild_repository.cc,
+	paludis/repositories/e/vdb_repository.cc,
+	paludis/repositories/e/vdb_repository.sr,
+	paludis/repositories/gems/gems_repository.cc,
+	paludis/repositories/gems/gems_repository_TEST.cc,
+	paludis/repositories/gems/installed_gems_repository.cc,
+	paludis/repositories/gems/installed_gems_repository_TEST.cc,
+	paludis/repositories/gems/params.sr,
+	paludis/repositories/gems/registration.cc,
+	vim/syntax/paludis-repositories-conf.vim: buildroot -> builddir.
+
+	+ Fixes: ticket:348
+
+2007-09-03 Ciaran McCreesh
+
+	* paludis/repositories/e/e_repository_profile.cc: Support profile
+	deprecated files.
+
+	+ Fixes: ticket:163
+
+2007-09-02 Piotr Jaroszyński
+
+	* src/clients/instruo/instruo.cc: Fix.
+
+2007-09-02 Piotr Jaroszyński
+
+	* paludis/dep_list/override_functions.cc, paludis/metadata_key.cc,
+	paludis/metadata_key-fwd.hh, paludis/metadata_key.hh,
+	paludis/package_id.hh, paludis/qa.cc, paludis/qa.hh, paludis/qa.sr,
+	paludis/repositories/cran/cran_package_id.cc,
+	paludis/repositories/cran/cran_package_id.hh,
+	paludis/repositories/cran/keys.cc, paludis/repositories/cran/keys.hh,
+	paludis/repositories/e/ebuild_id.cc,
+	paludis/repositories/e/ebuild_id.hh, paludis/repositories/e/e_key.cc,
+	paludis/repositories/e/e_key.hh,
+	paludis/repositories/e/qa/eapi_supported.cc,
+	paludis/repositories/e/qa/extractors.cc,
+	paludis/repositories/e/qa/homepage_key.cc,
+	paludis/repositories/e/qa/qa_controller.cc,
+	paludis/repositories/e/qa/short_description_key.cc,
+	paludis/repositories/e/qa/spec_keys.cc,
+	paludis/repositories/e/qa/visibility.cc,
+	paludis/repositories/e/vdb_id.cc, paludis/repositories/e/vdb_id.hh,
+	paludis/repositories/fake/fake_package_id.cc,
+	paludis/repositories/fake/fake_package_id.hh,
+	paludis/repositories/gems/gem_specification.cc,
+	paludis/repositories/gems/gem_specification.hh,
+	paludis/repositories/gems/gem_specification_TEST.cc,
+	paludis/repositories/virtuals/package_id.cc,
+	paludis/repositories/virtuals/package_id.hh,
+	paludis/util/visitor-fwd.hh, paludis/util/visitor.hh,
+	python/metadata_key.cc, ruby/package_id.cc,
+	src/clients/instruo/instruo.cc, src/clients/qualudis/qualudis.cc,
+	src/output/console_query_task.cc: Tie package IDs and metadata keys to
+	QA messages.
+
+	+ Fixes: ticket:339
+
+2007-09-02 David Leverton
+
+	* src/clients/instruo/instruo.cc: Report an error for a malformed
+	dep string.
+
+2007-09-02 Ciaran McCreesh
+
+	* Makefile.am, configure.ac, doc/Makefile.am, doc/index.html.skel,
+	paludis/repositories/e/e_repository.cc,
+	paludis/repositories/e/e_repository_params.sr,
+	paludis/repositories/e/ebuild_id.cc,
+	paludis/repositories/e/make_ebin_repository.cc,
+	paludis/repositories/e/make_ebuild_repository.cc, src/clients/instruo,
+	src/clients/instruo/Makefile.am, src/clients/instruo/command_line.cc,
+	src/clients/instruo/command_line.hh, src/clients/instruo/help_TEST,
+	src/clients/instruo/instruo.cc, src/clients/instruo/man_instruo.cc,
+	src/clients/instruo/version_TEST: Add instruo, a metadata generation
+	client.
+
+2007-09-01 David Leverton
+
+	* ruby/contents.cc: (ruby) Fix ContentsDevEntry.
+
+2007-08-31 David Leverton
+
+	* doc/hooks.html.skel, hooks/Makefile.am.m4,
+	paludis/environments/paludis/paludis_environment.cc,
+	paludis/hook.hh, paludis/sohooks_TEST.cc, paludis/util/files.m4,
+	paludis/util/graph-fwd.hh, paludis/util/graph.hh: Allow hooks in
+	LIBDIR/paludis/hooks, and document .so hooks.
+
+2007-08-31 Fernando J. Pereda
+
+	* src/clients/adjutrix/adjutrix.cc, src/clients/adjutrix/command_line.cc,
+	src/clients/adjutrix/command_line.hh,
+	src/clients/adjutrix/find_dropped_keywords.cc,
+	src/clients/adjutrix/find_dropped_keywords.hh,
+	src/clients/adjutrix/find_insecure_packages.cc,
+	src/clients/adjutrix/find_insecure_packages.hh,
+	src/clients/adjutrix/find_reverse_deps.cc,
+	src/clients/adjutrix/find_stable_candidates.cc,
+	src/clients/adjutrix/find_stable_candidates.hh,
+	src/clients/adjutrix/find_unused_packages.cc,
+	src/clients/adjutrix/find_unused_packages.hh,
+	src/clients/adjutrix/keywords_graph.cc,
+	src/clients/adjutrix/keywords_graph.hh: Add --master-repository-dir to
+	adjutrix.
+
+2007-08-30 David Leverton
+
+	* paludis/repositories/e/ebuild/utils/unpack: Reset permissions on
+	the contents of the current directory after unpack.
+
+	+ Fixes: Gentoo#190746.
+
+2007-08-29 Ciaran McCreesh
+
+	* Makefile.am, configure.ac, doc/Makefile.am, doc/index.html.skel,
+	paludis/environments/no_config/no_config_environment.cc,
+	paludis/environments/no_config/no_config_environment.hh,
+	paludis/environments/no_config/no_config_environment.sr,
+	paludis/environments/no_config/no_config_environment_TEST.cc,
+	python/environment.cc, ruby/environment.cc, src/clients/accerso,
+	src/clients/accerso/Makefile.am, src/clients/accerso/accerso.cc,
+	src/clients/accerso/command_line.cc,
+	src/clients/accerso/command_line.hh, src/clients/accerso/help_TEST,
+	src/clients/accerso/man_accerso.cc, src/clients/accerso/version_TEST,
+	src/clients/adjutrix/adjutrix.cc, src/clients/qualudis/qualudis.cc: Add
+	accerso, a mirror client.
+
+2007-08-29 Piotr Jaroszyński
+
+	* misc/make_sr.bash, paludis/util/sr.hh: Add support for default
+	values and typedefs in sr.
+
+2007-08-29 Ciaran McCreesh
+
+	* paludis/repositories/e/ebuild_id.cc: Only supported EAPIs support
+	actions.
+
+	+ Fixes: ticket:352
+
+2007-08-28 Piotr Jaroszyński
+
+	* paludis/repositories/e/fetch_visitor_TEST.cc: Fix after r3449.
+
+2007-08-28 Ciaran McCreesh
+
+	* paludis/repositories/e/Makefile.am,
+	paludis/repositories/e/check_fetched_files_visitor.cc,
+	paludis/repositories/e/check_fetched_files_visitor.hh,
+	paludis/repositories/e/e_repository_params.cc,
+	paludis/repositories/e/e_repository_params.hh,
+	paludis/repositories/e/e_repository_params.se,
+	paludis/repositories/e/e_repository_params.sr,
+	paludis/repositories/e/ebuild_entries.cc,
+	paludis/repositories/e/fetch_visitor_TEST.cc,
+	paludis/repositories/e/make_ebin_repository.cc,
+	paludis/repositories/e/make_ebuild_repository.cc,
+	vim/syntax/paludis-repositories-conf.vim: use_manifest = use | require
+	| ignore.
+
+2007-08-28 Piotr Jaroszyński
+
+	* paludis/repositories/e/ebuild_entries.cc,
+	paludis/repositories/e/fetch_visitor.cc,
+	paludis/repositories/e/fetch_visitor.hh: Honour mirror-restrict.
+
+2007-08-28 Ciaran McCreesh
+
+	* paludis/distribution.cc, paludis/distribution.sr,
+	paludis/distributions/gentoo.conf,
+	paludis/repositories/e/vdb_repository.cc: Allow distributions to set
+	some defaults for VDB too.
+
+2007-08-28 Ciaran McCreesh
+
+	* paludis/repositories/e/registration.cc: Allow format = exheres.
+
+2007-08-25 David Leverton
+
+	* paludis/repositories/e/ebuild_id.cc: Display repository_mask and
+	profile_mask keys by default.
+
+2007-08-22 Piotr Jaroszyński
+
+	* python/Makefile.am: (python) Fix distcheck.
+
+2007-08-21 David Leverton
+
+	* paludis/util/parallel_for_each.hh: Optimise for random-access
+	iterators.
+
+2007-08-21 Ciaran McCreesh
+
+	* paludis/util/action_queue.cc, paludis/util/action_queue.hh,
+	paludis/util/parallel_for_each.hh, paludis/util/thread_pool.cc,
+	paludis/util/thread_pool.hh: Change parallel_for_each.
+
+2007-08-20 Piotr Jaroszyński
+
+	* +python/additional_tests.cc, +python/additional_tests.hh,
+	+python/additional_tests_so.cc, python/environment_TEST.py,
+	python/Makefile.am, python/mask_TEST.py, python/metadata_key_TEST.py,
+	-python/subclassing_test.cc: (python) Libtool fun and rename
+	subclassing_test to additional_tests by the way.
+
+2007-08-20 Ciaran McCreesh
+
+	* configure.ac, python/Makefile.am: Python needs -fno-strict-aliasing.
+
+2007-08-20 Piotr Jaroszyński
+
+	* paludis/repositories/e/Makefile.am: We want paludis stuff before xml
+	to avoid relinking against libpaludis.so from /usr/lib.
+
+2007-08-20 David Leverton
+
+	* paludis/repositories/e/ebuild/ebuild.bash: Plug even more leaks.
+
+2007-08-20 David Leverton
+
+	* paludis/repositories/e/ebuild.cc: Plug more environment leakage,
+	and unbreak SLOT-naughtiness checking.
+
+2007-08-19 Piotr Jaroszyński
+
+	* python/mask.cc, python/metadata_key.cc: (python) Fix some weird bug,
+	probably boost-1.33.1 related.
+
+2007-08-19 Piotr Jaroszyński
+
+	* python/Makefile.am: (python) Fix distcheck.
+
+2007-08-18 Piotr Jaroszyński
+
+	* python/exception.cc: (python) Fail when base exception is not found.
+
+2007-08-18 Piotr Jaroszyński
+
+	* paludis/dep_list/dep_list.cc, paludis/package_id.cc,
+	paludis/package_id.hh, python/contents.cc, python/dep_spec.cc,
+	python/dep_spec_TEST.py, python/environment.cc,
+	python/environment_TEST.py, python/fs_entry.cc, python/Makefile.am,
+	python/mask.cc, python/mask_TEST.py, python/metadata_key.cc,
+	-python/metadata_key.hh, python/metadata_key_TEST.py, python/name.cc,
+	python/package_id.cc, python/query.cc, python/query_TEST.py,
+	python/repository.cc, +python/subclassing_test.cc,
+	src/clients/adjutrix/what_needs_keywording.cc,
+	src/clients/contrarius/install.cc,
+	src/clients/gtkpaludis/libgtkpaludis/versions_list_model.cc,
+	src/clients/paludis/install.cc, src/clients/paludis/report.cc,
+	src/output/console_install_task.cc, src/output/console_query_task.cc:
+	(python) Allow subclassing of Environment, Masks and MetadataKeys.
+
+2007-08-17 Piotr Jaroszyński
+
+	* python/iterable.hh: (python) Allow implicit conversion from strings.
+
+2007-08-15 David Leverton
+
+	* paludis/config_file.cc, paludis/config_file.se,
+	paludis/config_file_TEST.cc: Add kvcfo_ignore_export.
+
+2007-08-14 Piotr Jaroszyński
+
+	* python/action.cc, python/contents.cc, python/dep_list.cc,
+	python/dep_spec.cc, python/dep_tag.cc, python/environment.cc,
+	python/exception.cc, python/fs_entry.cc, python/log.cc,
+	python/mask.cc, python/metadata_key.cc, python/name.cc,
+	python/package_database.cc, python/package_id.cc,
+	python/paludis_python_so.cc, python/qa.cc, python/query.cc,
+	python/repository.cc, python/version_operator.cc,
+	python/version_requirements.cc, python/version_spec.cc: (python)
+	Really fix the way visibility is specified.
+
+2007-08-14 Piotr Jaroszyński
+
+	* python/qa.cc: (python) Thread safety.
+
+2007-08-14 Piotr Jaroszyński
+
+	* python/action.cc, python/contents.cc, python/dep_list.cc,
+	python/dep_spec.cc, python/dep_tag.cc, python/environment.cc,
+	python/exception.cc, python/fs_entry.cc, python/log.cc,
+	python/mask.cc, python/metadata_key.cc, python/mutex.hh,
+	python/name.cc, python/package_database.cc, python/package_id.cc,
+	python/qa.cc, python/query.cc, python/repository.cc,
+	python/version_operator.cc, python/version_requirements.cc,
+	python/version_spec.cc: (python) Fix the way visibility is specified.
+
+2007-08-14 Piotr Jaroszyński
+
+	* python/mask.cc, python/query.cc: (python) Add docs to QueryBase and
+	work around epydoc bug in Mask.
+
+2007-08-14 Fernando J. Pereda
+
+	* paludis/util/system.cc: Cleanup stdout and stderr descriptors after a
+	run_command.
+
+2007-08-14 Piotr Jaroszyński
+
+	* python/Makefile.am, +python/mutex.cc, +python/mutex.hh,
+	python/paludis_python.hh, python/query.cc: (python) Thread safety.
+
+2007-08-14 Piotr Jaroszyński
+
+	* python/iterable.hh: (python) Fix for <boost-1.34.
+
+2007-08-14 Piotr Jaroszyński
+
+	* python/exception.cc, python/exception.hh, python/iterable.hh,
+	python/Makefile.am, python/name.cc, python/package_id.cc,
+	python/query.cc, +python/query_TEST_cleanup.sh, python/query_TEST.py,
+	+python/query_TEST_setup.sh: (python) Allow Query subclassing.
+
+2007-08-13 David Leverton
+
+	* ruby/demos/check_linkage.rb: (ruby) Don't assume that
+	/etc/revdep-rebuild is complete if it exists.
+
+2007-08-13 Piotr Jaroszyński
+
+	* python/Makefile.am: (python) Fix distcheck.
+
+2007-08-13 David Leverton
+
+	* paludis/repositories/e/qa/Makefile.am: Fix distcheck.
+
+2007-08-13 Piotr Jaroszyński
+
+	* python/action.cc, python/contents.cc, python/dep_list.cc,
+	python/dep_spec.cc, python/dep_tag.cc, python/environment.cc,
+	python/fs_entry.cc, +python/iterable.hh, python/log.cc,
+	python/mask.cc, python/metadata_key.cc, python/metadata_key.hh,
+	python/name.cc, +python/options.hh, python/package_database.cc,
+	python/package_id.cc, python/paludis_python.hh,
+	python/paludis_python_so.cc, python/qa.cc, python/query.cc,
+	python/repository.cc, +python/validated.hh,
+	python/version_operator.cc, python/version_requirements.cc,
+	python/version_spec.cc: (python) Headers clean up.
+
+2007-08-13 Ciaran McCreesh
+
+	* paludis/repositories/e/qa/Makefile.am,
+	paludis/repositories/e/qa/extractors.cc,
+	paludis/repositories/e/qa/extractors.conf,
+	paludis/repositories/e/qa/extractors.hh,
+	paludis/repositories/e/qa/extractors_TEST.cc,
+	paludis/repositories/e/qa/qa_checks.cc,
+	paludis/repositories/e/qa/spec_keys.cc,
+	paludis/repositories/e/qa/spec_keys_TEST.cc,
+	paludis/repositories/fake/fake_package_id.cc,
+	paludis/repositories/fake/fake_package_id.hh,
+	src/clients/qualudis/qualudis.cc,
+	src/clients/qualudis/qualudis_command_line.cc,
+	src/clients/qualudis/qualudis_command_line.hh: More QA work.
+
+2007-08-12 Ciaran McCreesh
+
+	* paludis/repositories/e/Makefile.am,
+	paludis/repositories/e/e_repository.cc,
+	paludis/repositories/e/qa/Makefile.am, paludis/repositories/e/qa/qa.cc,
+	paludis/repositories/e/qa/qa_controller.hh,
+	paludis/repositories/e/qa/spec_keys.cc,
+	paludis/repositories/e/qa/spec_keys_TEST.cc,
+	paludis/repositories/e/qa/spec_keys_pds_blacklist.DEPEND.conf,
+	paludis/repositories/e/qa/spec_keys_pds_blacklist.PDEPEND.conf,
+	paludis/repositories/e/qa/spec_keys_pds_blacklist.PROVIDE.conf,
+	paludis/repositories/e/qa/spec_keys_pds_blacklist.RDEPEND.conf,
+	paludis/repositories/e/qa/spec_keys_pds_blacklist.SDEPEND.conf,
+	paludis/repositories/e/qa/test_extras.cc: More QA work.
+
+2007-08-12 David Leverton
+
+	* hooks/find_config_updates.hook,
+	paludis/repositories/e/Makefile.am,
+	paludis/repositories/e/vdb_merger.cc,
+	paludis/repositories/e/vdb_merger.hh,
+	paludis/repositories/e/vdb_merger.sr,
+	paludis/repositories/e/vdb_merger_TEST.cc,
+	paludis/repositories/e/vdb_merger_TEST_cleanup.sh,
+	paludis/repositories/e/vdb_merger_TEST_setup.sh,
+	paludis/repositories/e/vdb_unmerger.cc,
+	paludis/repositories/e/vdb_unmerger_TEST.cc,
+	paludis/repositories/e/vdb_unmerger_TEST_setup.sh: Fix config
+	protect handling for PMS compliance and ${ROOT}!=/.
+
+2007-08-11 Piotr Jaroszyński
+
+	* python/Makefile.am, +python/mask.cc, +python/mask_TEST_cleanup.sh,
+	+python/mask_TEST.py, +python/mask_TEST_setup.sh,
+	python/metadata_key.cc, +python/metadata_key.hh, python/package_id.cc,
+	python/package_id_TEST.py, python/package_id_TEST_setup.sh,
+	python/paludis_python_so.cc: (python) Add Masks and fix
+	PackageID.metadata.
+
+2007-08-10 Piotr Jaroszyński
+
+	* paludis/files.m4, paludis/qa.cc, paludis/qa.hh, +paludis/qa.sr,
+	paludis/repositories/e/qa/eapi_supported.cc,
+	paludis/repositories/e/qa/homepage_key.cc,
+	paludis/repositories/e/qa/qa_controller.cc,
+	paludis/repositories/e/qa/short_description_key.cc,
+	paludis/repositories/e/qa/spec_keys.cc,
+	paludis/repositories/e/qa/spec_keys_TEST.cc,
+	paludis/repositories/e/qa/stray_files.cc, python/qa.cc,
+	python/qa_TEST.py, python/repository_TEST.py, ruby/paludis_ruby.cc,
+	ruby/paludis_ruby.hh, ruby/qa.cc, ruby/qa_TEST.rb,
+	ruby/repository_TEST.rb, src/clients/qualudis/qualudis.cc: Group QA
+	messages.
+
+	+ Fixes: ticket:338
+
+2007-08-09 David Leverton
+
+	* paludis/repositories/e/qa/qa_checks_group.cc: Fix threaded QA
+	checking.
+
+2007-08-09 Piotr Jaroszyński
+
+	* paludis/repositories/e/qa/Makefile.am: Revert last commit.
+
+2007-08-09 Piotr Jaroszyński
+
+	* paludis/repositories/e/qa/Makefile.am: Fix TESTS.
+
+2007-08-08 Mike Kelly
+
+	* paludis/repositories/e/check_fetched_files_visitor.cc,
+	paludis/repositories/e/manifest2_reader.cc,
+	paludis/repositories/e/ebuild_entries.cc,
+	paludis/repositories/e/check_fetched_files_visitor.hh: Fix manifest
+	checking.
+
+2007-08-08 Ciaran McCreesh
+
+	* paludis/environments/no_config/no_config_environment.cc,
+	paludis/environments/no_config/no_config_environment.sr,
+	paludis/environments/no_config/no_config_environment_TEST.cc,
+	python/environment.cc, ruby/environment.cc,
+	src/clients/adjutrix/adjutrix.cc, src/clients/qualudis/qualudis.cc:
+	Disable cache for QA.
+
+2007-08-08 Ciaran McCreesh
+
+	* paludis/repositories/e/qa/homepage_key.cc,
+	paludis/repositories/e/qa/short_description_key.cc,
+	paludis/repositories/e/qa/spec_keys.cc,
+	paludis/repositories/e/qa/stray_files.cc: Better QA output.
+
+2007-08-08 Mike Kelly
+
+	* paludis/repositories/e/manifest2_entry.sr,
+	paludis/repositories/e/check_fetched_files_visitor.cc,
+	paludis/repositories/e/manifest2_reader.cc,
+	paludis/repositories/e/e_repository_TEST.cc,
+	paludis/repositories/e/check_fetched_files_visitor.hh,
+	paludis/repositories/e/manifest2_reader.hh,
+	paludis/repositories/e/Makefile.am: Make CheckFetchedFilesVisitor
+	verify that fetched files match their Manifest2 checksums and size.
+	Also, add Manifest2Reader, which iterates over a list of
+	Manifest2Entrys.
+
+2007-08-08 Ciaran McCreesh
+
+	* paludis/util/visitor.hh: Define a result_type for AcceptVisitor so we
+	can be bound.
+
+2007-08-07 Ciaran McCreesh
+
+	* paludis/environments/portage/bashrc,
+	paludis/environments/portage/portage_environment.cc,
+	paludis/repositories/e/ebuild/ebuild.bash: Be less sensitive to
+	tinkering when -E portage.
+
+2007-08-07 Ciaran McCreesh
+
+	* paludis/repositories/e/eapi.cc, paludis/repositories/e/eapi.sr,
+	paludis/repositories/e/eapis/0.conf,
+	paludis/repositories/e/eapis/exheres-0.conf,
+	paludis/repositories/e/eapis/paludis-1.conf,
+	paludis/repositories/e/ebuild.cc,
+	paludis/repositories/e/ebuild/ebuild.bash: Die if the user tries to
+	tinker with internals in bashrc.
+
+2007-08-07 Ciaran McCreesh
+
+	* paludis/qa.hh, paludis/repositories/e/qa/dependency_keys.cc,
+	paludis/repositories/e/qa/dependency_keys.hh,
+	paludis/repositories/e/qa/dependency_keys_TEST.cc,
+	paludis/repositories/e/qa/eapi_supported.cc,
+	paludis/repositories/e/qa/eapi_supported.hh,
+	paludis/repositories/e/qa/homepage_key.cc,
+	paludis/repositories/e/qa/homepage_key.hh,
+	paludis/repositories/e/qa/qa_checks.cc,
+	paludis/repositories/e/qa/qa_checks.hh,
+	paludis/repositories/e/qa/qa_controller.cc,
+	paludis/repositories/e/qa/short_description_key.cc,
+	paludis/repositories/e/qa/short_description_key.hh,
+	paludis/repositories/e/qa/stray_files.cc, python/qa.cc,
+	python/repository_TEST.py, ruby/paludis_ruby.cc, ruby/paludis_ruby.hh,
+	ruby/qa.cc, ruby/repository_TEST.rb, src/clients/qualudis/qualudis.cc:
+	Include FSEntry for QA messages. Improve qualudis output.
+
+2007-08-07 Ciaran McCreesh
+
+	* paludis/util/pipe.cc, paludis/util/pipe.hh,
+	paludis/util/pstream.cc: Fix PStream FD usage.
+
+2007-08-07 Ciaran McCreesh
+
+	* paludis/util/pstream.cc: Distinguish between EOF on a read and an
+	error.
+
+2007-08-07 David Leverton
+
+	* paludis/repositories/e/e_repository_TEST.cc: Really fix.
+
+2007-08-07 David Leverton
+
+	* paludis/repositories/e/e_repository_profile_file.cc,
+	paludis/repositories/e/e_repository_TEST.cc,
+	paludis/repositories/e/e_repository_TEST_setup.sh: Fix virtuals,
+	and add tests.
+
+2007-08-07 Ciaran McCreesh
+
+	* hooks/Makefile.am.m4, hooks/eselect_env_update_TEST,
+	hooks/news_TEST: Fix out of tree build.
+
+2007-08-06 Ciaran McCreesh
+
+	* paludis/query.cc, paludis/util/files.m4, paludis/util/future.cc,
+	paludis/util/future.hh, paludis/util/future_TEST.cc,
+	paludis/util/idle_action_pool.cc: More threading.
+
+2007-08-05 Ciaran McCreesh
+
+	* configure.ac: Explicitly check for visibility things in CXXFLAGS and
+	LDFLAGS, since gcc 4.2.0 produces broken code if any of these options
+	are enabled. Visibility support for Paludis must only be enabled via
+	the appropriate configure options, not forced on by environment
+	variables.
+
+2007-08-05 Ciaran McCreesh
+
+	* hooks/Makefile.am.m4, hooks/eselect_env_update_TEST,
+	hooks/eselect_env_update_TEST_cleanup.sh,
+	hooks/eselect_env_update_TEST_setup.sh, hooks/news_TEST,
+	hooks/news_TEST_cleanup.sh, hooks/news_TEST_setup.sh,
+	hooks/run_test.bash: Test some of our hooks.
+
+2007-08-05 Piotr Jaroszyński
+
+	* paludis/repositories/e/ebuild_flat_metadata_cache.cc,
+	paludis/repositories/e/e_repository_TEST.cc,
+	paludis/repositories/e/e_repository_TEST_setup.sh: Fix stale cache
+	check for ebuilds not inheriting any eclasses.
+
+2007-08-03 David Leverton
+
+	* paludis/package_id.cc, paludis/package_id.hh,
+	paludis/repositories/gems/gem_specification_TEST.cc,
+	python/package_id.cc, ruby/package_id.cc, ruby/package_id_TEST.rb,
+	ruby/package_id_TEST_setup.sh, ruby/paludis_ruby.hh,
+	src/output/console_query_task.cc: (ruby) Add interface to
+	arbitrary metadata keys, and RepositoryMaskInfo.
+
+2007-08-02 Piotr Jaroszyński
+
+	* python/exception.cc, python/exception.hh, python/Makefile.am,
+	python/paludis_python_so.cc, +python/qa.cc, +python/qa_TEST.py,
+	python/repository.cc, python/repository_TEST.py,
+	python/repository_TEST_setup.sh: (python) Add QA interface.
+
+2007-08-01 David Leverton
+
+	* paludis/mask.hh, paludis/mask.sr,
+	paludis/repositories/e/e_repository.cc,
+	paludis/repositories/e/e_repository_mask_file.cc,
+	paludis/repositories/e/e_repository_mask_file.hh,
+	paludis/repositories/e/e_repository_profile.cc,
+	paludis/repositories/e/e_repository_profile_file.cc,
+	paludis/repositories/e/e_repository_profile_file.hh,
+	paludis/repositories/e/Makefile.am,
+	src/output/console_query_task.cc: Add mask comment to
+	RepositoryMaskInfo.
+
+2007-08-01 Ciaran McCreesh
+
+	* paludis/repositories/cran/cran_repository.cc: Call CRAN repositories
+	'cran' rather than 'cran-cran'.
+
+2007-08-01 Ciaran McCreesh
+
+	* paludis/repositories/cran/Makefile.am,
+	paludis/repositories/cran/cran_package_id.cc,
+	paludis/repositories/cran/cran_repository.cc,
+	paludis/repositories/cran/dep_spec_pretty_printer.cc,
+	paludis/repositories/cran/dep_spec_pretty_printer.hh,
+	paludis/repositories/cran/keys.cc, paludis/repositories/cran/keys.hh:
+	CRAN dependencies.
+
+2007-07-31 Ciaran McCreesh
+
+	* paludis/dep_list/override_functions.cc, paludis/metadata_key.cc,
+	paludis/metadata_key.hh, paludis/package_id.hh,
+	paludis/repositories/cran/Makefile.am,
+	paludis/repositories/cran/cran_dep_parser.cc,
+	paludis/repositories/cran/cran_installed_repository.cc,
+	paludis/repositories/cran/cran_package_id.cc,
+	paludis/repositories/cran/cran_package_id.hh,
+	paludis/repositories/cran/cran_repository.cc,
+	paludis/repositories/cran/cran_repository.hh,
+	paludis/repositories/cran/cran_repository_TEST.cc,
+	paludis/repositories/cran/description_file.cc,
+	paludis/repositories/cran/description_file.hh,
+	paludis/repositories/cran/description_file_TEST.cc,
+	paludis/repositories/cran/keys.cc, paludis/repositories/cran/keys.hh,
+	paludis/repositories/cran/masks.cc, paludis/repositories/cran/masks.hh,
+	paludis/repositories/cran/normalise.cc,
+	paludis/repositories/cran/normalise.hh,
+	paludis/repositories/e/ebuild_id.cc,
+	paludis/repositories/e/ebuild_id.hh, paludis/repositories/e/vdb_id.cc,
+	paludis/repositories/e/vdb_id.hh,
+	paludis/repositories/fake/fake_package_id.cc,
+	paludis/repositories/fake/fake_package_id.hh,
+	paludis/repositories/gems/gem_specification.cc,
+	paludis/repositories/gems/gem_specification.hh,
+	paludis/repositories/gems/gem_specification_TEST.cc,
+	paludis/repositories/virtuals/package_id.cc,
+	paludis/repositories/virtuals/package_id.hh, python/metadata_key.cc,
+	ruby/package_id.cc, src/output/console_query_task.cc: Start to unbreak
+	CRAN some more.
+
+2007-07-31 David Leverton
+
+	* paludis/util/pstream.cc: Really don't use Log after a fork().
+
+2007-07-30 Ciaran McCreesh
+
+	* paludis/environments/test/test_environment.cc,
+	paludis/repositories/e/source_uri_finder.cc,
+	paludis/repositories/e/source_uri_finder_TEST.cc: Fix mirror:// path
+	handling.
+
+	+ Fixes: ticket:332
+
+2007-07-27 Piotr Jaroszyński
+
+	* +python/action.cc, +python/action_TEST.py, python/dep_list.cc,
+	python/Makefile.am, python/package_id.cc, python/package_id_TEST.py,
+	python/paludis_python_so.cc, python/repository.cc: (python) Add
+	actions.
+
+2007-07-27 Piotr Jaroszyński
+
+	* paludis/util/exception.cc: Use typeid.name() instead of
+	std::exception::what(), which was changed in gcc-4.2.0.
+
+2007-07-27 Ciaran McCreesh
+
+	* paludis/util/pstream.cc, paludis/util/system.cc,
+	paludis/util/system_TEST.cc: Don't use Log after a fork().
+
+	+ Fixes: ticket:326
+
+2007-07-26 Ciaran McCreesh
+
+	* paludis/environments/paludis/Makefile.am,
+	paludis/environments/paludis/paludis_environment_TEST.cc,
+	paludis/environments/paludis/paludis_environment_TEST_setup.sh,
+	paludis/environments/portage/Makefile.am,
+	paludis/environments/portage/portage_environment_TEST.cc,
+	paludis/environments/portage/portage_environment_TEST_setup.sh: Fix
+	environment test cases.
+
+	+ Fixes: ticket:307
+
+2007-07-26 David Leverton
+
+	* paludis/dep_list/override_functions.cc, paludis/files.m4,
+	paludis/mask.cc, paludis/mask-fwd.hh, paludis/mask.hh,
+	paludis/mask.sr, paludis/metadata_key.cc,
+	paludis/metadata_key-fwd.hh, paludis/metadata_key.hh,
+	paludis/repositories/e/ebuild_id.cc,
+	paludis/repositories/e/e_key.cc, paludis/repositories/e/e_key.hh,
+	paludis/repositories/e/e_mask.cc,
+	paludis/repositories/e/e_mask.hh,
+	paludis/repositories/e/e_repository.cc,
+	paludis/repositories/e/e_repository.hh,
+	paludis/repositories/e/e_repository_profile.cc,
+	paludis/repositories/e/e_repository_profile_file.cc,
+	paludis/repositories/e/e_repository_profile_file.hh,
+	paludis/repositories/e/e_repository_profile.hh,
+	paludis/repositories/gems/gem_specification_TEST.cc,
+	python/metadata_key.cc, ruby/package_id.cc,
+	src/output/console_query_task.cc,
+	src/output/console_query_task.hh: Expose repository and profile
+	masks as a metadata key, currently containing the filename that
+	the mask comes from.
+
+2007-07-26 David Leverton
+
+	* paludis/repositories/e/e_repository_TEST.cc,
+	paludis/repositories/e/e_repository_TEST_setup.sh: Fix tests.
+
+2007-07-26 Ciaran McCreesh
+
+	* paludis/Makefile.am.m4, paludis/dep_list/Makefile.am,
+	paludis/environments/environment_maker.cc,
+	paludis/environments/no_config/Makefile.am,
+	paludis/environments/paludis/Makefile.am,
+	paludis/environments/paludis/paludis_config.cc,
+	paludis/environments/portage/Makefile.am,
+	paludis/repositories/e/Makefile.am,
+	paludis/repositories/fake/Makefile.am,
+	paludis/repositories/virtuals/Makefile.am, python/Makefile.am,
+	ruby/Makefile.am, src/clients/adjutrix/Makefile.am,
+	src/clients/contrarius/Makefile.am, src/clients/inquisitio/Makefile.am,
+	src/clients/paludis/Makefile.am: Don't fail tests with
+	--with-default-distribution.
+
+	+ Fixes: ticket:320
+
+2007-07-26 Ciaran McCreesh
+
+	* paludis/repositories/e/Makefile.am,
+	paludis/repositories/e/e_repository_TEST.cc,
+	paludis/repositories/e/e_repository_TEST_setup.sh,
+	paludis/repositories/e/ebuild/build_functions.bash,
+	paludis/repositories/e/ebuild/die_functions.bash,
+	paludis/repositories/e/ebuild/utils/Makefile.am,
+	paludis/repositories/e/ebuild/utils/exheres-0/Makefile.am,
+	paludis/repositories/e/ebuild/utils/exheres-0/banned_in_eapi_exheres-0,
+	paludis/repositories/e/ebuild/utils/exheres-0/dodoc,
+	+paludis/repositories/e/ebuild/utils/exheres-0/emake,
+	+paludis/repositories/e/ebuild/utils/exheres-0/unpack,
+	+paludis/repositories/e/ebuild/utils/unpack,
+	-paludis/repositories/e/ebuild/utils/dounpack,
+	-paludis/repositories/e/ebuild/utils/exheres-0/dounpack: Change how die
+	works. Stricter emake, dodoc in exheres-0.
+
+2007-07-25 Ciaran McCreesh
+
+	* paludis/environment_implementation.cc: PALUDIS_DISTRIBUTION can be
+	used to override the distribution.
+
+2007-07-25 Ciaran McCreesh
+
+	* paludis/environments/no_config/no_config_environment.cc: Make
+	NoConfigEnvironment guess when we're using exheres layouts.
+
+2007-07-25 Ciaran McCreesh
+
+	* paludis/repositories/e/exheres_layout.cc,
+	paludis/repositories/e/traditional_layout.cc: Fix master repository
+	profile locations.
+
+	+ Fixes: ticket:293
+
+2007-07-25 Ciaran McCreesh
+
+	* paludis/repositories/e/qa/Makefile.am,
+	paludis/repositories/e/qa/eapi_supported.cc,
+	paludis/repositories/e/qa/eapi_supported.hh,
+	paludis/repositories/e/qa/homepage_key.cc,
+	paludis/repositories/e/qa/homepage_key.hh,
+	paludis/repositories/e/qa/qa_checks.cc,
+	paludis/repositories/e/qa/qa_checks.hh,
+	paludis/repositories/e/qa/qa_checks_group.cc,
+	paludis/repositories/e/qa/qa_controller.cc,
+	paludis/repositories/e/qa/short_description_key.cc,
+	paludis/repositories/e/qa/short_description_key.hh: More QA checks.
+
+2007-07-25 Ciaran McCreesh
+
+	* configure.ac: Check that eselect and required modules are available.
+
+2007-07-24 David Leverton
+
+	* paludis/repositories/e/ebuild_flat_metadata_cache.cc: Don't die
+	if an exception occurs while writing a cache file.
+
+2007-07-24 David Leverton
+
+	* src/clients/paludis/command_line.cc,
+	src/clients/paludis/install.cc: Accept, with a warning,
+	--dl-override-masks profile as a synonym for --dl-override-masks
+	repository.
+
+2007-07-24 David Leverton
+
+	* paludis/repositories/e/e_repository.cc,
+	paludis/repositories/e/vdb_repository.cc,
+	paludis/repositories/gems/gems_repository.cc,
+	paludis/repositories/gems/installed_gems_repository.cc,
+	paludis/repositories/virtuals/installed_virtuals_repository.cc,
+	paludis/repositories/virtuals/virtuals_repository.cc: Don't
+	destroy mutexes that might be in use.
+
+2007-07-24 Ciaran McCreesh
+
+	* paludis/action.se, paludis/action.sr,
+	paludis/repositories/e/eapi_phase.hh,
+	paludis/repositories/e/eapis/0.conf,
+	paludis/repositories/e/eapis/exheres-0.conf,
+	paludis/repositories/e/eapis/paludis-1.conf,
+	paludis/repositories/e/ebuild_entries.cc, paludis/tasks/install_task.cc,
+	paludis/tasks/install_task.hh, src/clients/paludis/command_line.cc,
+	src/clients/paludis/command_line.hh, src/clients/paludis/install.cc,
+	src/clients/paludis/install_TEST,
+	src/clients/paludis/install_TEST_setup.sh, src/common_args/Makefile.am,
+	src/common_args/checks_arg.cc, src/common_args/checks_arg.hh: --checks
+	none|default|always.
+
+	+ Fixes: ticket:289
+
+2007-07-24 David Leverton
+
+	* paludis/environment_implementation.cc,
+	paludis/repositories/e/Makefile.am,
+	src/clients/paludis/command_line.cc: Look for fetchers in the
+	source tree during tests.
+
+2007-07-24 Ciaran McCreesh
+
+	* paludis/repositories/e/e_repository_TEST.cc,
+	paludis/repositories/e/e_repository_TEST_setup.sh,
+	paludis/repositories/e/ebuild_flat_metadata_cache.cc: Don't die on stale
+	cache files.
+
+	+ Fixes: ticket:306
+
+2007-07-24 Ciaran McCreesh
+
+	* (lots): Make a FetchAction. Kill builtin_fetch. Support SRC_URI
+	labels. Support arrows in SRC_URI.
+
+	+ Fixes: ticket:260
+	+ Fixes: ticket:257
+
+2007-07-23 David Leverton
+
+	* paludis/environments/no_config/no_config_environment.cc,
+	paludis/package_id.cc, paludis/package_id.hh,
+	paludis/repositories/e/ebuild_id.cc,
+	paludis/repositories/e/ebuild_id.hh,
+	paludis/repositories/e/e_repository.cc,
+	paludis/repositories/e/e_repository.hh,
+	paludis/repositories/e/e_repository_TEST.cc,
+	paludis/repositories/e/e_repository_TEST_setup.sh,
+	paludis/repositories/e/exheres_layout.cc,
+	paludis/repositories/e/exheres_layout.hh,
+	paludis/repositories/e/layout.hh,
+	paludis/repositories/e/traditional_layout.cc,
+	paludis/repositories/e/traditional_layout.hh,
+	paludis/repositories/e/vdb_repository.cc,
+	paludis/repositories/e/vdb_repository.hh,
+	paludis/repositories/fake/fake_package_id.cc,
+	paludis/repositories/fake/fake_package_id.hh,
+	paludis/repositories/fake/fake_repository_base.cc,
+	paludis/repositories/fake/fake_repository_base.hh,
+	paludis/repositories/gems/gem_specification.cc,
+	paludis/repositories/gems/gem_specification.hh,
+	paludis/repositories/gems/gems_repository.cc,
+	paludis/repositories/gems/gems_repository.hh,
+	paludis/repositories/gems/installed_gems_repository.cc,
+	paludis/repositories/gems/installed_gems_repository.hh,
+	paludis/repositories/virtuals/installed_virtuals_repository.cc,
+	paludis/repositories/virtuals/installed_virtuals_repository.hh,
+	paludis/repositories/virtuals/package_id.cc,
+	paludis/repositories/virtuals/package_id.hh,
+	paludis/repositories/virtuals/virtuals_repository.cc,
+	paludis/repositories/virtuals/virtuals_repository.hh,
+	paludis/repository.hh: Add invalidate_masks method to Repository
+	and PackageID, and use them when appropriate.
+
+	+ Fixes: ticket:325
+
+2007-07-23 Mike Kelly
+
+	* bash-completion/paludis, src/clients/paludis/applets.cc,
+	src/clients/paludis/paludis.cc: Allow specifying specific repositories
+	for the --regenerate-*-cache actions.
+
+	+ Fixes: ticket:251
+
+2007-07-23 Mike Kelly
+
+	* paludis/repositories/e/ebin_entries.cc,
+	paludis/repositories/e/ebin_entries.hh,
+	paludis/repositories/e/ebuild_entries.cc,
+	paludis/repositories/e/ebuild_entries.hh,
+	paludis/repositories/e/e_repository.cc,
+	paludis/repositories/e/e_repository_entries.hh,
+	paludis/repositories/e/exheres_layout.cc,
+	paludis/repositories/e/exheres_layout.hh,
+	paludis/repositories/e/layout.cc, paludis/repositories/e/layout.hh,
+	paludis/repositories/e/traditional_layout.cc,
+	paludis/repositories/e/traditional_layout.hh: Improve Manifest2
+	support a bit. Add ERepositoryEntries::get_package_file_manifest_key()
+	and Layout::manifest_files() helpers. Now should properly handle files
+	in subdirs of FILESDIR, the exheres layout, etc.
+
+	+ Fixes: ticket:253
+
+2007-07-20 Mike Kelly
+
+	* paludis/repositories/cran/cran_installed_repository.cc,
+	paludis/repositories/cran/cran_repository.cc,
+	paludis/repositories/e/e_repository.cc,
+	paludis/repositories/e/e_repository.hh,
+	paludis/repositories/e/e_repository_TEST.cc,
+	paludis/repositories/e/e_repository_TEST_setup.sh,
+	paludis/repositories/e/vdb_repository.cc,
+	paludis/repositories/fake/fake_installed_repository.cc,
+	paludis/repositories/fake/fake_repository.cc,
+	paludis/repositories/gems/gems_repository.cc,
+	paludis/repositories/gems/installed_gems_repository.cc,
+	paludis/repositories/virtuals/installed_virtuals_repository.cc,
+	paludis/repositories/virtuals/virtuals_repository.cc,
+	paludis/repository.cc, paludis/repository-fwd.hh,
+	paludis/repository.hh, paludis/repository.sr: Manifest2 generation
+	support, via the RepositoryManifestInterface.
+
+2007-07-19 Mike Kelly
+
+	* paludis/repositories/e/aa_visitor.cc,
+	paludis/repositories/e/aa_visitor.hh,
+	paludis/repositories/e/aa_visitor_TEST.cc,
+	paludis/repositories/e/Makefile.am: Add AAVisitor, which gives us an
+	Iterator over all the filenames in a URIDepSpec.
+
+2007-07-18 Richard Brown
+
+	* ruby/package_database_TEST.rb, ruby/package_id.cc,
+	ruby/package_id_TEST.rb, ruby/paludis_ruby.hh, ruby/repository.cc:
+	(ruby) Make Repository non-const and change PackageID.repository to
+	repository_name.
+
+2007-07-18 Ciaran McCreesh
+
+	* (lots): Make EAPIs, dep parsing ERepository specific.
+
+	+ Fixes: ticket:316
+
+2007-07-17 Richard Brown
+
+	* ruby/package_database_TEST.rb, ruby/query.cc, ruby/query_TEST.rb:
+	(ruby) Add SupportsAction Query objects.
+
+2007-07-17 David Leverton
+
+	* ruby/Makefile.am: Fix distcheck.
+
+2007-07-17 Ciaran McCreesh
+
+	* paludis/dep_list/uninstall_list.cc, paludis/dep_spec.cc,
+	paludis/dep_spec_flattener.cc, paludis/dep_spec_pretty_printer.cc,
+	paludis/dep_spec_pretty_printer.hh, paludis/dep_tag.cc,
+	paludis/distribution.cc, paludis/environment_implementation.cc,
+	paludis/environments/paludis/keywords_conf.cc,
+	paludis/environments/paludis/licenses_conf.cc,
+	paludis/environments/paludis/paludis_config.cc,
+	paludis/environments/paludis/paludis_environment.cc,
+	paludis/environments/paludis/use_conf.cc,
+	paludis/environments/portage/portage_environment.cc, paludis/hooker.cc,
+	paludis/package_database.cc, paludis/portage_dep_parser.cc,
+	paludis/repositories/e/e_key.cc, paludis/repositories/e/e_repository.cc,
+	paludis/repositories/e/e_repository_news.cc,
+	paludis/repositories/e/ebuild_entries.cc,
+	paludis/repositories/e/ebuild_id.cc,
+	paludis/repositories/e/eclass_mtimes.cc,
+	paludis/repositories/e/exheres_layout.cc,
+	paludis/repositories/e/traditional_layout.cc,
+	paludis/repositories/e/vdb_id.cc,
+	paludis/repositories/e/vdb_repository.cc,
+	paludis/repositories/fake/fake_package_id.cc,
+	paludis/repositories/gems/gem_specification.cc,
+	paludis/repositories/gems/gems_repository.cc,
+	paludis/repositories/gems/installed_gems_repository.cc,
+	paludis/repositories/gems/yaml.cc,
+	paludis/repositories/virtuals/installed_virtuals_repository.cc,
+	paludis/repositories/virtuals/package_id.cc,
+	paludis/repositories/virtuals/virtuals_repository.cc,
+	paludis/repository_name_cache.cc, paludis/set_file.cc,
+	paludis/util/fs_entry.cc, paludis/util/fs_entry.hh,
+	paludis/version_spec.cc: Be thread safe.
+
+2007-07-16 Richard Brown
+
+	* -ruby/check.cc, -ruby/check_result.cc, -ruby/check_result_TEST.rb,
+	-ruby/check_TEST_cleanup.sh, -ruby/check_TEST.rb,
+	-ruby/check_TEST_setup.sh, ruby/Makefile.am, -ruby/message.cc,
+	-ruby/message_TEST.rb, -ruby/metadata_file.cc,
+	-ruby/metadata_file_TEST.rb, ruby/paludis_ruby.cc,
+	ruby/paludis_ruby.hh, ruby/qa.cc, -ruby/qa_environment.cc,
+	-ruby/qa_environment_TEST_cleanup.sh, -ruby/qa_environment_TEST.rb,
+	-ruby/qa_environment_TEST_setup.sh, ruby/qa_TEST.rb,
+	ruby/repository.cc, ruby/repository_TEST.rb,
+	ruby/repository_TEST_setup.sh: (ruby) New qa interface.
+
+2007-07-16 Mike Kelly
+
+	* AUTHORS, ChangeLog, hooks/update_config_protect_list.bash: Change my
+	email address.
+
+2007-07-16 Ciaran McCreesh
+
+	* (lots): Smarter mask reasons code.
+
+	+ Fixes: ticket:317
+
+2007-07-16 Mike Kelly
+
+	* paludis/dep_spec.cc, paludis/dep_spec.hh, paludis/dep_spec_TEST.cc:
+	Add a new member to URIDepSpec, filename().
+
+2007-07-13 David Leverton
+
+	* paludis/util/files.m4: Fix(ish) distcheck.
+
+2007-07-13 Piotr Jaroszyński
+
+	* python/Makefile.am: (python) Stricter CXXFLAGS.
+
+2007-07-13 Ciaran McCreesh
+
+	* paludis/repositories/e/e_key.cc, paludis/repositories/e/ebuild_id.cc,
+	paludis/repositories/e/ebuild_id.hh, paludis/util/idle_action_pool.cc,
+	paludis/util/idle_action_pool.hh: More idle actions.
+
+2007-07-13 David Leverton
+
+	* configure.ac, python/Makefile.am: (Better) fix for threads with
+	Python and Ruby.
+
+2007-07-13 David Leverton
+
+	* configure.ac: Add PALUDIS_HASH_IS_* and PALUDIS_ENABLE_THREADS
+	to pkgconfig.
+
+2007-07-13 Ciaran McCreesh
+
+	* paludis/repositories/e/e_key.cc, paludis/repositories/e/e_key.hh,
+	paludis/repositories/e/ebuild_id.cc,
+	paludis/repositories/e/ebuild_id.hh, paludis/util/action_queue.cc,
+	paludis/util/action_queue.hh, paludis/util/files.m4,
+	paludis/util/idle_action_pool-fwd.hh, paludis/util/idle_action_pool.cc,
+	paludis/util/idle_action_pool.hh, paludis/util/idle_action_pool.se,
+	paludis/util/idle_action_pool_TEST.cc, paludis/util/thread.cc,
+	paludis/util/thread.hh: Better idle actions.
+
+2007-07-13 Piotr Jaroszyński
+
+	* python/Makefile.am: (python) Fix --enable-threads thanks to
+	dleverton.
+
+2007-07-12 David Leverton
+
+	* paludis/util/output_wrapper.cc, paludis/util/pstream.cc,
+	paludis/util/system.cc: Notice when a command dies with a signal.
+
+2007-07-12 Piotr Jaroszyński
+
+	* python/Makefile.am, python/metadata_key_TEST.py,
+	python/package_id.cc, python/package_id_TEST.py, python/query.cc,
+	python/query_TEST.py, python/repository.cc, python/repository_TEST.py:
+	(python) Remove things that've been replaced by actions.
+
+2007-07-12 Ciaran McCreesh
+
+	* ruby/Makefile.am, ruby/package_database.cc,
+	ruby/package_database_TEST.rb, ruby/query.cc, ruby/query_TEST.rb,
+	ruby/repository.cc, ruby/repository_TEST.rb: Remove Ruby things that've
+	been replaced by actions.
+
+2007-07-11 Ciaran McCreesh
+
+	* paludis/action-fwd.hh, paludis/action.cc, paludis/action.hh,
+	paludis/action.se, paludis/action.sr, paludis/dep_list/dep_list.cc,
+	paludis/dep_list/show_suggest_visitor.cc, paludis/files.m4,
+	paludis/package_database_TEST.cc, paludis/package_id.cc,
+	paludis/package_id.hh, paludis/query.cc, paludis/query.hh,
+	paludis/repositories/e/e_repository.cc,
+	paludis/repositories/e/e_repository.hh,
+	paludis/repositories/e/e_repository_entries.hh,
+	paludis/repositories/e/e_repository_news.cc,
+	paludis/repositories/e/e_repository_sets.cc,
+	paludis/repositories/e/ebin.cc, paludis/repositories/e/ebin.hh,
+	paludis/repositories/e/ebin.sr, paludis/repositories/e/ebin_entries.hh,
+	paludis/repositories/e/ebuild.cc, paludis/repositories/e/ebuild.hh,
+	paludis/repositories/e/ebuild.sr,
+	paludis/repositories/e/ebuild_entries.cc,
+	paludis/repositories/e/ebuild_entries.hh,
+	paludis/repositories/e/ebuild_id.cc,
+	paludis/repositories/e/ebuild_id.hh, paludis/repositories/e/vdb_id.cc,
+	paludis/repositories/e/vdb_id.hh,
+	paludis/repositories/e/vdb_repository.cc,
+	paludis/repositories/e/vdb_repository.hh,
+	paludis/repositories/fake/fake_installed_repository.cc,
+	paludis/repositories/fake/fake_installed_repository.hh,
+	paludis/repositories/fake/fake_package_id.cc,
+	paludis/repositories/fake/fake_package_id.hh,
+	paludis/repositories/fake/fake_repository.cc,
+	paludis/repositories/fake/fake_repository.hh,
+	paludis/repositories/fake/fake_repository_base.hh,
+	paludis/repositories/gems/gem_specification.cc,
+	paludis/repositories/gems/gem_specification.hh,
+	paludis/repositories/gems/gem_specification_TEST.cc,
+	paludis/repositories/gems/gems_repository.cc,
+	paludis/repositories/gems/gems_repository.hh,
+	paludis/repositories/gems/installed_gems_repository.cc,
+	paludis/repositories/gems/installed_gems_repository.hh,
+	paludis/repositories/virtuals/installed_virtuals_repository.cc,
+	paludis/repositories/virtuals/installed_virtuals_repository.hh,
+	paludis/repositories/virtuals/package_id.cc,
+	paludis/repositories/virtuals/package_id.hh,
+	paludis/repositories/virtuals/virtuals_repository.cc,
+	paludis/repositories/virtuals/virtuals_repository.hh,
+	paludis/repository-fwd.hh, paludis/repository.cc, paludis/repository.hh,
+	paludis/repository.sr, paludis/tasks/install_task.cc,
+	paludis/tasks/install_task.hh, paludis/tasks/uninstall_task.cc,
+	src/clients/contrarius/install.cc,
+	src/clients/gtkpaludis/libgtkpaludis/packages_list_model.cc,
+	src/clients/gtkpaludis/libgtkpaludis/packages_repository_filter_model.cc,
+	src/clients/paludis/do_config.cc, src/clients/paludis/install.cc,
+	src/common_args/debug_build_arg.cc, src/common_args/debug_build_arg.hh,
+	src/output/console_install_task.cc, src/output/console_query_task.cc:
+	Use actions rather than repo methods.
+
+	+ Fixes: ticket:315
+
+2007-07-11 Piotr Jaroszyński
+
+	* paludis/repositories/e/ebuild/exheres-0/Makefile.am,
+	ruby/Makefile.am: Fix EXTRA_DIST.
+
+2007-07-10 Piotr Jaroszyński
+
+	* python/dep_tag_TEST.py, python/environment.cc,
+	python/environment_TEST.py, python/Makefile.am: (python) Add
+	TestEnvironment. Fix OUTPUT_WRAPPER.
+
+2007-07-09 Piotr Jaroszyński
+
+	* python/dep_spec.cc, python/Makefile.am: (python) Fix includes and
+	distcheck.
+
+2007-07-09 Ciaran McCreesh
+
+	* eselect/Makefile.am, -eselect/news.eselect: Don't ship news.eselect
+	as part of Paludis.
+
+	* hooks/news.hook: Use 'eselect news count' rather than manually
+	implementing news counting.
+
+	+ Fixes: Gentoo#179064.
+
+2007-07-09 Richard Brown
+
+	* ruby/Makefile.am, ruby/paludis_ruby.cc, ruby/paludis_ruby.hh: (ruby)
+	disable qa until it works.
+
+2007-07-09 Piotr Jaroszyński
+
+	* python/paludis_python.hh: (python) Add docstrings to enums.
+
+2007-07-08 Piotr Jaroszyński
+
+	* +python/dep_list.cc, +python/dep_list_TEST_cleanup.sh,
+	+python/dep_list_TEST.py, +python/dep_list_TEST_setup.sh,
+	python/dep_spec.cc, python/dep_tag.cc, python/environment.cc,
+	python/environment_TEST.py, python/Makefile.am,
+	python/paludis_python_so.cc, python/repository_TEST_setup.sh: (python)
+	Add DepList and a few minor changes.
+
+2007-07-07 Ciaran McCreesh
+
+	* paludis/repositories/cran/cran_installed_repository.cc,
+	paludis/repositories/cran/cran_installed_repository.hh,
+	paludis/repositories/cran/cran_repository.cc,
+	paludis/repositories/cran/cran_repository.hh,
+	paludis/repositories/cran/cran_repository_TEST.cc,
+	paludis/repositories/gems/gem_specification.cc,
+	paludis/repositories/gems/gem_specification.hh,
+	paludis/repositories/gems/gem_specification_TEST.cc,
+	paludis/repositories/gems/gems_repository.cc,
+	paludis/repositories/gems/gems_repository.hh,
+	paludis/repositories/gems/installed_gems_repository.cc,
+	paludis/repositories/gems/installed_gems_repository.hh,
+	paludis/repositories/gems/registration.cc,
+	paludis/repositories/gems/yaml.cc: Fix up gems.
+
+2007-07-07 David Leverton
+
+	* paludis/package_database.cc, paludis/package_database_TEST.cc:
+	Fix qo_group_by_slot.
+
+2007-07-07 Ciaran McCreesh
+
+	* configure.ac, paludis/repositories/e/ebuild/exheres-0/Makefile.am,
+	paludis/repositories/e/ebuild/exheres-0/echo_functions.bash.in,
+	paludis/repositories/e/ebuild/exheres-0/list_functions.bash: use ->
+	option, useq -> optionq etc for exheres.
+
+2007-07-07 Piotr Jaroszyński
+
+	* paludis/util/destringify.hh, paludis/util/destringify_TEST.cc:
+	Improve destringification.
+
+2007-07-07 Ciaran McCreesh
+
+	* configure.ac, paludis/distribution.cc, paludis/distribution.sr,
+	paludis/distributions/gentoo.conf, paludis/eapi-fwd.hh, paludis/eapi.cc,
+	paludis/eapi.sr, paludis/eapis/0.conf, paludis/eapis/exheres-0.conf,
+	paludis/eapis/paludis-1.conf,
+	paludis/environments/no_config/no_config_environment.cc,
+	paludis/name.cc, paludis/name_TEST.cc,
+	paludis/repositories/e/e_repository.cc,
+	paludis/repositories/e/e_repository_params.sr,
+	paludis/repositories/e/e_repository_profile.cc,
+	paludis/repositories/e/e_repository_profile.hh,
+	paludis/repositories/e/ebuild.cc, paludis/repositories/e/ebuild/0,
+	paludis/repositories/e/ebuild/0/Makefile.am,
+	paludis/repositories/e/ebuild/Makefile.am,
+	paludis/repositories/e/ebuild/builtin_metadata.bash,
+	paludis/repositories/e/ebuild/ebuild.bash,
+	paludis/repositories/e/ebuild/exheres-0,
+	paludis/repositories/e/ebuild/exheres-0/Makefile.am,
+	paludis/repositories/e/ebuild/exheres-0/builtin_fetch.bash,
+	paludis/repositories/e/ebuild/exheres-0/pkg_nofetch.bash,
+	paludis/repositories/e/ebuild/utils/exheres-0/Makefile.am,
+	paludis/repositories/e/ebuild/utils/exheres-0/dounpack,
+	paludis/repositories/e/ebuild/write_vdb_entry.bash,
+	paludis/repositories/e/ebuild_entries.cc,
+	paludis/repositories/e/make_ebin_repository.cc,
+	paludis/repositories/e/make_ebuild_repository.cc,
+	paludis/repositories/e/use_desc.cc, paludis/repositories/e/use_desc.hh,
+	paludis/repositories/e/vdb_id.cc, paludis/util/destringify.hh,
+	src/output/console_install_task.cc,
+	src/output/use_flag_pretty_printer.cc: More EAPI-configurable options.
+	Allow characters other than underscore for USE_EXPAND.
+
+	+ Fixes: ticket:285
+	+ Fixes: ticket:311
+
+2007-07-06 Piotr Jaroszyński
+
+	* configure.ac: Support --with-foo=all.
+
+	+ Fixes: ticket:296
+
+2007-07-06 Richard Brown
+
+	* ruby/dep_tag.cc: Fix for gcc-4.2.0.
+
+2007-07-06 Piotr Jaroszyński
+
+	* paludis/repositories/virtuals/Makefile.am: Fix distcheck.
+
+2007-07-06 Piotr Jaroszyński
+
+	* python/dep_spec.cc, python/dep_tag.cc, python/dep_tag_TEST.py,
+	python/environment.cc, python/environment_TEST.py, python/log_TEST.py,
+	python/Makefile.am, +python/metadata_key.cc,
+	+python/metadata_key_TEST_cleanup.sh, +python/metadata_key_TEST.py,
+	+python/metadata_key_TEST_setup.sh, python/name.cc,
+	python/name_TEST.py, python/package_database.cc,
+	python/package_database_TEST.py, +python/package_id.cc,
+	+python/package_id_TEST_cleanup.sh, +python/package_id_TEST.py,
+	+python/package_id_TEST_setup.sh, python/paludis_python.hh,
+	python/paludis_python_so.cc, python/repository.cc,
+	python/repository_TEST.py, python/repository_TEST_setup.sh,
+	-python/version_metadata.cc, -python/version_metadata_TEST_cleanup.sh,
+	-python/version_metadata_TEST.py,
+	-python/version_metadata_TEST_setup.sh,
+	python/version_requirements.cc, python/version_spec.cc: (python) Bring
+	lots of stuff up to date.
+
+2007-07-06 Ciaran McCreesh
+
+	* src/clients/gtkpaludis/libgtkpaludis/categories_list_model.cc,
+	src/clients/gtkpaludis/libgtkpaludis/categories_list_model.hh,
+	src/clients/gtkpaludis/libgtkpaludis/package_buttons.hh,
+	src/clients/gtkpaludis/libgtkpaludis/packages_list_filtered_model.hh,
+	src/clients/gtkpaludis/libgtkpaludis/packages_list_model.cc,
+	src/clients/gtkpaludis/libgtkpaludis/packages_list_model.hh,
+	src/clients/gtkpaludis/libgtkpaludis/packages_package_filter_model.cc,
+	src/clients/gtkpaludis/libgtkpaludis/packages_page.hh,
+	src/clients/gtkpaludis/libgtkpaludis/packages_repository_filter_model.cc,
+	src/clients/gtkpaludis/libgtkpaludis/packages_repository_filter_model.hh,
+	src/clients/gtkpaludis/libgtkpaludis/packages_text_filter_source_model.cc,
+	src/clients/gtkpaludis/libgtkpaludis/repositories_list_model.cc,
+	src/clients/gtkpaludis/libgtkpaludis/repositories_list_model.hh,
+	src/clients/gtkpaludis/libgtkpaludis/repository_info_model.cc,
+	src/clients/gtkpaludis/libgtkpaludis/sets_list_model.cc,
+	src/clients/gtkpaludis/libgtkpaludis/sets_list_model.hh,
+	src/clients/gtkpaludis/libgtkpaludis/version_info_model.cc,
+	src/clients/gtkpaludis/libgtkpaludis/version_info_model.hh,
+	src/clients/gtkpaludis/libgtkpaludis/versions_list.cc,
+	src/clients/gtkpaludis/libgtkpaludis/versions_list_model.cc,
+	src/clients/gtkpaludis/libgtkpaludis/versions_list_model.hh,
+	src/clients/gtkpaludis/libgtkpaludis/versions_page.cc,
+	src/clients/gtkpaludis/libgtkpaludis/versions_page.hh: Fix gtkpaludis
+	for PackageIDs, new collections.
+
+	+ Fixes: ticket:302
+
+2007-07-05 Ciaran McCreesh
+
+	* bash-completion/paludis, paludis/dep_list/Makefile.am,
+	paludis/dep_list/uninstall_list.cc, paludis/dep_list/uninstall_list.hh,
+	paludis/dep_list/uninstall_list.se, paludis/dep_list/uninstall_list.sr,
+	paludis/dep_list/uninstall_list_TEST.cc, paludis/tasks/report_task.cc,
+	paludis/tasks/uninstall_task.cc, paludis/tasks/uninstall_task.hh,
+	src/clients/paludis/command_line.cc,
+	src/clients/paludis/command_line.hh, src/clients/paludis/uninstall.cc,
+	zsh-completion/_paludis: Require --permit-unsafe-uninstalls for unsafe
+	uninstalls.
+
+	+ Fixes: ticket:295
+
+2007-07-05 Piotr Jaroszyński
+
+	* src/clients/inquisitio/do_search.cc: New collections fix for
+	inquisitio.
+
+2007-07-05 Richard Brown
+
+	* ruby/dep_list.cc, ruby/dep_spec.cc, ruby/environment.cc,
+	ruby/find_unused_packages_task.cc, ruby/package_database.cc,
+	ruby/package_id.cc, ruby/package_id_TEST.rb, ruby/repository.cc:
+	(ruby) New collection fixes.
+
+2007-07-05 David Leverton
+
+	* paludis/repositories/e/ebuild.cc: Be more tolerant of broken
+	ebuilds.
+
+2007-07-05 David Leverton
+
+	* paludis/repositories/e/vdb_unmerger.cc: Fix unmerger hook
+	environment.
+
+2007-07-05 Ciaran McCreesh
+
+	* (lots): Collection -> Sequence, Set, Map.
+
+	+ Fixes: ticket:241
+
+2007-07-04 Richard Brown
+
+	* ruby/demos/check_linkage.rb, ruby/demos/find_unmanaged_files.rb,
+	ruby/demos/latest_stable.rb, ruby/demos/version_spec_distributions.rb,
+	ruby/message.cc: (ruby) Fix fixable demos.
+
+2007-07-03 Richard Brown
+
+	* ruby/repository_TEST.rb: (ruby) Fix repository contents test.
+
+2007-07-03 David Leverton
+
+	* ruby/repository.cc, ruby/repository_TEST.rb: (ruby) Add
+	FakeRepository.
+
+2007-07-03 Ciaran McCreesh
+
+	* (lots): Start of new QA code.
+
+2007-07-02 Richard Brown
+
+	* ruby/package_id.cc, ruby/package_id_TEST.rb,
+	ruby/package_id_TEST_setup.sh: (ruby) Add metadata to PackageID.
+
+2007-07-02 David Leverton
+
+	* doc/configuration.html.skel: Document that Gentoo mirror URLs
+	need "/distfiles".
+
+2007-07-01 Richard Brown
+
+	* doc/create_ruby_doc.rb, ruby/dep_list.cc, ruby/environment.cc,
+	ruby/log.cc, ruby/mask_reasons.cc, ruby/name.cc,
+	ruby/package_database.cc: (ruby) Fix enum docs.
+
+2007-07-01 Richard Brown
+
+	* ruby/environment.cc, ruby/environment_TEST.rb: (ruby) Make
+	Environment.mask_reasons work again.
+
+2007-07-01 Richard Brown
+
+	* ruby/dep_list.cc, ruby/dep_tag.cc, ruby/dep_tag_TEST.rb,
+	ruby/environment.cc, ruby/environment_TEST.rb,
+	ruby/find_unused_packages_task.cc,
+	ruby/find_unused_packages_task_TEST.rb, ruby/Makefile.am,
+	ruby/package_database.cc, -ruby/package_database_entry.cc,
+	-ruby/package_database_entry_TEST.rb, ruby/package_database_TEST.rb,
+	ruby/package_id.cc, ruby/package_id_TEST_cleanup.sh,
+	ruby/package_id_TEST.rb, ruby/package_id_TEST_setup.sh,
+	ruby/paludis_ruby.cc, ruby/paludis_ruby.hh, ruby/paludis_ruby_TEST.rb,
+	ruby/query.cc, ruby/repository.cc, ruby/repository_TEST.rb,
+	-ruby/version_metadata.cc, -ruby/version_metadata_TEST_cleanup.sh,
+	-ruby/version_metadata_TEST.rb, -ruby/version_metadata_TEST_setup.sh:
+	(ruby) Lots of PackageID work.
+
+2007-06-30 Ciaran McCreesh
+
+	* paludis/repositories/e/e_key.cc, paludis/repositories/e/e_key.hh,
+	paludis/repositories/e/e_repository_TEST.cc,
+	paludis/repositories/e/ebuild_id.cc,
+	paludis/repositories/e/ebuild_id.hh: First experimental idle actions.
+
+2007-06-30 Ciaran McCreesh
+
+	* paludis/util/action_queue.cc, paludis/util/action_queue.hh,
+	paludis/util/files.m4, paludis/util/idle_action_pool.cc,
+	paludis/util/idle_action_pool.hh, paludis/util/idle_action_pool_TEST.cc,
+	paludis/util/thread_pool.cc, paludis/util/thread_pool.hh,
+	paludis/util/thread_pool_TEST.cc: Basic idle actions supoprt.
+
+2007-06-30 Ciaran McCreesh
+
+	* paludis/util/exception.cc, paludis/util/log.cc,
+	paludis/util/thread.cc, paludis/util/thread.hh,
+	paludis/util/thread_TEST.cc: More thread work.
+
+2007-06-30 Ciaran McCreesh
+
+	* paludis/util/thread.cc, paludis/util/thread.hh,
+	paludis/util/thread_TEST.cc: Allow detached threads.
+
+2007-06-30 Ciaran McCreesh
+
+	* paludis/util/instantiation_policy_TEST.cc, paludis/util/thread.cc:
+	More threading.
+
+2007-06-30 Ciaran McCreesh
+
+	* test/test_framework.cc: Show execution times for tests.
+
+2007-06-29 Ciaran McCreesh
+
+	* configure.ac, paludis/Makefile.am.m4,
+	paludis/repositories/e/ebuild/Makefile.am, paludis/util/Makefile.am.m4,
+	paludis/util/action_queue.cc, paludis/util/action_queue.hh,
+	paludis/util/action_queue_TEST.cc, paludis/util/attributes.hh,
+	paludis/util/condition_variable.cc, paludis/util/condition_variable.hh,
+	paludis/util/condition_variable_TEST.cc, paludis/util/files.m4,
+	paludis/util/instantiation_policy-impl.hh, paludis/util/log.cc,
+	paludis/util/log.hh, paludis/util/log_TEST.cc, paludis/util/mutex.cc,
+	paludis/util/mutex.hh, paludis/util/mutex_TEST.cc,
+	paludis/util/thread.cc, paludis/util/thread.hh,
+	paludis/util/thread_TEST.cc: Start of experimental threading.
+
+2007-06-29 Ciaran McCreesh
+
+	* paludis/util/log.hh: Default log level of ll_qa, not ll_debug.
+
+2007-06-29 Radosław Szkodziński
+
+	* paludis/repositories/e/ebuild/builtin_saveenv.bash,
+	paludis/repositories/e/ebuild/ebuild.bash: Also filter BASH_REMATCH.
+
+	+ Fixes: ticket:288
+
+2007-06-29 Ciaran McCreesh
+
+	* (lots): PortageRepository -> ERepository.
+
+	+ Fixes: ticket:254
+
+2007-06-28 Ciaran McCreesh
+
+	* paludis/repositories/gentoo -> paludis/repositories/e: We'll call it
+	'E', not 'Gentoo'.
+
+2007-06-28 Ciaran McCreesh
+
+	* paludis/contents-fwd.hh, paludis/contents.hh,
+	paludis/dep_list/dep_list.cc, paludis/files.m4,
+	paludis/metadata_key-fwd.hh, paludis/metadata_key.cc,
+	paludis/metadata_key.hh, paludis/package_id.hh,
+	paludis/repositories/fake/fake_installed_repository.cc,
+	paludis/repositories/fake/fake_package_id.cc,
+	paludis/repositories/fake/fake_package_id.hh,
+	paludis/repositories/fake/fake_repository.cc,
+	paludis/repositories/gems/gem_specification.cc,
+	paludis/repositories/gems/gem_specification.hh,
+	paludis/repositories/gems/gem_specification_TEST.cc,
+	paludis/repositories/gems/gems_repository.cc,
+	paludis/repositories/gems/installed_gems_repository.cc,
+	paludis/repositories/gentoo/e_key.cc,
+	paludis/repositories/gentoo/e_key.hh,
+	paludis/repositories/gentoo/ebuild_id.cc,
+	paludis/repositories/gentoo/ebuild_id.hh,
+	paludis/repositories/gentoo/portage_repository.cc,
+	paludis/repositories/gentoo/vdb_id.cc,
+	paludis/repositories/gentoo/vdb_id.hh,
+	paludis/repositories/gentoo/vdb_repository.cc,
+	paludis/repositories/gentoo/vdb_repository.hh,
+	paludis/repositories/virtuals/installed_virtuals_repository.cc,
+	paludis/repositories/virtuals/package_id.cc,
+	paludis/repositories/virtuals/package_id.hh,
+	paludis/repositories/virtuals/virtuals_repository.cc,
+	paludis/repository-fwd.hh, paludis/repository.cc, paludis/repository.hh,
+	paludis/repository.sr, src/clients/paludis/do_contents.cc,
+	src/clients/paludis/owner.cc, src/output/console_query_task.cc: Move
+	some repository interfaces into ID methods.
+
+2007-06-28 Ciaran McCreesh
+
+	* src/clients/inquisitio/do_search.cc,
+	src/output/console_install_task.cc, src/output/console_query_task.cc,
+	src/output/console_query_task.hh,
+	src/output/use_flag_pretty_printer.cc,
+	src/output/use_flag_pretty_printer.hh: Fix --query output.
+
+	+ Fixes: ticket:298
+
+2007-06-27 Ciaran McCreesh
+
+	* paludis/files.m4, paludis/metadata_key-fwd.hh,
+	paludis/metadata_key.cc, paludis/metadata_key.hh,
+	paludis/metadata_key.se, paludis/repositories/fake/fake_package_id.cc,
+	paludis/repositories/fake/fake_package_id.hh,
+	paludis/repositories/gems/gem_specification.cc,
+	paludis/repositories/gentoo/e_key.cc,
+	paludis/repositories/gentoo/e_key.hh,
+	paludis/repositories/gentoo/ebuild_id.cc,
+	paludis/repositories/gentoo/vdb_id.cc,
+	paludis/repositories/virtuals/package_id.cc: Make metadata keys carry
+	their significance to the user.
+
+2007-06-27 Ciaran McCreesh
+
+	* paludis/repositories/gentoo/vdb_repository.cc: Fix
+	provides_cache generation.
+
+2007-06-27 Piotr Jaroszyński
+
+	* python/dep_spec.cc, python/environment.cc, python/log.cc,
+	python/mask_reasons.cc, python/name.cc, python/package_database.cc,
+	python/paludis_python.hh, python/version_operator.cc,
+	python/version_requirements.cc: (python) Prepare for enums with
+	docstrings.
+
+2007-06-27 Ciaran McCreesh
+
+	* paludis/files.m4, paludis/repositories/gentoo/ebin_entries.cc,
+	-paludis/metadata_key_raw_printer-fwd.hh,
+	-paludis/metadata_key_raw_printer.cc,
+	-paludis/metadata_key_raw_printer.hh: Dead code.
+
+2007-06-27 Ciaran McCreesh
+
+	* src/clients/contrarius/install.cc, src/clients/contrarius/stage.cc:
+	Fix contrarius.
+
+2007-06-27 Ciaran McCreesh
+
+	* (lots): Switch to Package IDs. Known to be broken: CRAN, Gems, QA /
+	qualudis, gtkpaludis, contrarius, Ruby, Python, paludis --query /
+	inquisitio output.
+
+2007-06-22 Piotr Jaroszyński
+
+	* python/contents.cc, python/dep_spec.cc, python/eapi.cc,
+	python/environment.cc, python/exception.cc, python/fs_entry.cc,
+	python/log.cc, python/mask_reasons.cc, python/name.cc,
+	python/package_database.cc, python/portage_dep_parser.cc,
+	python/query.cc, python/repository.cc, python/version_metadata.cc,
+	python/version_operator.cc, python/version_requirements.cc,
+	python/version_spec.cc: (python) Code clean up #1.
+
+2007-06-21 Piotr Jaroszyński
+
+	* python/dep_spec.cc, +python/dep_tag.cc, +python/dep_tag_TEST.py,
+	python/Makefile.am, python/paludis_python_so.cc: (python) Add DepTag.
+
+2007-06-21 Piotr Jaroszyński
+
+	* python/dep_spec.cc, python/dep_spec.hh: (python) Clean up includes
+	in dep_spec.{hh,cc}.
+
+2007-06-21 Piotr Jaroszyński
+
+	* python/dep_spec.cc, python/dep_spec.hh, python/Makefile.am: (python)
+	More DepSpec work.
+
+2007-06-21 Piotr Jaroszyński
+
+	* configure.ac: Add PALUDIS_CXXFLAGS_NO_WMISSING_NORETURN.
+
+2007-06-21 David Leverton
+
+	* paludis/merger/unmerger.cc, paludis/merger/unmerger.hh,
+	paludis/repositories/gentoo/vdb_unmerger.cc,
+	paludis/repositories/gentoo/vdb_unmerger.hh,
+	paludis/repositories/gentoo/vdb_unmerger_TEST_setup.sh: Make
+	Unmerger handle multiple files with the same name, and allow
+	subclasses to associate extra info with each file.
+
+	+ Fixes: ticket:291
+
+2007-06-21 Piotr Jaroszyński
+
+	* paludis/util/tr1_type_traits.hh: Add tr1::is_convertible.
+
+2007-06-19 Ciaran McCreesh
+
+	* paludis/util/exception.cc, paludis/util/exception.hh: Avoid using
+	'where' as an identifier name.
+
+2007-06-18 Piotr Jaroszyński
+
+	* doc/doxygen.conf.in, misc/make_se.bash, misc/make_sr.bash: Fix and
+	speed up doxygen.
+
+2007-06-18 Piotr Jaroszyński
+
+	* python/paludis_python_so.cc: (python) Fix for <boost-1.34.0.
+
+2007-06-18 Piotr Jaroszyński
+
+	* paludis/config_file_TEST.cc: Fix config_file_TEST.
+
+2007-06-18 Piotr Jaroszyński
+
+	* python/dep_spec.cc, python/environment.cc, python/exception.cc,
+	python/exception.hh, python/fs_entry.cc, python/name.cc,
+	python/package_database.cc, python/portage_dep_parser.cc,
+	python/repository.cc, python/version_operator.cc,
+	python/version_spec.cc: (python) Add docstrings to the exceptions.
+
+2007-06-18 Piotr Jaroszyński
+
+	* python/paludis_python_so.cc: (python) C++ signatures aren't useful
+	in docstrings.
+
+2007-06-17 Piotr Jaroszyński
+
+	* python/dep_spec.cc, python/dep_spec.hh, python/dep_spec_TEST.py,
+	python/Makefile.am, python/portage_dep_parser.cc,
+	python/portage_dep_parser_TEST.py: (python) Bring *DepSpec and
+	PortageDepParser up to date.
+
+2007-06-16 Piotr Jaroszyński
+
+	* AUTHORS: Add myself.
+
+2007-06-16 Stephen Bennett
+
+	* paludis/config_file.hh, paludis/config_file.cc,
+	paludis_config_file.se: Strip trailing whitespace from KV config files
+	by default.
+
+2007-06-15 Stephen Bennett
+
+	* paludis/repositories/gentoo/ebuild/ebuild.bash: Don't set
+	REAL_CHOST=CHOST until after CHOST is set.
+
+2007-06-15 Stephen Bennett
+
+	* paludis/repositories/gentoo/ebuild/ebuild.bash,
+	paludis/repositories/gentoo/ebuild.cc, paludis/eapis/0.conf,
+	paludis/eapis/exheres-0.conf, paludis/eapis/paludis-0.conf,
+	paludis/eapi.cc, paludis/eapi.sr: Allow EAPI configs to specify
+	additional ebuild module directories.
+
+2007-06-15 David Leverton
+
+	* paludis/repositories/gentoo/ebuild.cc,
+	paludis/repositories/gentoo/ebuild/ebuild.bash: Do inherit EAPI
+	and SLOT, because they're set from C++.
+
+	+ Fixes: ticket:290
+
+2007-06-14 Piotr Jaroszyński
+
+	* python/name.cc, python/package_database.cc, python/paludis_python.hh,
+	python/version_requirements.cc: (python) Fix function naming.
+
+2007-06-13 Piotr Jaroszyński
+
+	* paludis/repositories/gentoo/vdb_merger.cc: Flush stdout when
+	printing progress of check.
+
+2007-06-11 David Leverton
+
+	* paludis/repositories/gentoo/ebuild/builtin_metadata.bash,
+	paludis/repositories/gentoo/ebuild/ebuild.bash: Don't export
+	metadata variables or inherit them from the environment.
+
+2007-06-10 David Leverton
+
+	* paludis/repositories/gentoo/portage_repository.hh,
+	paludis/repository.hh: Add layout() to RepositoryPortageInterface.
+
+2007-06-07 David Leverton
+
+	* ruby/demos/check_linkage.rb: Add directories to LD_LIBRARY_PATH,
+	to reduce false positives.
+
+2007-06-07 Piotr Jaroszyński
+
+	* paludis/repositories/gentoo/Makefile.am: Add
+	portage_repository_sets_TEST.* to EXTRA_DIST.
+
+2007-06-07 David Leverton
+
+	* ruby/demos/check_linkage.rb: Add --verbose switch to print the
+	names of broken files, and respect /etc/revdep-rebuild.
+
+2007-06-07 Ciaran McCreesh
+
+	* src/clients/gtkpaludis/libgtkpaludis/Makefile.am,
+	src/clients/gtkpaludis/libgtkpaludis/packages_list.cc,
+	src/clients/gtkpaludis/libgtkpaludis/packages_list_model.cc,
+	src/clients/gtkpaludis/libgtkpaludis/packages_list_model.hh,
+	src/clients/gtkpaludis/libgtkpaludis/packages_page.cc,
+	src/clients/gtkpaludis/libgtkpaludis/packages_page.hh,
+	src/clients/gtkpaludis/libgtkpaludis/sets_list.cc,
+	src/clients/gtkpaludis/libgtkpaludis/sets_list.hh,
+	src/clients/gtkpaludis/libgtkpaludis/sets_list_model.cc,
+	src/clients/gtkpaludis/libgtkpaludis/sets_list_model.hh: More gtkpaludis
+	work.
+
+2007-06-06 Ciaran McCreesh
+
+	* doc/header.html, doc/htmlheader.html, doc/index.html.skel: New lists
+	URL.
+
+2007-06-06 Ciaran McCreesh
+
+	* src/clients/gtkpaludis/libgtkpaludis/threaded_window.cc,
+	src/clients/gtkpaludis/libgtkpaludis/threaded_window.hh: Handle
+	exceptions.
+
+2007-06-06 Ciaran McCreesh
+
+	* paludis/tasks/sync_task.cc, paludis/tasks/sync_task.hh,
+	src/clients/gtkpaludis/Makefile.am,
+	src/clients/gtkpaludis/libgtkpaludis/Makefile.am,
+	src/clients/gtkpaludis/libgtkpaludis/gui_sync_task.cc,
+	src/clients/gtkpaludis/libgtkpaludis/gui_sync_task.hh,
+	src/clients/gtkpaludis/libgtkpaludis/main_notebook.cc,
+	src/clients/gtkpaludis/libgtkpaludis/main_notebook.hh,
+	src/clients/gtkpaludis/libgtkpaludis/main_window.cc,
+	src/clients/gtkpaludis/libgtkpaludis/main_window.hh,
+	src/clients/gtkpaludis/libgtkpaludis/messages_page.cc,
+	src/clients/gtkpaludis/libgtkpaludis/messages_page.hh,
+	src/clients/gtkpaludis/libgtkpaludis/packages_filter.cc,
+	src/clients/gtkpaludis/libgtkpaludis/repository_buttons.cc,
+	src/clients/gtkpaludis/libgtkpaludis/repository_buttons.hh,
+	src/clients/gtkpaludis/libgtkpaludis/task_sequence_list.cc,
+	src/clients/gtkpaludis/libgtkpaludis/task_sequence_list.hh,
+	src/clients/gtkpaludis/libgtkpaludis/task_sequence_list_model.cc,
+	src/clients/gtkpaludis/libgtkpaludis/task_sequence_list_model.hh,
+	src/clients/gtkpaludis/libgtkpaludis/task_window.cc,
+	src/clients/gtkpaludis/libgtkpaludis/task_window.hh,
+	src/clients/gtkpaludis/libgtkpaludis/version_info_model.cc: More
+	gtkpaludis work.
+
+2007-06-06 David Leverton
+
+	* src/clients/gtkpaludis/vtemm/Makefile.am: Fix parallel build.
+
+2007-06-06 David Leverton
+
+	* src/clients/gtkpaludis/vtemm/defs/generate_defs_vte.cc: Don't
+	require X to build.
+
+2007-06-06 Ciaran McCreesh
+
+	* (lots): Use libwrapiter 1.2.0.
+
+2007-06-06 Ciaran McCreesh
+
+	* paludis/repositories/gentoo/ebuild/Makefile.am,
+	paludis/repositories/gentoo/ebuild/ebuild.bash,
+	paludis/repositories/gentoo/ebuild/exlib_functions.bash,
+	paludis/repositories/gentoo/ebuild_entries.cc,
+	paludis/repositories/gentoo/ebuild_entries.hh: Initial exlib support.
+
+2007-06-06 Richard Brown
+
+	* doc/configuration.html.skel,
+	paludis/environments/paludis/paludis_config.cc,
+	src/clients/paludis/install_TEST_setup.sh,
+	src/clients/paludis/upgrade_TEST_setup.sh: specpath -> specpath.conf
+
+	+ Fixes: ticket:282
+
+2007-06-05 Ciaran McCreesh
+
+	* configure.ac, paludis/eapi-fwd.hh, paludis/eapi.cc, paludis/eapi.sr,
+	paludis/eapis/0.conf, paludis/eapis/exheres-0.conf,
+	paludis/eapis/paludis-1.conf, paludis/repositories/gentoo/ebuild.cc,
+	paludis/repositories/gentoo/ebuild.sr,
+	paludis/repositories/gentoo/ebuild/builtin_init.bash,
+	paludis/repositories/gentoo/ebuild/builtin_metadata.bash,
+	paludis/repositories/gentoo/ebuild/ebuild.bash,
+	paludis/repositories/gentoo/ebuild/eclass_functions.bash,
+	paludis/repositories/gentoo/ebuild/utils/Makefile.am,
+	paludis/repositories/gentoo/ebuild/utils/exheres-0,
+	paludis/repositories/gentoo/ebuild/utils/exheres-0/Makefile.am,
+	paludis/repositories/gentoo/ebuild/utils/exheres-0/banned_in_eapi_exheres-0,
+	paludis/repositories/gentoo/ebuild_entries.cc,
+	paludis/repositories/gentoo/portage_repository.cc,
+	paludis/repositories/gentoo/portage_repository_TEST.cc,
+	paludis/repositories/gentoo/portage_repository_TEST_setup.sh,
+	paludis/repositories/gentoo/vdb_repository.cc: More exheres work.
+
+2007-06-05 David Leverton
+
+	* paludis/dep_list/condition_tracker.cc,
+	paludis/dep_list/condition_tracker.hh,
+	paludis/dep_list/dep_list.cc, paludis/dep_list/dep_list.hh,
+	paludis/dep_list/dep_list_TEST.cc, paludis/dep_list/Makefile.am,
+	paludis/dep_list/show_suggest_visitor.cc,
+	paludis/dep_list/show_suggest_visitor.hh,
+	paludis/dep_list/uninstall_list.cc,
+	paludis/dep_list/uninstall_list.hh, paludis/dep_tag.cc,
+	paludis/dep_tag-fwd.hh, paludis/dep_tag.hh,
+	paludis/portage_dep_parser.cc, paludis/tasks/install_task.cc,
+	paludis/tasks/uninstall_task.cc, ruby/dep_tag.cc,
+	ruby/dep_tag_TEST.rb, src/output/console_install_task.cc,
+	src/output/console_install_task.hh: Add TargetDepTag and extra
+	members to DependencyDepTag.  Indicate which dependents are really
+	pulling in a new package, versus which are satisfied by the
+	currently installed version.
+
+2007-06-05 Richard Brown
+
+	* ruby/contents.cc, ruby/contents_TEST.rb, ruby/dep_tag.cc,
+	ruby/paludis_ruby.hh: (ruby) Fix Contents and DepTag visitors.
+
+2007-06-05 Ciaran McCreesh
+
+	* paludis/distribution.cc, paludis/distribution.sr,
+	paludis/distributions/gentoo.conf, paludis/portage_dep_parser.cc,
+	paludis/repositories/gentoo/Makefile.am,
+	paludis/repositories/gentoo/ebin.cc,
+	paludis/repositories/gentoo/ebin.sr,
+	paludis/repositories/gentoo/ebin_entries.cc,
+	paludis/repositories/gentoo/ebuild.cc,
+	paludis/repositories/gentoo/ebuild.sr,
+	paludis/repositories/gentoo/ebuild/builtin_fetchbin.bash,
+	paludis/repositories/gentoo/ebuild/builtin_initbin.bash,
+	paludis/repositories/gentoo/ebuild_entries.cc,
+	paludis/repositories/gentoo/exheres_layout.cc,
+	paludis/repositories/gentoo/exheres_layout.hh,
+	paludis/repositories/gentoo/layout.cc,
+	paludis/repositories/gentoo/layout.hh,
+	paludis/repositories/gentoo/make_ebin_repository.cc,
+	paludis/repositories/gentoo/make_ebuild_repository.cc,
+	paludis/repositories/gentoo/portage_repository.cc,
+	paludis/repositories/gentoo/portage_repository_params.sr,
+	paludis/repositories/gentoo/portage_repository_profile.cc,
+	paludis/repositories/gentoo/portage_repository_profile.hh,
+	paludis/repositories/gentoo/traditional_layout.cc,
+	paludis/repositories/gentoo/traditional_layout.hh,
+	paludis/repositories/gentoo/vdb_repository.cc,
+	src/output/console_query_task.cc: exheres layout work.
+
+2007-06-05 Ciaran McCreesh
+
+	* paludis/dep_list/dep_list.cc, paludis/distribution.cc,
+	paludis/distribution.hh, paludis/environment-fwd.hh,
+	paludis/environment.hh, paludis/environment_implementation.cc,
+	paludis/environment_implementation.hh,
+	paludis/environments/adapted/adapted_environment.cc,
+	paludis/environments/adapted/adapted_environment.hh,
+	paludis/environments/environment_maker.cc,
+	paludis/environments/no_config/no_config_environment.cc,
+	paludis/environments/paludis/paludis_config.cc,
+	paludis/environments/paludis/paludis_config.hh,
+	paludis/environments/paludis/paludis_environment.cc,
+	paludis/environments/paludis/paludis_environment.hh, paludis/files.m4,
+	paludis/repositories/fake/fake_repository.cc,
+	paludis/repositories/gems/registration.cc,
+	paludis/repositories/gentoo/ebuild_entries.cc,
+	paludis/repositories/gentoo/make_ebuild_repository.cc,
+	paludis/repositories/gentoo/portage_repository.cc,
+	paludis/repositories/gentoo/portage_repository_profile.cc,
+	paludis/repositories/virtuals/registration.cc, paludis/util/files.m4,
+	paludis/util/options-fwd.hh, paludis/util/options.hh,
+	vim/syntax/paludis-environment-conf.vim: Allow environments,
+	environment.conf to define distribution.
+
+	+ Fixes: ticket:283
+
+2007-06-05 Ciaran McCreesh
+
+	* vim/syntax/paludis-repositories-conf.vim: Update vim syntax for
+	current keys.
+
+2007-06-04 Ciaran McCreesh
+
+	* paludis/dep_list/dep_list.cc, paludis/dep_list/range_rewriter.hh:
+	Fix || deps.
+
+2007-06-04 Ciaran McCreesh
+
+	* paludis/eapis/0.conf, paludis/eapis/exheres-0.conf,
+	paludis/eapis/paludis-1.conf,
+	paludis/repositories/gentoo/ebuild/ebuild.bash: Fix sandbox issues.
+
+2007-06-04 Ciaran McCreesh
+
+	* paludis/eapis/0.conf, paludis/eapis/exheres-0.conf,
+	paludis/eapis/paludis-1.conf: Disable userpriv for pkg_setup.
+
+2007-06-04 Ciaran McCreesh
+
+	* paludis/repositories/gentoo/ebuild/ebuild.bash: Permit more sandbox
+	writes by default.
+
+2007-06-04 Ciaran McCreesh
+
+	* misc/make_sr.bash, paludis/repositories/gems/gems_repository.cc,
+	paludis/repositories/gems/installed_gems_repository.cc: Fix 3.4
+	compile.
+
+2007-06-04 David Leverton
+
+	* paludis/repositories/gentoo/ebuild_entries.cc: Don't die if we
+	can't remove a stale cache file.
+
+2007-06-04 David Leverton
+
+	* paludis/repositories/gems/yaml.cc: Fix Gems tests.
+
+2007-06-04 Ciaran McCreesh
+
+	* src/clients/gtkpaludis/Makefile.am: Looks like autotools is dumb.
+	Fix gtkpaludis build.
+
+2007-06-04 David Leverton
+
+	* src/clients/gtkpaludis/Makefile.am: Fix gtkpaludis build.
+
+2007-06-04 Ciaran McCreesh
+
+	* configure.ac, paludis/Makefile.am.m4,
+	paludis/dep_list/uninstall_list.cc, paludis/files.m4,
+	paludis/hashed_containers.cc, +paludis/hashed_containers.hh,
+	-paludis/hashed_containers.hh.in: Use -D rather than .in for hashes.
+
+	+ Fixes: ticket:270
+
+2007-06-04 Ciaran McCreesh
+
+	* (lots): Import gtkpaludis.
+
+2007-06-04 Ciaran McCreesh
+
+	* configure.ac, doc/doc_main.doxygen, doc/doxygen.conf.in,
+	misc/Makefile.am, paludis/args/man.hh,
+	paludis/dep_list/query_visitor.hh,
+	paludis/dep_list/show_suggest_visitor.hh, paludis/dep_spec-fwd.hh,
+	paludis/distribution.hh, paludis/eapi.hh, paludis/eapi.sr,
+	paludis/environments/paludis/keywords_conf.hh,
+	paludis/environments/paludis/licenses_conf.hh,
+	paludis/environments/paludis/mirrors_conf.hh,
+	paludis/environments/paludis/package_mask_conf.hh,
+	paludis/environments/paludis/use_conf.hh, paludis/host_tuple_name.hh,
+	paludis/repositories/gems/exceptions.hh,
+	paludis/repositories/gems/gem_specification.hh,
+	paludis/repositories/gems/gem_specifications.hh,
+	paludis/repositories/gems/gems_repository.hh,
+	paludis/repositories/gems/installed_gems_repository.hh,
+	paludis/repositories/gems/metadata.hh,
+	paludis/repositories/gems/yaml.hh,
+	paludis/repositories/gentoo/eapi_phase.hh,
+	paludis/repositories/gentoo/layout.hh,
+	paludis/repositories/gentoo/traditional_layout.hh,
+	paludis/util/attributes.hh, paludis/util/fs_entry.hh,
+	paludis/util/visitor.hh, -misc/svn-version-filter-data.bash.in,
+	-misc/svn-version-filter.bash: More doxygen work.
+
+2007-06-04 Ciaran McCreesh
+
+	* paludis/environments/no_config/no_config_environment.cc,
+	paludis/environments/no_config/no_config_environment.hh,
+	paludis/environments/no_config/no_config_environment.sr,
+	paludis/environments/no_config/no_config_environment_TEST.cc,
+	paludis/environments/paludis/bashable_conf.cc,
+	paludis/environments/paludis/bashable_conf.hh,
+	paludis/environments/paludis/keywords_conf.cc,
+	paludis/environments/paludis/keywords_conf.hh,
+	paludis/environments/paludis/licenses_conf.cc,
+	paludis/environments/paludis/licenses_conf.hh,
+	paludis/environments/paludis/mirrors_conf.cc,
+	paludis/environments/paludis/mirrors_conf.hh,
+	paludis/environments/paludis/package_mask_conf.cc,
+	paludis/environments/paludis/package_mask_conf.hh,
+	paludis/environments/paludis/paludis_config.cc,
+	paludis/environments/paludis/paludis_config.hh,
+	paludis/environments/paludis/paludis_environment.cc,
+	paludis/environments/paludis/paludis_environment.hh,
+	paludis/environments/paludis/use_conf.cc,
+	paludis/environments/paludis/use_conf.hh,
+	paludis/environments/portage/portage_environment.cc,
+	paludis/environments/portage/portage_environment.hh,
+	paludis/qa/qa_environment.cc, python/environment.cc,
+	ruby/environment.cc, src/clients/adjutrix/adjutrix.cc: Move various
+	things into subnamespaces.
+
+2007-06-04 Ciaran McCreesh
+
+	* configure.ac: Include paludisenvironments in default libraries.
+
+2007-06-04 Ciaran McCreesh
+
+	* Makefile.am, configure.ac, paludis/Makefile.am.m4,
+	paludis/args/Makefile.am, paludis/dep_list/Makefile.am,
+	paludis/digests/Makefile.am, paludis/environments/Makefile.am,
+	paludis/environments/adapted/Makefile.am,
+	paludis/environments/no_config/Makefile.am,
+	paludis/environments/paludis/Makefile.am,
+	paludis/environments/portage/Makefile.am,
+	paludis/environments/test/Makefile.am, paludis/merger/Makefile.am,
+	paludis/qa/Makefile.am.m4, paludis/repositories/Makefile.am,
+	paludis/repositories/cran/Makefile.am,
+	paludis/repositories/fake/Makefile.am,
+	paludis/repositories/gems/Makefile.am,
+	paludis/repositories/gentoo/Makefile.am,
+	paludis/repositories/virtuals/Makefile.am,
+	paludis/selinux/Makefile.am, paludis/tasks/Makefile.am,
+	paludis/util/Makefile.am.m4, pkg-config, pkg-config/Makefile.am,
+	pkg-config/paludis.pc.in: Use pkg-config. Move include files to a
+	subdirectory.
+
+2007-06-04 Ciaran McCreesh
+
+	* (lots): Re-add Gems, using Syck instead of libyaml. Various code
+	cleanups.
+
+2007-06-04 David Leverton
+
+	* AUTHORS, paludis/sohooks_TEST.cc, paludis/syncer.cc,
+	paludis/util/clone.hh, paludis/util/clone-impl.hh,
+	paludis/repositories/gentoo/portage_repository_sets_TEST.cc:
+	Update my email address.
+
+2007-06-03 David Leverton
+
+	* paludis/dep_list/dep_list.cc, paludis/dep_list/dep_list_TEST.cc:
+	Fix range-rewriting.
+
+2007-06-01 Ciaran McCreesh
+
+	* (lots): Code cleanup.
+
+	+ Fixes: ticket:266
+	+ Fixes: ticket:267
+
+2007-06-01 Ciaran McCreesh
+
+	* paludis/eapis/exheres-0.conf, paludis/repositories/gentoo/ebuild.cc,
+	paludis/repositories/gentoo/ebuild/builtin_metadata.bash: EAPI
+	definable metadata variables.
+
+	+ Fixes: ticket:265
+
+2007-06-01 David Leverton
+
+	* paludis/dep_list/dep_list.cc, paludis/dep_list/dep_list_TEST.cc:
+	Fix || ( ) when all children are unavailable and the first is
+	subject to --dl-override-masks.
+
+2007-06-01 David Leverton
+
+	* paludis/repositories/gentoo/portage_repository_sets_TEST.cc:
+	Don't try to run the GLSA tests if GLSA support isn't compiled in.
+
+2007-05-31 Ciaran McCreesh
+
+	* (lots): Ebuild definable call sequences.
+
+	+ Fixes: ticket:264
+
+2007-05-30 Richard Brown
+
+	* doc/faq.html.skel, doc/migration.html.skel: Update docs saying use
+	export in bashrc.
+
+2007-05-29 Mike Kelly
+
+	* paludis/repositories/gentoo/ebin_entries.cc,
+	paludis/repositories/gentoo/ebuild_entries.cc,
+	paludis/repositories/gentoo/ebuild.hh,
+	paludis/repositories/gentoo/layout.hh,
+	paludis/repositories/gentoo/portage_repository.cc,
+	paludis/repositories/gentoo/portage_repository.hh,
+	paludis/repositories/gentoo/traditional_layout.cc,
+	paludis/repositories/gentoo/traditional_layout.hh: Add two new members
+	to Layout: package_directory and category_directory.
+
+2007-05-28 Ciaran McCreesh
+
+	* misc/make_sr.bash: Allow allow_named_args to be restricted to .cc
+	files.
+
+2007-05-28 Ciaran McCreesh
+
+	* configure.ac, paludis/Makefile.am.m4, paludis/dep_list/Makefile.am,
+	paludis/dep_list/dep_list.cc, paludis/distribution-fwd.hh,
+	paludis/distribution.cc, paludis/distribution.hh,
+	paludis/distribution.sr, paludis/distributions,
+	paludis/distributions/Makefile.am, paludis/distributions/gentoo.conf,
+	paludis/environments/environment_maker.cc,
+	paludis/environments/no_config/Makefile.am,
+	paludis/environments/no_config/no_config_environment.cc,
+	paludis/environments/paludis/Makefile.am,
+	paludis/environments/paludis/paludis_config.cc,
+	paludis/environments/paludis/paludis_environment.cc,
+	paludis/environments/portage/Makefile.am, paludis/files.m4,
+	paludis/merger/Makefile.am, paludis/qa/Makefile.am.m4,
+	paludis/repositories/cran/Makefile.am,
+	paludis/repositories/fake/fake_repository.cc,
+	paludis/repositories/gentoo/Makefile.am,
+	paludis/repositories/gentoo/ebuild/Makefile.am,
+	paludis/repositories/gentoo/make_ebuild_repository.cc,
+	paludis/repositories/gentoo/portage_repository.cc,
+	paludis/repositories/gentoo/portage_repository_profile.cc,
+	paludis/repositories/virtuals/registration.cc, python/Makefile.am,
+	ruby/Makefile.am, ruby/demos/Makefile.am,
+	src/clients/adjutrix/Makefile.am, src/clients/contrarius/Makefile.am,
+	src/clients/inquisitio/Makefile.am, src/clients/paludis/Makefile.am:
+	Distribution definable defaults.
+
+	+ Fixes: ticket:263
+
+2007-05-28 David Leverton
+
+	* ruby/demos/find_unmanaged_files.rb: (ruby) Support ${ROOT} in
+	find_unmanaged_files.rb.
+
+2007-05-28 Ciaran McCreesh
+
+	* configure.ac, paludis/Makefile.am.m4, paludis/dep_list/Makefile.am,
+	paludis/dep_spec.se, paludis/eapi-fwd.hh, paludis/eapi.cc,
+	paludis/eapi.hh, paludis/eapis, paludis/eapis/0.conf,
+	paludis/eapis/CRAN-1.conf, paludis/eapis/Makefile.am,
+	paludis/eapis/exheres-0.conf, paludis/eapis/paludis-1.conf,
+	paludis/merger/Makefile.am, paludis/name.se,
+	paludis/portage_dep_parser.se, paludis/qa/Makefile.am.m4,
+	paludis/repositories/cran/Makefile.am,
+	paludis/repositories/gentoo/Makefile.am,
+	paludis/repositories/gentoo/ebuild/Makefile.am, python/Makefile.am,
+	ruby/Makefile.am, ruby/demos/Makefile.am,
+	src/clients/adjutrix/Makefile.am, src/clients/contrarius/Makefile.am,
+	src/clients/inquisitio/Makefile.am, src/clients/paludis/Makefile.am:
+	Move EAPI data into configuration files.
+
+	+ Fixes: ticket:256
+
+2007-05-28 Ciaran McCreesh
+
+	* misc/make_se.bash: Allow destringifiable SEs.
+
+2007-05-28 Ciaran McCreesh
+
+	* paludis/dep_spec-fwd.hh, paludis/dep_spec.cc, paludis/dep_spec.hh,
+	paludis/dep_spec_TEST.cc, paludis/dep_spec_flattener.cc,
+	paludis/dep_spec_flattener.hh, paludis/dep_spec_pretty_printer.cc,
+	paludis/dep_spec_pretty_printer.hh,
+	paludis/dep_spec_pretty_printer_TEST.cc, paludis/eapi.cc,
+	paludis/eapi.sr, paludis/portage_dep_lexer.cc,
+	paludis/portage_dep_lexer.hh, paludis/portage_dep_parser.cc,
+	paludis/portage_dep_parser_TEST.cc, paludis/qa/dep_flags_check.cc,
+	paludis/qa/extract_check.cc, paludis/qa/homepage_check.cc,
+	paludis/qa/src_uri_check.cc,
+	paludis/repositories/gentoo/ebuild_entries.cc,
+	src/output/console_query_task.cc: Recognise (but don't support) -> in
+	SRC_URI.
+
+2007-05-27 Ciaran McCreesh
+
+	* paludis/dep_list/Makefile.am, paludis/dep_list/dep_list.cc,
+	paludis/dep_list/dep_list.hh, paludis/dep_list/show_suggest_visitor.cc,
+	paludis/dep_list/show_suggest_visitor.hh: Split up DepList some more.
+
+2007-05-27 David Leverton
+
+	* paludis/dep_spec.cc, paludis/dep_spec.hh,
+	paludis/dep_spec_TEST.cc, paludis/util/clone.hh,
+	paludis/util/clone-impl.hh, paludis/util/files.m4: Add
+	DepSpec->clone().
+
+	+ Fixes: ticket:255
+
+2007-05-27 Ciaran McCreesh
+
+	* paludis/dep_list/Makefile.am, paludis/dep_list/dep_list.cc,
+	paludis/dep_list/dep_list.hh, paludis/dep_list/query_visitor.cc,
+	paludis/dep_list/query_visitor.hh: Split out some of DepList.
+
+2007-05-26 Ciaran McCreesh
+
+	* paludis/repositories/gentoo/ebuild.cc,
+	paludis/repositories/gentoo/ebuild.sr,
+	paludis/repositories/gentoo/ebuild_entries.cc,
+	paludis/repositories/gentoo/vdb_repository.cc: More EAPI work.
+
+2007-05-26 Ciaran McCreesh
+
+	* paludis/dep_spec.cc, paludis/dep_spec.se, paludis/eapi.cc,
+	paludis/eapi.sr, paludis/merger/Makefile.am, paludis/name.cc,
+	paludis/name.se, paludis/portage_dep_parser.cc,
+	paludis/portage_dep_parser.se, paludis/portage_dep_parser_TEST.cc,
+	paludis/repositories/gentoo/ebuild_entries.cc, paludis/util/files.m4,
+	paludis/util/make_shared_ptr-fwd.hh, paludis/util/make_shared_ptr.hh,
+	python/eapi.cc, python/eapi_TEST.py, ruby/eapi.cc, ruby/eapi_TEST.rb:
+	More EAPI work.
+
+2007-05-26 David Leverton
+
+	* paludis/repositories/gentoo/Makefile.am,
+	paludis/repositories/gentoo/portage_repository_sets.cc,
+	paludis/repositories/gentoo/portage_repository_sets_TEST.cc,
+	paludis/repositories/gentoo/portage_repository_sets_TEST_cleanup.sh,
+	paludis/repositories/gentoo/portage_repository_sets_TEST_setup.sh:
+	Fix range="r*" in GLSAs, fix PortageRepository::sets_list(), add
+	some tests.
+
+2007-05-26 Ciaran McCreesh
+
+	* paludis/dep_spec_pretty_printer_TEST.cc, paludis/eapi.cc,
+	paludis/eapi.hh, paludis/eapi.sr, paludis/files.m4,
+	paludis/portage_dep_parser-fwd.hh, paludis/portage_dep_parser.cc,
+	paludis/portage_dep_parser.hh, paludis/portage_dep_parser_TEST.cc,
+	paludis/qa/parse_deps_check.cc,
+	paludis/repositories/cran/cran_dep_parser.cc,
+	paludis/repositories/cran/cran_dep_parser.hh,
+	paludis/repositories/cran/cran_dep_parser_TEST.cc,
+	paludis/repositories/gentoo/vdb_repository.cc,
+	paludis/version_metadata.cc, paludis/version_metadata.hh: More EAPI
+	work.
+
+	+ Fixes: ticket:245
+
+2007-05-26 Ciaran McCreesh
+
+	* (lots): New type safe visitor framework.
+
+	+ Fixes: ticket:226
+
+2007-05-24 David Leverton
+
+	* paludis/environments/paludis/paludis_config.cc: Allow ${ROOT} in
+	repository_defaults.{conf,bash}.
+
+2007-05-24 David Leverton
+
+	* paludis/merger/merger.cc, paludis/merger/merger.hh,
+	paludis/merger/merger_TEST.cc,
+	paludis/merger/merger_TEST_setup.sh, paludis/merger/unmerger.cc,
+	paludis/repositories/gentoo/vdb_merger.cc,
+	paludis/repositories/gentoo/vdb_merger.hh: Rename _skip hooks to
+	_override; accept "force" as hook output instead of "noskip".
+
+2007-05-24 Piotr Jaroszyński
+
+	* paludis/merger/entry_type.cc, paludis/merger/entry_type.hh,
+	paludis/merger/entry_type.se, paludis/merger/Makefile.am,
+	paludis/merger/merger.cc, paludis/merger/merger.hh,
+	-paludis/merger/merger.se, paludis/merger/merger_TEST.cc,
+	paludis/merger/merger_TEST_setup.sh, paludis/merger/unmerger.cc,
+	paludis/merger/unmerger.hh, paludis/repositories/gentoo/Makefile.am,
+	paludis/repositories/gentoo/vdb_merger.cc,
+	paludis/repositories/gentoo/vdb_merger.hh,
+	paludis/repositories/gentoo/vdb_unmerger.cc,
+	paludis/repositories/gentoo/vdb_unmerger.hh,
+	paludis/repositories/gentoo/vdb_unmerger.sr,
+	paludis/repositories/gentoo/vdb_unmerger_TEST.cc,
+	paludis/repositories/gentoo/vdb_unmerger_TEST_cleanup.sh,
+	paludis/repositories/gentoo/vdb_unmerger_TEST_setup.sh: Redesign
+	Unmerger and add _skip hooks.
+
+2007-05-23 Richard Brown
+
+	* ruby/eapi.cc, ruby/eapi_TEST.rb, ruby/Makefile.am, ruby/name.cc,
+	ruby/paludis_ruby.hh, ruby/version_metadata.cc,
+	ruby/version_metadata_TEST.rb: (ruby) EAPI classes.
+
+2007-05-23 Richard Brown
+
+	* ruby/environment.cc, ruby/environment_test.rb: (ruby) Fix 
+	accept_unstable.
+
+2007-05-23 Piotr Jaroszyński
+
+	* python/eapi.cc: (python) Fix visibility.
+
+2007-05-22 Piotr Jaroszyński
+
+	* python/environment.cc, python/environment_TEST.py,
+	python/Makefile.am: (python) Add AdaptedEnvironment.
+
+2007-05-22 Piotr Jaroszyński
+
+	* doc/epydoc.css, doc/index.html.skel, doc/Makefile.am, Makefile.am:
+	Add the Python API docs to the homepage.
+
+2007-05-22 Piotr Jaroszyński
+
+	* python/eapi.cc, python/eapi_TEST.py, python/Makefile.am,
+	python/paludis_python_so.cc, python/version_metadata.cc,
+	python/version_metadata_TEST.py: (python) Add EAPI stuff.
+
+2007-05-22 Ciaran McCreesh
+
+	* configure.ac, -paludis/repositories/gems: Kill gems for now until
+	upstream fixes their yaml.
+
+2007-05-22 Piotr Jaroszyński
+
+	* python/exception.hh, python/paludis_python.hh: (python) "using" and
+	namespaces' abbreviations are bad in header files.
+
+2007-05-22 Piotr Jaroszyński
+
+	* python/dep_spec.cc, python/environment.cc, python/exception.cc,
+	python/exception.hh, python/fs_entry.cc, python/Makefile.am,
+	python/name.cc, python/package_database.cc, python/paludis_python.hh,
+	python/paludis_python_so.cc, python/portage_dep_parser.cc,
+	python/repository.cc, python/version_operator.cc,
+	python/version_spec.cc: (python) Expose hierarchy of the exceptions.
+
+2007-05-21 Piotr Jaroszyński
+
+	* python/paludis_python.hh: (python) Tidy up the paludis_python.hh.
+
+2007-05-21 Piotr Jaroszyński
+
+	* python/dep_spec_TEST.py, python/name.cc, python/name_TEST.py,
+	python/package_database.cc, python/paludis_python.hh,
+	python/repository_TEST.py, python/version_operator.cc,
+	python/version_requirements.cc, python/version_requirements_TEST.py,
+	python/version_spec.cc, python/version_spec_TEST.py: (python) Bring
+	comparison operartors up to date.
+
+2007-05-21 Ciaran McCreesh
+
+	* paludis/repositories/gentoo/vdb_repository.cc: Warn rather than
+	error for bad VDB USE files.
+
+2007-05-20 Piotr Jaroszyński
+
+	* paludis/util/iterator.hh, paludis/util/iterator_TEST.cc: Add
+	an override of next() taking a distance to advance by.
+
+2007-05-20 Ciaran McCreesh
+
+	* (lots): Change how we access tr1 to make things easier for third party
+	clients.
+
+	+ Fixes: ticket:238
+
+2007-05-20 Alexander Færøy
+
+	* src/clients/qualudis/qualudis_command_line.cc: Removed information about
+	commits.
+
+2007-05-20 Piotr Jaroszyński
+
+	* ruby/Makefile.am: (ruby) Add missing path to the TESTS_ENV.
+
+2007-05-20 Piotr Jaroszyński
+
+	* python/Makefile.am: (python) Add missing path to the TESTS_ENV.
+
+2007-05-19 Ciaran McCreesh
+
+	* paludis/args/args_TEST.cc, paludis/dep_list/dep_list.cc,
+	paludis/dep_list/range_rewriter_TEST.cc,
+	paludis/qa/metadata_file_TEST.cc, paludis/repositories/gems/cache.cc,
+	paludis/repositories/gems/yaml_TEST.cc, paludis/tasks/install_task.cc,
+	paludis/tasks/report_task.cc, paludis/tasks/uninstall_task.cc,
+	ruby/Makefile.am, src/clients/adjutrix/display_profiles_use.cc,
+	src/clients/adjutrix/find_insecure_packages.cc,
+	src/clients/adjutrix/find_reverse_deps.cc,
+	src/clients/contrarius/stage.hh, src/clients/inquisitio/do_search.cc,
+	src/clients/paludis/list.cc, src/clients/paludis/owner.cc,
+	src/clients/paludis/uninstall.cc, src/output/console_query_task.cc,
+	src/output/licence.cc: More g++-4.3 fixes.
+
+2007-05-19 Ciaran McCreesh
+
+	* configure.ac, python/Makefile.am: Make Python less noisy.
+
+2007-05-19 Ciaran McCreesh
+
+	* paludis/dep_list/uninstall_list.cc, paludis/dep_spec_flattener.cc,
+	paludis/environment_implementation.cc,
+	paludis/hashed_containers_TEST.cc, paludis/match_package.cc,
+	paludis/qa/dep_any_check.cc, paludis/qa/dep_flags_check.cc,
+	paludis/qa/dep_packages_check.cc, paludis/qa/deps_exist_check.cc,
+	paludis/qa/deps_visible_check.cc, paludis/qa/extract_check.cc,
+	paludis/qa/homepage_check.cc, paludis/qa/license_check.cc,
+	paludis/qa/pdepend_overlap_check.cc, paludis/qa/restrict_check.cc,
+	paludis/qa/src_uri_check.cc, paludis/util/files.m4,
+	paludis/util/visitor-impl.hh, paludis/util/visitor.hh,
+	paludis/util/visitor_TEST.cc: Fixes for g++-4.3.
+
+2007-05-19 Ciaran McCreesh
+
+	* paludis/sohooks_TEST.cc: Fix includes for g++-3.4.
+
+2007-05-19 Ciaran McCreesh
+
+	* paludis/repositories/gentoo/Makefile.am: Don't clobber
+	LD_LIBRARY_PATH.
+
+2007-05-19 Ciaran McCreesh
+
+	* paludis/repositories/gems/Makefile.am: Don't clobber
+	LD_LIBRARY_PATH.
+
+2007-05-19 Ciaran McCreesh
+
+	* src/clients/paludis/paludis.cc: Enough of this silliness.
+
+2007-05-19 Ciaran McCreesh
+
+	* paludis/repositories/cran/cran_description.cc,
+	paludis/repositories/cran/cran_description.hh: Fix g++-4.3 compile.
+
+2007-05-18 Ciaran McCreesh
+
+	* paludis/set_file.cc: Fix g++-4.3 compile.
+
+2007-05-18 Ciaran McCreesh
+
+	* paludis/util/fs_entry.hh: Silence some g++-4.2 warnings.
+
+2007-05-18 David Leverton
+
+	* ruby/paludis_ruby.hh: (ruby) Fix --disable-qa.
+
+2007-05-18 Ciaran McCreesh
+
+	* configure.ac: More compiler warnings for g++-4.3.
+
+2007-05-18 Ciaran McCreesh
+
+	* paludis/util/output_wrapper.cc,
+	paludis/util/virtual_constructor_TEST.cc: Fix g++-4.3 compiles.
+
+2007-05-18 Ciaran McCreesh
+
+	* paludis/hook.cc, paludis/util/log.cc, paludis/util/log.hh: Fix
+	g++-3.4 compiles.
+
+2007-05-18 Mike Kelly
+
+	* paludis/environments/paludis/paludis_config.cc: Allow us to use
+	symlinks in a paludis config dir instead of just regular files.
+
+2007-05-18 Ciaran McCreesh
+
+	* misc/make_sr.bash, paludis/dep_list/dep_list.cc,
+	paludis/dep_list/uninstall_list_TEST.cc, paludis/dep_tag.cc,
+	paludis/dep_tag.hh, paludis/environments/paludis/paludis_config.cc,
+	paludis/hook.hh, paludis/host_tuple_name.cc, paludis/match_package.cc,
+	paludis/name-fwd.hh, paludis/name.cc, paludis/package_database.cc,
+	paludis/package_database_entry.cc,
+	paludis/repositories/gentoo/portage_repository_sets.cc,
+	paludis/repositories/virtuals/installed_virtuals_repository.cc,
+	paludis/repositories/virtuals/vr_entry.cc,
+	paludis/repositories/virtuals/vr_entry.hh, paludis/repository.cc,
+	paludis/tasks/find_unused_packages_task.cc, paludis/util/files.m4,
+	paludis/util/fs_entry.cc, paludis/util/fs_entry.hh,
+	paludis/util/iterator.hh, paludis/util/operators.hh,
+	paludis/util/validated-fwd.hh, paludis/util/validated.hh,
+	paludis/version_operator.cc, paludis/version_operator.hh,
+	paludis/version_spec.cc, paludis/version_spec.hh,
+	python/dep_spec_TEST.py, python/name.cc, python/name_TEST.py,
+	python/package_database.cc, python/repository_TEST.py,
+	python/version_operator.cc, python/version_requirements.cc,
+	python/version_requirements_TEST.py, python/version_spec.cc,
+	python/version_spec_TEST.py, ruby/package_database_entry.cc,
+	ruby/paludis_ruby.hh, ruby/qualified_package_name.cc,
+	src/clients/adjutrix/downgrade_check.cc,
+	src/clients/adjutrix/find_dropped_keywords.cc,
+	src/clients/adjutrix/find_insecure_packages.cc,
+	src/clients/adjutrix/find_reverse_deps.cc,
+	src/clients/adjutrix/find_stable_candidates.cc,
+	src/clients/adjutrix/find_unused_packages.cc,
+	src/clients/adjutrix/keywords_graph.cc,
+	src/clients/adjutrix/what_needs_keywording.cc,
+	src/output/console_install_task.cc, -paludis/util/compare.hh,
+	-paludis/util/comparison_policy-fwd.hh,
+	-paludis/util/comparison_policy.hh: Change how we specify operators.
+
+2007-05-18 Richard Brown
+
+	* doc/faq.html.skel: Add FAQ entry about check_linkage.rb.
+
+2007-05-18 David Leverton
+
+	* hooks/demos/elog.bash.in,
+	paludis/repositories/gentoo/ebuild/ebuild.bash: Don't elog in
+	pretend, config and metadata phases.
+
+2007-05-18 Ciaran McCreesh
+
+	* paludis/util/files.m4, paludis/util/output_wrapper.cc,
+	paludis/util/output_wrapper_TEST.cc,
+	paludis/util/output_wrapper_TEST_cleanup.sh,
+	paludis/util/output_wrapper_TEST_setup.sh: Fix output wrapper
+	formatting, add test cases.
+
+2007-05-17 David Leverton
+
+	* paludis/hook.cc, paludis/hooker.cc, paludis/hooker_TEST.cc,
+	paludis/hooker_TEST_setup.sh, paludis/hook.hh,
+	paludis/Makefile.am.m4, paludis/sohooks_TEST.cc: .so hooks.
+
+	+ Fixes: ticket:85
+
+2007-05-17 Ciaran McCreesh
+
+	* paludis/repositories/gentoo/ebuild.cc,
+	paludis/util/output_wrapper.cc, paludis/util/pstream.cc,
+	paludis/util/system.cc, paludis/util/system.hh: Improve pkg_pretend
+	output.
+
+2007-05-17 Ciaran McCreesh
+
+	* paludis/eapi.cc, paludis/eapi.sr,
+	paludis/repositories/cran/cran_installed_repository.cc,
+	paludis/repositories/cran/cran_repository.cc,
+	paludis/repositories/fake/fake_installed_repository.cc,
+	paludis/repositories/fake/fake_repository.cc,
+	paludis/repositories/gems/gems_repository.cc,
+	paludis/repositories/gentoo/ebin_entries.cc,
+	paludis/repositories/gentoo/ebin_entries.hh,
+	paludis/repositories/gentoo/ebuild.cc,
+	paludis/repositories/gentoo/ebuild.hh,
+	paludis/repositories/gentoo/ebuild.sr,
+	paludis/repositories/gentoo/ebuild/Makefile.am,
+	paludis/repositories/gentoo/ebuild/ebuild.bash,
+	paludis/repositories/gentoo/ebuild/pkg_pretend.bash,
+	paludis/repositories/gentoo/ebuild_entries.cc,
+	paludis/repositories/gentoo/ebuild_entries.hh,
+	paludis/repositories/gentoo/portage_repository.cc,
+	paludis/repositories/gentoo/portage_repository.hh,
+	paludis/repositories/gentoo/portage_repository_entries.hh,
+	paludis/repositories/gentoo/vdb_repository.cc,
+	paludis/repositories/virtuals/installed_virtuals_repository.cc,
+	paludis/repositories/virtuals/virtuals_repository.cc,
+	paludis/repository-fwd.hh, paludis/repository.cc,
+	paludis/repository.hh, paludis/repository.sr,
+	paludis/tasks/install_task.cc: pkg_pretend.
+
+2007-05-17 Ciaran McCreesh
+
+	* paludis/repositories/gentoo/layout.cc,
+	paludis/repositories/gentoo/layout.hh,
+	paludis/repositories/gentoo/make_ebin_repository.cc,
+	paludis/repositories/gentoo/make_ebuild_repository.cc,
+	paludis/repositories/gentoo/portage_repository.cc,
+	paludis/repositories/gentoo/portage_repository_params.sr: Make layout a
+	configuration key.
+
+2007-05-16 Ciaran McCreesh
+
+	* paludis/files.m4, paludis/name-fwd.hh, paludis/name.hh,
+	paludis/repositories/gentoo/Makefile.am,
+	paludis/repositories/gentoo/ebin_entries.cc,
+	paludis/repositories/gentoo/ebin_entries.hh,
+	paludis/repositories/gentoo/ebuild_entries.cc,
+	paludis/repositories/gentoo/ebuild_entries.hh,
+	paludis/repositories/gentoo/layout.cc,
+	paludis/repositories/gentoo/layout.hh,
+	paludis/repositories/gentoo/portage_repository.cc,
+	paludis/repositories/gentoo/portage_repository.hh,
+	paludis/repositories/gentoo/portage_repository_entries.cc,
+	paludis/repositories/gentoo/portage_repository_entries.hh,
+	paludis/repositories/gentoo/traditional_layout.cc,
+	paludis/repositories/gentoo/traditional_layout.hh,
+	paludis/util/comparison_policy-fwd.hh,
+	paludis/util/comparison_policy.hh, paludis/util/files.m4,
+	paludis/util/fs_entry-fwd.hh, paludis/util/fs_entry.hh,
+	paludis/util/validated-fwd.hh, paludis/util/validated.hh,
+	paludis/version_spec-fwd.hh, paludis/version_spec.hh: More fwd headers.
+	Split out PortageRepository layout logic.
+
+2007-05-14 Piotr Jaroszyński
+
+	* configure.ac: Fix ldconfig detection.
+
+2007-05-14 Ciaran McCreesh
+
+	* src/clients/Makefile.am, src/clients/adjutrix/Makefile.am,
+	src/clients/contrarius/Makefile.am,
+	src/clients/inquisitio/Makefile.am, src/clients/paludis/Makefile.am,
+	src/clients/qualudis/Makefile.am: Enable visibility for clients.
+
+2007-05-14 Ciaran McCreesh
+
+	* misc/make_sr.bash: Use warn_unused_result for sr.
+
+	+ Fixes: ticket:227
+
+2007-05-14 Ciaran McCreesh
+
+	* configure.ac: Better GNU ldconfig detection.
+
+2007-05-14 Ciaran McCreesh
+
+	* paludis/dep_list/dep_list.cc, paludis/dep_spec-fwd.hh,
+	paludis/dep_spec.hh, paludis/eapi-fwd.hh, paludis/eapi.cc,
+	paludis/eapi.hh, paludis/eapi.sr,
+	paludis/environment_implementation.cc,
+	paludis/environment_implementation.hh, paludis/files.m4,
+	paludis/qa/create_metadata_check.cc, paludis/qa/parse_deps_check.cc,
+	paludis/repositories/cran/cran_description.cc,
+	paludis/repositories/cran/cran_installed_repository.cc,
+	paludis/repositories/cran/cran_repository.cc,
+	paludis/repositories/cran/cran_version_metadata.cc,
+	paludis/repositories/fake/fake_repository_base.cc,
+	paludis/repositories/gems/gems_version_metadata.cc,
+	paludis/repositories/gentoo/ebin.cc,
+	paludis/repositories/gentoo/ebin_entries.cc,
+	paludis/repositories/gentoo/ebuild.cc,
+	paludis/repositories/gentoo/ebuild_entries.cc,
+	paludis/repositories/gentoo/ebuild_flat_metadata_cache.cc,
+	paludis/repositories/gentoo/portage_repository_TEST.cc,
+	paludis/repositories/gentoo/portage_virtual_version_metadata.cc,
+	paludis/repositories/gentoo/vdb_repository.cc,
+	paludis/repositories/gentoo/vdb_version_metadata.cc,
+	paludis/version_metadata.cc, paludis/version_metadata.hh,
+	paludis/version_metadata.sr, python/version_metadata.cc,
+	python/version_metadata_TEST.py, ruby/version_metadata.cc,
+	ruby/version_metadata_TEST.rb, src/clients/contrarius/install.cc,
+	src/clients/paludis/install.cc, src/output/console_install_task.cc:
+	Centralise EAPI information.
+
+	+ Fixes: ticket:222
+
+2007-05-14 Piotr Jaroszyński
+
+	* paludis/hook.cc: Fix Hook::validate_value to return true for empty
+	values.
+
+2007-05-14 Piotr Jaroszyński
+
+	* paludis/environment.hh, paludis/environment_implementation.cc,
+	paludis/environment_implementation.hh,
+	paludis/environments/adapted/adapted_environment.cc,
+	paludis/environments/adapted/adapted_environment.hh,
+	paludis/environments/paludis/paludis_environment.cc,
+	paludis/environments/paludis/paludis_environment.hh,
+	paludis/environments/portage/portage_environment.cc,
+	paludis/environments/portage/portage_environment.hh, paludis/files.m4,
+	paludis/hook.cc, paludis/hooker.cc, paludis/hooker.hh,
+	paludis/hooker_TEST.cc, paludis/hooker_TEST_setup.sh, paludis/hook.hh,
+	paludis/hook.se, paludis/hook.sr, paludis/merger/merger.cc,
+	paludis/merger/unmerger.cc,
+	paludis/repositories/gentoo/portage_repository.cc,
+	paludis/repositories/gentoo/portage_repository.hh,
+	paludis/repositories/gentoo/vdb_repository.cc,
+	paludis/repositories/gentoo/vdb_repository.hh,
+	paludis/repositories/gentoo/vdb_unmerger.cc,
+	paludis/repositories/virtuals/installed_virtuals_repository.cc,
+	paludis/repositories/virtuals/installed_virtuals_repository.hh,
+	paludis/repository-fwd.hh, paludis/repository.hh,
+	paludis/tasks/install_task.cc, paludis/tasks/install_task.hh,
+	paludis/tasks/sync_task.cc, paludis/tasks/uninstall_task.cc,
+	src/clients/paludis/install.cc: Now we can grab output of Hooks.
+
+2007-05-14 Ciaran McCreesh
+
+	* paludis/util/pstream.cc: Fix PStream exit status.
+
+2007-05-14 Piotr Jaroszyński
+
+	* python/name.cc, python/name_TEST.py, python/version_metadata.cc,
+	python/version_metadata_TEST.py: (python) Bring VersionMetadata and
+	names up to date.
+
+2007-05-13 Richard Brown
+
+	* ruby/version_metadata.cc, ruby/version_metadata_TEST.rb: (ruby)
+	Bring VersionMetadata up to date.
+
+2007-05-13 Ciaran McCreesh
+
+	* paludis/util/files.m4, paludis/util/visitor-fwd.hh,
+	paludis/util/visitor.hh: Make a visitor-fwd.hh.
+
+2007-05-13 Ciaran McCreesh
+
+	* paludis/dep_list/dep_list.cc, paludis/environment_implementation.cc,
+	paludis/environments/paludis/paludis_environment.cc,
+	paludis/environments/portage/portage_environment.cc,
+	paludis/qa/deps_visible_check.cc, paludis/qa/iuse_check.cc,
+	paludis/repositories/fake/fake_repository_base.cc,
+	paludis/repositories/fake/fake_repository_base.hh,
+	paludis/repositories/gentoo/portage_repository.cc,
+	paludis/repositories/gentoo/portage_repository.hh,
+	paludis/repositories/gentoo/portage_repository_TEST.cc,
+	paludis/repositories/gentoo/portage_repository_profile.cc,
+	paludis/repositories/gentoo/portage_repository_profile.hh,
+	paludis/repositories/gentoo/use_desc.cc,
+	paludis/repositories/gentoo/use_desc.hh,
+	paludis/repositories/gentoo/vdb_repository.cc,
+	paludis/repositories/gentoo/vdb_repository.hh, paludis/repository.cc,
+	paludis/repository.hh, python/repository.cc,
+	python/repository_TEST.py, ruby/repository.cc,
+	ruby/repository_TEST.rb, src/output/console_install_task.cc,
+	src/output/use_flag_pretty_printer.cc: Clean up repository use
+	interface.
+
+	+ Fixes: ticket:228
+
+2007-05-13 Ciaran McCreesh
+
+	* paludis/environments/portage/portage_environment.cc: Support
+	repository-set use flags in PortageEnvironment.
+
+2007-05-13 Ciaran McCreesh
+
+	* paludis/repositories/gentoo/portage_repository.cc,
+	paludis/repositories/gentoo/portage_repository_profile.cc,
+	paludis/repositories/gentoo/portage_repository_profile.hh: Support
+	IUSE defaults.
+
+2007-05-13 Ciaran McCreesh
+
+	* paludis/dep_list/range_rewriter_TEST.cc,
+	paludis/dep_spec_pretty_printer.cc,
+	paludis/dep_spec_pretty_printer.hh,
+	paludis/dep_spec_pretty_printer_TEST.cc, paludis/files.m4,
+	paludis/portage_dep_parser_TEST.cc,
+	paludis/repositories/cran/cran_dep_parser_TEST.cc,
+	paludis/set_file_TEST.cc: More elegant output from
+	DepSpecPrettyPrinter.
+
+2007-05-13 Ciaran McCreesh
+
+	* misc/make_sr.bash, paludis/dep_list/dep_list.cc,
+	paludis/dep_list/dep_list_TEST.cc,
+	paludis/dep_list/dep_list_TEST_blockers.cc,
+	paludis/dep_list/uninstall_list_TEST.cc,
+	paludis/environment_implementation_TEST.cc, paludis/name.cc,
+	paludis/name.hh, paludis/name.se, paludis/name.sr,
+	paludis/qa/dep_flags_check.cc, paludis/qa/homepage_check.cc,
+	paludis/qa/inherits_check.cc, paludis/qa/iuse_check.cc,
+	paludis/qa/keywords_check.cc, paludis/qa/license_check.cc,
+	paludis/qa/parse_deps_check.cc, paludis/qa/restrict_check.cc,
+	paludis/qa/src_uri_check.cc,
+	paludis/repositories/cran/cran_description.cc,
+	paludis/repositories/cran/cran_repository.cc,
+	paludis/repositories/fake/fake_installed_repository.cc,
+	paludis/repositories/fake/fake_repository.cc,
+	paludis/repositories/fake/fake_repository_base.cc,
+	paludis/repositories/gems/gems_repository.cc,
+	paludis/repositories/gentoo/ebin_entries.cc,
+	paludis/repositories/gentoo/ebuild.cc,
+	paludis/repositories/gentoo/ebuild_entries.cc,
+	paludis/repositories/gentoo/ebuild_flat_metadata_cache.cc,
+	paludis/repositories/gentoo/portage_repository.cc,
+	paludis/repositories/gentoo/vdb_repository.cc,
+	paludis/util/iterator.hh, paludis/version_metadata.cc,
+	paludis/version_metadata.hh, paludis/version_metadata.sr,
+	python/version_metadata.cc, python/version_metadata_TEST.py,
+	ruby/version_metadata.cc, ruby/version_metadata_TEST.rb,
+	src/output/console_query_task.cc,
+	src/output/use_flag_pretty_printer.cc: Cache VersionMetadata values.
+	Make RESTRICT, HOMEPAGE DepSpecs rather than flat. Allow +/- in IUSE.
+
+2007-05-10 Piotr Jaroszyński
+
+	* python/Makefile.am: (python) Fix recreating symbolic link in the Makefile.
+
+2007-05-10 Piotr Jaroszyński
+
+	* ruby/Makefile.am: (ruby) Fix recreating symbolic link in the Makefile.
+
+2007-05-10 Ciaran McCreesh
+
+	* paludis/repositories/gentoo/ebuild.cc: Fix GNU ldconfig calls.
+
+2007-05-10 Piotr Jaroszyński
+
+	* paludis/qa/digest_collisions_check.cc: Skip the
+	digest_collisions_check when files dir is not present.
+
+2007-05-09 Timothy Redaelli
+
+	* configure.ac, paludis/repositories/gentoo/ebuild.cc:
+	Add support for non-GNU ldconfig.
+
+2007-05-09 Ciaran McCreesh
+
+	* paludis/environment.se, paludis/files.m4,
+	paludis/package_database.cc, paludis/package_database.hh,
+	paludis/package_database.se, paludis/package_database_TEST.cc,
+	paludis/package_database_entry.cc: Add qo_best_version_only,
+	qo_best_version_in_slot_only.
+
+	+ Fixes: ticket:219
+
+2007-05-09 Ciaran McCreesh
+
+	* paludis/environments/paludis/keywords_conf.cc: Fix -* in
+	keywords.conf.
+
+2007-05-09 Ciaran McCreesh
+
+	* (lots): Enable visibility support if --enable-visibility (needs GCC
+	4.1).
+
+2007-05-09 Piotr Jaroszyński
+
+	* python/Makefile.am: (python) Fix distcheck #2.
+
+2007-05-08 Ciaran McCreesh
+
+	* src/clients/paludis/command_line.cc,
+	src/clients/paludis/command_line.hh, src/clients/paludis/install.cc,
+	src/clients/paludis/paludis.cc: Use --safe-resume by default. Use
+	--no-safe-resume to disable.
+
+2007-05-07 Timothy Redaelli
+
+	* configure.ac, paludis/util/fs_entry.cc:
+	Use lchflags instead of chflags.
+
+2007-05-07 Piotr Jaroszyński
+
+	* python/Makefile.am: (python) Fix distcheck.
+
+2007-05-07 Ciaran McCreesh
+
+	* configure.ac, paludis/util/fs_entry.cc: BSD's realpath is silly.
+
+	+ Fixes: ticket:217
+
+2007-05-07 Ciaran McCreesh
+
+	* paludis/environments/paludis/paludis_environment.cc,
+	paludis/environments/paludis/use_conf.cc,
+	paludis/environments/portage/portage_environment.cc: Catch query_use
+	being called recursively. Warn for use restrictions in use.conf.
+
+	+ Fixes: ticket:218
+
+2007-05-07 Ciaran McCreesh
+
+	* ruby/query.cc: Avoid potential memory corruption in Ruby code on
+	exceptions that throw.
+
+2007-05-07 Ciaran McCreesh
+
+	* src/clients/paludis/query.cc: Fix mask reason short codes.
+
+2007-05-07 Alexander Færøy
+
+	* ruby/query.cc, ruby/query_TEST.rb: Added Ruby bindings for the new query
+	objects.
+
+2007-05-07 Alexander Færøy
+
+	* paludis/environments/paludis/use_conf.cc: Fix compilation for GCC-3.4.
+
+2007-05-07 Mike Kelly
+
+	* hooks/write_cache_clean.bash: Make the files being removed get
+	echoed to stdout, not stderr. Good for cron, good for the kids.
+
+2007-05-07 Piotr Jaroszyński
+
+	* python/query.cc, python/query_TEST.py: New query objects and docs
+	for all of them.
+
+2007-05-06 Ciaran McCreesh
+
+	* paludis/query.cc, paludis/query.hh: More new query objects.
+
+2007-05-06 Ciaran McCreesh
+
+	* paludis/query.cc, paludis/query.hh: New query objects.
+
+2007-05-06 Stephen Bennett
+
+	* src/output/console_install_task.hh,
+	src/output/console_install_task.cc, paludis/tasks/install_task.hh,
+	paludis/tasks/install_task.cc: Set xterm titles to a meaningful
+	failure message should the install process abort.
+
+2007-05-06 Fernando J. Pereda
+
+	* Makefile.am: Include python in distcheck.
+
+2007-05-05 Fernando J. Pereda
+
+	* paludis/repositories/gentoo/portage_repository.cc: Run update_news on
+	install_all_post and uninstall_all_post too.
+
+2007-05-05 Piotr Jaroszyński
+
+	* python/repository.cc, python/version_metadata.cc: Fix return policy
+	for VersionMetadata and Repository interfaces.
+
+2007-05-05 Ciaran McCreesh
+
+	* configure.ac: Trunk is now 0.25.
+
+2007-05-05 Ciaran McCreesh
+
+	* Makefile.am: Include vim scripts in distcheck.
+
+2007-05-05 Ciaran McCreesh
+
+	* vim/ftdetect/Makefile.am, vim/syntax/Makefile.am: Fix vim scripts in
+	dist tarballs.
+
+2007-05-05 Ciaran McCreesh
+
+	* autogen.bash: Use automake 1.10, autoconf 2.61 if available.
+
+2007-05-05 David Leverton
+
+	* configure.ac, python/Makefile.am: Accept either threaded or
+	non-threaded boost.python, and fix as-needed.
+
+2007-05-04 Piotr Jaroszyński
+
+	* configure.ac, Makefile.am, python, python/contents.cc,
+	python/contents_TEST.py, python/dep_spec.cc, python/dep_spec_TEST.py,
+	python/environment.cc, python/environment_TEST_cleanup.sh,
+	python/environment_TEST.py, python/environment_TEST_setup.sh,
+	python/fs_entry.cc, python/log.cc, python/log_TEST.py,
+	python/Makefile.am, python/mask_reasons.cc,
+	python/mask_reasons_TEST.py, python/name.cc, python/name_TEST.py,
+	python/package_database.cc, python/package_database_TEST_cleanup.sh,
+	python/package_database_TEST.py,
+	python/package_database_TEST_setup.sh, python/paludis_python.hh,
+	python/paludis_python_so.cc, python/portage_dep_parser.cc,
+	python/portage_dep_parser_TEST.py, python/query.cc,
+	python/query_TEST.py, python/repository.cc,
+	python/repository_TEST_cleanup.sh, python/repository_TEST.py,
+	python/repository_TEST_setup.sh, python/version_metadata.cc,
+	python/version_metadata_TEST_cleanup.sh,
+	python/version_metadata_TEST.py,
+	python/version_metadata_TEST_setup.sh, python/version_operator.cc,
+	python/version_operator_TEST.py, python/version_requirements.cc,
+	python/version_requirements_TEST.py, python/version_spec.cc,
+	python/version_spec_TEST.py: Initial import of Python bindings.
+
+2007-05-04 Piotr Jaroszyński
+
+	* paludis/args/man.cc, paludis/args/man.hh,
+	src/clients/adjutrix/man_adjutrix.cc,
+	src/clients/contrarius/man_contrarius.cc,
+	src/clients/inquisitio/man_inquisitio.cc,
+	src/clients/paludis/man_paludis.cc,
+	src/clients/qualudis/man_qualudis.cc: Man/html writing is now
+	abstract.
+
+2007-05-04 Ciaran McCreesh
+
+	* NEWS, configure.ac: Preparation for 0.24.0.
+
+	+ Release: 0.24.0
+
