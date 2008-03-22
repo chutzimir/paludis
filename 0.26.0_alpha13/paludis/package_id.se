@@ -1,0 +1,26 @@
+#!/bin/bash
+# vim: set sw=4 sts=4 et ft=sh :
+
+make_enum_PackageIDCanonicalForm()
+{
+    prefix idcf
+
+    key idcf_full                     "Everything"
+    key idcf_version                  "Version, and affix as appropriate"
+    key idcf_no_version               "No version"
+
+    doxygen_comment << "END"
+        /**
+         * What to include when generating the string for
+         * paludis::PackageID::canonical_form().
+         *
+         * \see PackageID
+         * \ingroup g_package_id
+         * \since 0.26
+         * \nosubgrouping
+         */
+END
+}
+
+
+
