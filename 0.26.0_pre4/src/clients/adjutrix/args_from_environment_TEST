@@ -1,4 +1,0 @@
-#!/bin/bash
-
-ADJUTRIX_OPTIONS=--help ./adjutrix
-
