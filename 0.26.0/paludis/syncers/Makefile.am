@@ -1,0 +1,88 @@
+MAINTAINERCLEANFILES = Makefile.in
+CLEANFILES = *~ .keep dobzr dobzr+aftp dobzr+file dobzr+ftp dobzr+http dobzr+https dobzr+sftp dobzr+ssh docvs+ext docvs+pserver docvs+ssh dodarcs+file dodarcs+http dodarcs+https dodarcs+ssh dofile dogit dogit+file dogit+http dogit+https dogit+rsync dogit+ssh dorsync dorsync+ssh dosvn dosvn+file dosvn+http dosvn+https dosvn+ssh dotar+file dotar+ftp dotar+http dotar+https
+SUBDIRS = .
+
+.keep :
+	touch $@
+
+libexecprogdir = $(libexecdir)/paludis/syncers/
+
+libexecprog_SCRIPTS = \
+	dobzr \
+	dobzr+aftp \
+	dobzr+file \
+	dobzr+ftp \
+	dobzr+http \
+	dobzr+https \
+	dobzr+sftp \
+	dobzr+ssh \
+	docvs+ext \
+	docvs+pserver \
+	docvs+ssh \
+	dodarcs+file \
+	dodarcs+http \
+	dodarcs+https \
+	dodarcs+ssh \
+	dofile \
+	dogit \
+	dogit+file \
+	dogit+http \
+	dogit+https \
+	dogit+rsync \
+	dogit+ssh \
+	dorsync \
+	dorsync+ssh \
+	dosvn \
+	dosvn+file \
+	dosvn+http \
+	dosvn+https \
+	dosvn+ssh \
+	dotar+file \
+	dotar+ftp \
+	dotar+http \
+	dotar+https \
+	dodummy
+
+TESTS_ENVIRONMENT = env \
+	PALUDIS_EBUILD_DIR="$(srcdir)/paludis/syncers/" \
+	PALUDIS_DISTRIBUTION="gentoo" \
+	TEST_SCRIPT_DIR="$(srcdir)/" \
+	bash $(top_srcdir)/test/run_test.sh
+
+installusersyncersdir = $(datadir)/paludis/syncers
+installusersyncers_DATA = .keep
+
+TESTS =
+EXTRA_DIST = $(libexecprog_SCRIPTS) dobzr.in docvs.in dodarcs.in dogit.in dorsync.in dosvn.in dotar.in
+
+check_SCRIPTS =
+check_PROGRAMS = $(TESTS)
+
+AM_CXXFLAGS = -I$(top_srcdir) @PALUDIS_CXXFLAGS@
+
+dobzr dobzr+aftp dobzr+file dobzr+ftp dobzr+http dobzr+https dobzr+sftp dobzr+ssh : dobzr.in
+	cat $? > $@
+docvs+ext docvs+pserver docvs+ssh : docvs.in
+	cat $? > $@
+dodarcs+file dodarcs+http dodarcs+https dodarcs+ssh : dodarcs.in
+	cat $? > $@
+dogit dogit+file dogit+http dogit+https dogit+rsync dogit+ssh : dogit.in
+	cat $? > $@
+dofile dorsync dorsync+ssh : dorsync.in
+	cat $? > $@
+dosvn dosvn+file dosvn+http dosvn+https dosvn+ssh : dosvn.in
+	cat $? > $@
+dotar+file dotar+ftp dotar+http dotar+https : dotar.in
+	cat $? > $@
+
+built-sources : $(BUILT_SOURCES)
+	for s in `echo $(SUBDIRS) | tr -d .` ; do $(MAKE) -C $$s built-sources || exit 1 ; done
+
+distcheck-deps-local : $(DISTCHECK_DEPS)
+
+distcheck-deps : distcheck-deps-subdirs
+
+distcheck-deps-subdirs :
+	for s in $(SUBDIRS) . ; do if test x$$s = x. ; then $(MAKE) distcheck-deps-local || exit 1 ; \
+	    else $(MAKE) -C $$s distcheck-deps || exit 1 ; fi ; done
+
