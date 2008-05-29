@@ -1,3 +1,0 @@
-#!/bin/bash
-
-PALUDIS_SKIP_CONFIG=yes PALUDIS_OPTIONS=--version ./paludis
