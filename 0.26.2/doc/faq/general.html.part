@@ -1,0 +1,123 @@
+<!-- vim: set tw=120 ft=html sw=4 sts=4 et : -->
+
+<h1>FAQ: General Questions</h1>
+
+<ul>
+    <li><a href="general.html#ihaveaquestion">I have an Unanswered Question</a></li>
+    <li><a href="general.html#why">Why not fix Portage?</a></li>
+    <li><a href="general.html#cplusplus">Why C++?</a></li>
+    <li><a href="general.html#butcplusplusis">But C++ is ...</a></li>
+    <li><a href="general.html#contribute">Contributing</a></li>
+    <li><a href="general.html#compilers">Known compiler issues</a></li>
+    <li><a href="general.html#verb">What term should I use to mean "to install a package using Paludis"?</a></li>
+</ul>
+
+<h2 id="ihaveaquestion">I have an Unanswered Question</h2>
+
+<p>If you've checked the documentation, and your question really isn't answered,
+you should ask it in one of these places:</p>
+
+<ul>
+    <li>The <code>#paludis</code> channel on <code>irc.freenode.net</code></li>
+    <li>The <a href="../overview/contact.html">paludis-user mailing list</a></li>
+    <li>The <a href="http://paludis.pioto.org/trac/">bug tracker</a> will probably
+    also be useful</li>
+</ul>
+
+<p>You are encouraged to submit an entry for this document once your question
+has been answered.</p>
+
+<h2 id="why">Why not fix Portage?</h2>
+
+<p>The Portage codebase is too broken to be fixed. It is a huge mess of
+spaghetti procedural code with no underlying design. It relies upon weird
+quirks in its own behaviour all over the place, so any change is liable to
+cause huge breakage in seemingly unrelated areas. It is almost entirely
+undocumented, and the internal names are perverse and often do not reflect what
+the code now does.</p>
+
+<h2 id="cplusplus">Why C++?</h2>
+
+<p>Because we don't have the time or the manpower to write it in C.</p>
+
+<h2 id="butcplusplusis">But C++ is ...</h2>
+
+<p>No it isn't. Whoever told you that was either trolling or ignorant.</p>
+
+<h2 id="contribute">Contributing</h2>
+
+<p>Contributions to Paludis are welcome:</p>
+
+<ul>
+    <li>Patches can be submitted via <a
+        href="http://paludis.pioto.org/trac/">trac</a>. It's best to
+    discuss ideas before spending too much time on the code, because we don't
+    have any qualms about rejecting things we think are a bad idea.</li>
+
+    <li>We could probably use some more documentation. Again, ask first.</li>
+
+    <li>Translations aren't currently possible. We don't have anything against
+    internationalisation in principle, but as we're not gettextised it'll be a
+    fair bit of effort.</li>
+
+    <li>Paludis' current hosting is sub-par. We're working on acquiring better
+    hosting, and any donations would be appreciated. Please use this button to
+    donate:
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+    <input type="hidden" name="cmd" value="_s-xclick" />
+    <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" style="border: 0px solid none;" name="submit" alt="PayPal - The safer, easier way to pay online!" />
+    <img alt="" style="border: 0px solid none;" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+    <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+" />
+</form>
+    </li>
+</ul>
+
+<h2 id="compilers">Known compiler issues</h2>
+
+<p>The primary supported compiler for building Paludis is GCC, version
+4.1 or later; 3.4 can be used on most platforms if the Boost library
+is installed.  Some versions of GCC, and some compiler flags, are
+known to have problems (these are all GCC's fault):</p>
+
+<ul>
+    <li>GCC 3.4.6 on the x86_64 architecture segfaults while building
+    Paludis.</li>
+
+    <li>GCC 4.1.1 segfaults while building Paludis.</li>
+
+    <li>GCC 4.2.2 fails with an internal error while building Paludis
+    if the <code>-g</code> compiler flag is used.</li>
+
+    <li>GCC 4.2.2 has been known to miscompile Paludis on the 64-bit
+    PowerPC architecture.</li>
+
+    <li>The <code>-O3</code> compiler flag causes linker errors when
+    building some versions of Paludis (note that the Gentoo and
+    paludis-overlay ebuilds remove this flag automatically).</li>
+
+    <li>The <code>-Os</code> compiler flag has been known to cause GCC
+    to miscompile Paludis at least on x86_64, and possibly others
+    (note that the Gentoo and paludis-overlay ebuilds remove this flag
+    automatically).</li>
+
+    <li>The <code>-O0</code> flag (or equivalently, absense of
+    any <code>-O</code>x flag) has been known to cause GCC to
+    miscompile Paludis in the past at least on x86_64.</li>
+</ul>
+
+<p>Recent (version 10.1) ICC will sometimes work. 10.1.008 has correctly compiled Paludis
+on x86_64, but only with most compiler optimisations disabled. With <code>-xT</code> (and
+probably others) the compiler will die with an internal error or a floating point
+exception; even without any non-standard optimisations turned on, ICC produces
+code that is measurably faster than GCC.</p>
+
+<p>ConceptGCC has been known to work -- Paludis makes limited use of concepts where compiler
+support is available. Note that ConceptGCC isn't ABI compatible with GCC, so you'll need
+all of the link dependencies built using ConceptGCC rather than GCC too.</p>
+
+<h2 id="verb">What term should I use to mean "to install a package using Paludis"?</h2>
+
+<p>"Install".</p>
+
