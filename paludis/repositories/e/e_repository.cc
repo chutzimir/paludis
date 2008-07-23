@@ -150,8 +150,7 @@ namespace
                         std::tr1::shared_ptr<MetadataKey> key;
                         std::tr1::shared_ptr<const PackageIDSequence> q((*_env)[selection::AllVersionsSorted(
                                     generator::Matches(parse_elike_package_dep_spec(*i,
-                                            (*(*erepository::EAPIData::get_instance()->eapi_from_string(_p))
-                                             [k::supported()])[k::package_dep_spec_parse_options()],
+                                            erepository::EAPIData::get_instance()->eapi_from_string(_p)->supported()->package_dep_spec_parse_options(),
                                             std::tr1::shared_ptr<const PackageID>())) |
                                     filter::InstalledAtRoot(_env->root()))]);
                         if (q->empty())
@@ -362,8 +361,8 @@ namespace paludis
 
         profile_ptr.reset(new ERepositoryProfile(
                     params.environment, repo, repo->name(), *params.profiles,
-                    (*(*erepository::EAPIData::get_instance()->eapi_from_string(
-                        params.eapi_when_unknown))[k::supported()])[k::ebuild_environment_variables()][k::env_arch()]));
+                    erepository::EAPIData::get_instance()->eapi_from_string(
+                        params.eapi_when_unknown)->supported()->ebuild_environment_variables()->env_arch()));
     }
 
     void
@@ -407,8 +406,8 @@ namespace paludis
                             (k::status(), tokens.at(2))
                             (k::profile(), std::tr1::shared_ptr<ERepositoryProfile>(new ERepositoryProfile(
                                         params.environment, repo, repo->name(), profiles,
-                                        (*(*erepository::EAPIData::get_instance()->eapi_from_string(
-                                            params.eapi_when_unknown))[k::supported()])[k::ebuild_environment_variables()][k::env_arch()]))));
+                                        erepository::EAPIData::get_instance()->eapi_from_string(
+                                            params.eapi_when_unknown)->supported()->ebuild_environment_variables()->env_arch()))));
                 }
                 catch (const InternalError &)
                 {
@@ -596,8 +595,8 @@ ERepository::repository_masked(const PackageID & id) const
             {
                 std::tr1::shared_ptr<const PackageDepSpec> a(new PackageDepSpec(parse_elike_package_dep_spec(
                                 line->first,
-                                (*(*erepository::EAPIData::get_instance()->eapi_from_string(_imp->params.profile_eapi))
-                                 [k::supported()])[k::package_dep_spec_parse_options()],
+                                erepository::EAPIData::get_instance()->eapi_from_string(
+                                    _imp->params.profile_eapi)->supported()->package_dep_spec_parse_options(),
                                 std::tr1::shared_ptr<const PackageID>())));
                 if (a->package_ptr())
                     _imp->repo_mask[*a->package_ptr()].push_back(std::make_pair(a, line->second));
@@ -641,7 +640,7 @@ ERepository::query_use(const UseFlagName & f, const PackageID & e) const
 
     const erepository::ERepositoryID & id(static_cast<const erepository::ERepositoryID &>(e));
 
-    if (! (*id.eapi())[k::supported()])
+    if (! id.eapi()->supported())
     {
         Log::get_instance()->message("e.query_use.unsupported_eapi", ll_qa, lc_no_context)
             << "Was asked for the state of USE flag '" << f << "' for ID '" << e
@@ -671,7 +670,7 @@ ERepository::query_use(const UseFlagName & f, const PackageID & e) const
             if (id.iuse_key()->value()->end() != id.iuse_key()->value()->find(IUseFlag(f, use_disabled, 0)))
                 break;
 
-            if (! (*(*id.eapi())[k::supported()])[k::ebuild_options()].require_use_expand_in_iuse)
+            if (! id.eapi()->supported()->ebuild_options()->require_use_expand_in_iuse())
             {
                 if (arch_flags()->end() != arch_flags()->find(f))
                     break;
@@ -688,16 +687,16 @@ ERepository::query_use(const UseFlagName & f, const PackageID & e) const
 
                 Log::get_instance()->message("e.query_use.not_in_iuse", ll_qa, lc_context)
                     << "Was asked for the state of "
-                    << (*(*id.eapi())[k::supported()])[k::ebuild_environment_variables()][k::env_use()]
+                    << id.eapi()->supported()->ebuild_environment_variables()->env_use()
                     << " flag '" << f << "' for ID '" << e
                     << "', but that flag is not listed in " << id.iuse_key()->raw_name() << " and is not a "
-                    << (*(*id.eapi())[k::supported()])[k::ebuild_environment_variables()][k::env_use_expand()] << " or "
-                    << (*(*id.eapi())[k::supported()])[k::ebuild_environment_variables()][k::env_arch()] << " value";
+                    << id.eapi()->supported()->ebuild_environment_variables()->env_use_expand() << " or "
+                    << id.eapi()->supported()->ebuild_environment_variables()->env_arch() << " value";
             }
             else
                 Log::get_instance()->message("e.query_use.not_in_iuse", ll_qa, lc_context)
                     << "Was asked for the state of "
-                    << (*(*id.eapi())[k::supported()])[k::ebuild_environment_variables()][k::env_use()]
+                    << id.eapi()->supported()->ebuild_environment_variables()->env_use()
                     << " flag '" << f << "' for ID '" << e
                     << "', but that flag is not listed in " << id.iuse_key()->raw_name();
 
@@ -999,8 +998,8 @@ ERepository::use_expand_flags() const
 {
     _imp->need_profiles();
 
-    std::string expand_sep(stringify((*(*erepository::EAPIData::get_instance()->eapi_from_string(
-                            (_imp->params.profile_eapi)))[k::supported()])[k::ebuild_options()].use_expand_separator));
+    std::string expand_sep(stringify(erepository::EAPIData::get_instance()->eapi_from_string(
+                    _imp->params.profile_eapi)->supported()->ebuild_options()->use_expand_separator()));
     std::tr1::shared_ptr<UseFlagNameSet> result(new UseFlagNameSet);
     for (ERepositoryProfile::UseExpandConstIterator i(_imp->profile_ptr->begin_use_expand()),
             i_end(_imp->profile_ptr->end_use_expand()) ; i != i_end ; ++i)
@@ -1060,7 +1059,7 @@ ERepository::use_expand_separator(const PackageID & id) const
     if (this != id.repository().get())
         return '\0';
     const std::tr1::shared_ptr<const erepository::EAPI> & eapi(static_cast<const erepository::ERepositoryID &>(id).eapi());
-    return (*eapi)[k::supported()] ? (*(*eapi)[k::supported()])[k::ebuild_options()].use_expand_separator : '\0';
+    return eapi->supported() ? eapi->supported()->ebuild_options()->use_expand_separator() : '\0';
 }
 
 void
@@ -1154,8 +1153,8 @@ ERepository::describe_use_flag(const UseFlagName & f,
 
     if (_imp->use_desc.empty())
     {
-        std::string expand_sep(stringify((*(*erepository::EAPIData::get_instance()->eapi_from_string(
-                                _imp->params.profile_eapi))[k::supported()])[k::ebuild_options()].use_expand_separator));
+        std::string expand_sep(stringify(erepository::EAPIData::get_instance()->eapi_from_string(
+                        _imp->params.profile_eapi)->supported()->ebuild_options()->use_expand_separator()));
         std::tr1::shared_ptr<const FSEntrySequence> use_desc_dirs(_imp->layout->use_desc_dirs());
         for (FSEntrySequence::ConstIterator p(use_desc_dirs->begin()), p_end(use_desc_dirs->end()) ;
                 p != p_end ; ++p)
@@ -1184,7 +1183,7 @@ ERepository::is_suitable_destination_for(const PackageID & e) const
 {
     std::string f(e.repository()->format_key() ? e.repository()->format_key()->value() : "");
     if (f == "ebuild")
-        return (*(*static_cast<const erepository::ERepositoryID &>(e).eapi())[k::supported()])[k::can_be_pbin()];
+        return static_cast<const erepository::ERepositoryID &>(e).eapi()->supported()->can_be_pbin();
     else
         return false;
 }
@@ -1464,15 +1463,15 @@ ERepository::make_manifest(const QualifiedPackageName & qpn)
 std::string
 ERepository::accept_keywords_variable() const
 {
-    return (*(*erepository::EAPIData::get_instance()->eapi_from_string(params().profile_eapi))
-            [k::supported()])[k::ebuild_environment_variables()][k::env_accept_keywords()];
+    return erepository::EAPIData::get_instance()->eapi_from_string(params().profile_eapi)->supported()
+        ->ebuild_environment_variables()->env_accept_keywords();
 }
 
 std::string
 ERepository::arch_variable() const
 {
-    return (*(*erepository::EAPIData::get_instance()->eapi_from_string(params().profile_eapi))
-            [k::supported()])[k::ebuild_environment_variables()][k::env_arch()];
+    return erepository::EAPIData::get_instance()->eapi_from_string(params().profile_eapi)->supported()
+        ->ebuild_environment_variables()->env_arch();
 }
 
 FSEntry
