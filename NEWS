@@ -8,6 +8,8 @@ of every change, see the ChangeLog.
     * Work around compiler issues that eventually lead to unpack dying when it
       shouldn't on certain EAPIs on certain systems (ticket:622).
 
+    * Paludis now supports syncing from Mercurial repositories.
+
 0.28.0:
     * Compilers without tr1 memory, type traits and functional support are no
       longer supported. This means you, gcc-3.
