@@ -7,6 +7,9 @@ of every change, see the ChangeLog.
 0.28.2:
     * Paludis now supports syncing from Mercurial repositories.
 
+    * Certain user setups would sometimes lead to set*id bits being dropped.
+      We now work around this.
+
 0.28.1:
     * Work around compiler issues that eventually lead to unpack dying when it
       shouldn't on certain EAPIs on certain systems (ticket:622).
