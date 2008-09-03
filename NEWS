@@ -11,7 +11,22 @@ master:
       that the GNU versions are used.  (This is not necessary on typical Linux
       systems; check <command> --version if in doubt.)
 
+    * Support for from- and in- repository deps.
+
+    * Wildcards are now allowed for paludis --query, --uninstall, --install.
+
+    * Unavailable format repositories are now documented and built by default.
+
+0.28.2:
     * Paludis now supports syncing from Mercurial repositories.
+
+    * Certain user setups would sometimes lead to set*id bits being dropped.
+      We now work around this.
+
+0.28.1:
+    * Work around compiler issues that eventually lead to unpack dying when it
+      shouldn't on certain EAPIs on certain systems (ticket:622).
+
 
 0.28.0:
     * Compilers without tr1 memory, type traits and functional support are no
