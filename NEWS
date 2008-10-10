@@ -4,6 +4,10 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the ChangeLog.
 
+0.30.3:
+    * 0.30.2 would fail tests on some systems due to relative path issues.
+      This is now fixed.
+
 0.30.2:
     * Work around ebuilds that treat cwd as secure.
 
