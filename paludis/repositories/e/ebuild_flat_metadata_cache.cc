@@ -25,13 +25,14 @@
 #include <paludis/util/set.hh>
 #include <paludis/util/destringify.hh>
 #include <paludis/util/wrapped_forward_iterator.hh>
+#include <paludis/util/safe_ifstream.hh>
+#include <paludis/util/safe_ofstream.hh>
 #include <paludis/repositories/e/dep_spec_pretty_printer.hh>
 #include <paludis/repositories/e/dep_parser.hh>
 #include <paludis/repositories/e/dependencies_rewriter.hh>
 #include <paludis/stringify_formatter.hh>
 #include <paludis/repositories/e/eapi.hh>
 #include <tr1/functional>
-#include <fstream>
 #include <set>
 #include <map>
 #include <list>
@@ -294,10 +295,10 @@ EbuildFlatMetadataCache::load(const std::tr1::shared_ptr<const EbuildID> & id)
 
     Context context("When loading version metadata from '" + stringify(_imp->filename) + "':");
 
-    std::ifstream cache(stringify(_imp->filename).c_str());
-
-    if (cache)
+    try
     {
+        SafeIFStream cache(_imp->filename);
+
         std::vector<std::string> lines;
         std::string line;
         while (std::getline(cache, line))
@@ -601,10 +602,10 @@ EbuildFlatMetadataCache::load(const std::tr1::shared_ptr<const EbuildID> & id)
             return false;
         }
     }
-    else
+    catch (const SafeIFStreamError & e)
     {
         Log::get_instance()->message("e.cache.failure", _imp->silent ? ll_debug : ll_warning, lc_no_context)
-                << "Couldn't use the cache file at '" << _imp->filename << "': " << std::strerror(errno);
+                << "Couldn't use the cache file at '" << _imp->filename << "': '" << e.message() << "' (" << e.what() << ")";
         return false;
     }
 }
@@ -792,19 +793,19 @@ EbuildFlatMetadataCache::save(const std::tr1::shared_ptr<const EbuildID> & id)
         return;
     }
 
-    std::ofstream cache_file(stringify(_imp->filename).c_str());
-
-    if (cache_file)
+    try
     {
-        cache_file << cache.str();
-        cache_file.close();
+        {
+            SafeOFStream cache_file(_imp->filename);
+            cache_file << cache.str();
+        }
         struct ::utimbuf times = { _imp->ebuild.mtime(), _imp->ebuild.mtime() };
         _imp->filename.utime(&times);
     }
-    else
+    catch (const SafeOFStreamError & e)
     {
         Log::get_instance()->message("e.cache.save.failure", ll_warning, lc_no_context) << "Couldn't write cache file to '"
-            << _imp->filename << "': " << std::strerror(errno);
+            << _imp->filename << "': '" << e.message() << "' (" << e.what() << ")";
     }
 }
 

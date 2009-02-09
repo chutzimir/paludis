@@ -1,7 +1,7 @@
 /* vim: set sw=4 sts=4 et foldmethod=syntax : */
 
 /*
- * Copyright (c) 2007, 2008 Ciaran McCreesh
+ * Copyright (c) 2007, 2008, 2009 Ciaran McCreesh
  * Copyright (c) 2007 Piotr Jaroszyński
  *
  * This file is part of the Paludis package manager. Paludis is free software;
@@ -37,11 +37,11 @@
 #include <paludis/util/strip.hh>
 #include <paludis/util/wrapped_forward_iterator.hh>
 #include <paludis/util/make_named_values.hh>
+#include <paludis/util/safe_ifstream.hh>
 #include <tr1/functional>
 #include <list>
 #include <map>
 #include <vector>
-#include <fstream>
 #include <iostream>
 
 using namespace paludis;
@@ -226,7 +226,7 @@ NDBAMUnmerger::check_file(const FSEntry & f, const std::tr1::shared_ptr<ExtraInf
         display("--- [!time] " + stringify(f));
     else
     {
-        std::ifstream md5_file(stringify(_imp->options.root() / f).c_str());
+        SafeIFStream md5_file(_imp->options.root() / f);
         if (! md5_file)
         {
             Log::get_instance()->message("ndbam.unmerger.md5_failed", ll_warning, lc_no_context) << "Cannot get md5 for '" <<

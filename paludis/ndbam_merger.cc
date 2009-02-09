@@ -1,7 +1,7 @@
 /* vim: set sw=4 sts=4 et foldmethod=syntax : */
 
 /*
- * Copyright (c) 2007, 2008 Ciaran McCreesh
+ * Copyright (c) 2007, 2008, 2009 Ciaran McCreesh
  *
  * This file is part of the Paludis package manager. Paludis is free software;
  * you can redistribute it and/or modify it under the terms of the GNU General
@@ -28,13 +28,14 @@
 #include <paludis/util/wrapped_forward_iterator.hh>
 #include <paludis/util/options.hh>
 #include <paludis/util/make_named_values.hh>
+#include <paludis/util/safe_ofstream.hh>
+#include <paludis/util/safe_ifstream.hh>
 #include <paludis/hook.hh>
 #include <paludis/package_id.hh>
 #include <paludis/util/md5.hh>
 #include <paludis/environment.hh>
 #include <paludis/package_database.hh>
 #include <paludis/ndbam_merger.hh>
-#include <fstream>
 #include <iostream>
 #include <iomanip>
 #include <list>
@@ -48,7 +49,7 @@ namespace paludis
     {
         NDBAMMergerParams params;
         FSEntry realroot;
-        std::tr1::shared_ptr<std::ofstream> contents_file;
+        std::tr1::shared_ptr<SafeOFStream> contents_file;
 
         std::list<std::string> config_protect;
         std::list<std::string> config_protect_mask;
@@ -149,7 +150,7 @@ NDBAMMerger::record_install_file(const FSEntry & src, const FSEntry & dst_dir, c
             tidy_real(stringify((dst_dir / src.basename()).strip_leading(_imp->realroot)));
     time_t timestamp((dst_dir / dst_name).mtime());
 
-    std::ifstream infile(stringify(FSEntry(dst_dir / dst_name)).c_str());
+    SafeIFStream infile(FSEntry(dst_dir / dst_name));
     if (! infile)
         throw MergerError("Cannot read '" + stringify(FSEntry(dst_dir / dst_name)) + "'");
 
@@ -248,7 +249,7 @@ NDBAMMerger::make_config_protect_name(const FSEntry & src, const FSEntry & dst)
     std::string result_name(src.basename());
     int n(0);
 
-    std::ifstream our_md5_file(stringify(src).c_str());
+    SafeIFStream our_md5_file(src);
     if (! our_md5_file)
         throw MergerError("Could not get md5 for '" + stringify((dst / src.basename()).strip_leading(_imp->realroot)) + "'");
     MD5 our_md5(our_md5_file);
@@ -260,7 +261,7 @@ NDBAMMerger::make_config_protect_name(const FSEntry & src, const FSEntry & dst)
 
         if ((dst / result_name).is_regular_file_or_symlink_to_regular_file())
         {
-            std::ifstream other_md5_file(stringify(dst / result_name).c_str());
+            SafeIFStream other_md5_file(dst / result_name);
             if (other_md5_file)
             {
                 MD5 other_md5(other_md5_file);
@@ -335,7 +336,7 @@ void
 NDBAMMerger::merge()
 {
     display_override(">>> Merging to " + stringify(_imp->params.root()));
-    _imp->contents_file.reset(new std::ofstream(stringify(_imp->params.contents_file()).c_str()));
+    _imp->contents_file.reset(new SafeOFStream(_imp->params.contents_file()));
     Merger::merge();
 }
 

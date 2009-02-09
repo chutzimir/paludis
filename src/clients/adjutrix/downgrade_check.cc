@@ -1,7 +1,7 @@
 /* vim: set sw=4 sts=4 et foldmethod=syntax : */
 
 /*
- * Copyright (c) 2007, 2008 Ciaran McCreesh
+ * Copyright (c) 2007, 2008, 2009 Ciaran McCreesh
  *
  * This file is part of the Paludis package manager. Paludis is free software;
  * you can redistribute it and/or modify it under the terms of the GNU General
@@ -27,13 +27,14 @@
 #include <paludis/util/make_shared_ptr.hh>
 #include <paludis/util/named_value.hh>
 #include <paludis/util/make_named_values.hh>
+#include <paludis/util/safe_ofstream.hh>
+#include <paludis/util/safe_ifstream.hh>
 #include <paludis/package_id.hh>
 #include <paludis/user_dep_spec.hh>
 #include <paludis/generator.hh>
 #include <paludis/filter.hh>
 #include <paludis/filtered_generator.hh>
 #include <paludis/selection.hh>
-#include <fstream>
 #include <iostream>
 #include <vector>
 #include <map>
@@ -176,7 +177,7 @@ do_build_downgrade_check_list(NoConfigEnvironment & env)
             (*env.main_repository()).e_interface()->set_profile(p);
             std::string n(make_filename(p, i));
             std::cerr << "Generating " << n << "..." << std::endl;
-            std::ofstream f(stringify(output_dir / n).c_str());
+            SafeOFStream f(output_dir / n);
             exit_status |= build_one_list(env, f);
         }
     }
@@ -213,8 +214,8 @@ do_downgrade_check(NoConfigEnvironment & env)
             {
                 std::cerr << "Checking " << n << "..." << std::endl;
 
-                std::ifstream f1(stringify(before_dir / n).c_str());
-                std::ifstream f2(stringify(after_dir / n).c_str());
+                SafeIFStream f1(before_dir / n);
+                SafeIFStream f2(after_dir / n);
 
                 exit_status |= check_one_list(env, f1, f2, results, desc);
             }
