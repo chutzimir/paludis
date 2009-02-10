@@ -1,7 +1,7 @@
 /* vim: set sw=4 sts=4 et foldmethod=syntax : */
 
 /*
- * Copyright (c) 2008 Ciaran McCreesh
+ * Copyright (c) 2008, 2009 Ciaran McCreesh
  *
  * This file is part of the Paludis package manager. Paludis is free software;
  * you can redistribute it and/or modify it under the terms of the GNU General
@@ -345,12 +345,22 @@ ExndbamRepository::merge(const MergeParams & m)
 
     /* load CONFIG_PROTECT, CONFIG_PROTECT_MASK back */
     std::string config_protect, config_protect_mask;
+    try
     {
         SafeIFStream c(target_ver_dir / "CONFIG_PROTECT");
         config_protect = std::string((std::istreambuf_iterator<char>(c)), std::istreambuf_iterator<char>());
+    }
+    catch (const SafeIFStreamError &)
+    {
+    }
 
+    try
+    {
         SafeIFStream c_m(target_ver_dir / "CONFIG_PROTECT_MASK");
         config_protect_mask = std::string((std::istreambuf_iterator<char>(c_m)), std::istreambuf_iterator<char>());
+    }
+    catch (const SafeIFStreamError &)
+    {
     }
 
     NDBAMMerger merger(
@@ -437,14 +447,25 @@ ExndbamRepository::perform_uninstall(const std::tr1::shared_ptr<const ERepositor
         {
             /* load CONFIG_PROTECT, CONFIG_PROTECT_MASK from vdb, supplement with env */
             std::string config_protect, config_protect_mask;
+
+            try
             {
                 SafeIFStream c(ver_dir / "CONFIG_PROTECT");
                 config_protect = std::string((std::istreambuf_iterator<char>(c)), std::istreambuf_iterator<char>()) +
-                    " " + getenv_with_default("CONFIG_PROTECT", "");
+                        " " + getenv_with_default("CONFIG_PROTECT", "");
+            }
+            catch (const SafeIFStreamError &)
+            {
+            }
 
+            try
+            {
                 SafeIFStream c_m(ver_dir / "CONFIG_PROTECT_MASK");
                 config_protect_mask = std::string((std::istreambuf_iterator<char>(c_m)), std::istreambuf_iterator<char>()) +
                     " " + getenv_with_default("CONFIG_PROTECT_MASK", "");
+            }
+            catch (const SafeIFStreamError &)
+            {
             }
 
             std::string final_config_protect(config_protect + " " + merge_config_protect);
