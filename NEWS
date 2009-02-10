@@ -4,6 +4,13 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the ChangeLog.
 
+0.34.4:
+    * VDB entries lacking CONFIG_PROTECT keys (such as those created by Portage)
+      would cause an error in 0.34.3. This is now fixed.
+
+    * Tests for 0.34.3 would fail as root because reads and writes to a-rw files
+      would still succeed. Affected tests are now skipped when root.
+
 0.34.3:
     * Unfortunately std::ifstream and std::ofstream are allowed to fail in
       unobvious ways when given a duff file. In particular, gcc won't error out
