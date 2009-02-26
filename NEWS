@@ -4,6 +4,10 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the ChangeLog.
 
+0.34.5:
+    * --continue-on-failure would always consider old-style virtuals
+      unsatisfied. This is now fixed.
+
 0.34.4:
     * VDB entries lacking CONFIG_PROTECT keys (such as those created by Portage)
       would cause an error in 0.34.3. This is now fixed.
