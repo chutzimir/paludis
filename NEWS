@@ -4,6 +4,22 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the ChangeLog.
 
+0.36.0:
+    * system packages are now treated as 'used' for --uninstall.
+
+    * Fetch related errors that can be caught up-front are now tested at
+      --pretend time.
+
+    * Support for [.key=value] dependency specifications.
+
+    * Support for configurable output managers. These are undocumented in this
+      release and configuration formats may change without backwards
+      compatibility; documentation and stability will be provided once we've
+      ironed out any kinks. With the default configuration, message logs for all
+      packages and build logs for failed packages are kept in /var/log/paludis/.
+
+    * SLOT and EAPI now show up as metadata keys, and are searchable.
+
 0.34.5:
     * --continue-on-failure would always consider old-style virtuals
       unsatisfied. This is now fixed.
