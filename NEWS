@@ -4,6 +4,24 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the ChangeLog.
 
+0.34.5:
+    * --continue-on-failure would always consider old-style virtuals
+      unsatisfied. This is now fixed.
+
+0.34.4:
+    * VDB entries lacking CONFIG_PROTECT keys (such as those created by Portage)
+      would cause an error in 0.34.3. This is now fixed.
+
+    * Tests for 0.34.3 would fail as root because reads and writes to a-rw files
+      would still succeed. Affected tests are now skipped when root.
+
+0.34.3:
+    * Unfortunately std::ifstream and std::ofstream are allowed to fail in
+      unobvious ways when given a duff file. In particular, gcc won't error out
+      when a std::ifstream is created for a directory until the first read
+      occurs. So we write our own stream buffer classes that do error checking
+      and throw useful exceptions on error, and use those instead.
+
 0.34.2:
     * Wildcards are now allowed for --contents and --executables.
 
