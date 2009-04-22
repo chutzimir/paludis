@@ -4,6 +4,15 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the ChangeLog.
 
+0.36.1:
+    * Various Ruby 1.9 fixes.
+
+    * Hashes are now memoised, to speed up --pretend --install for certain
+      cases.
+
+    * We now use pcrecpp rather than pcre++ to avoid the latter's lack of thread
+      sanity.
+
 0.36.0:
     * system packages are now treated as 'used' for --uninstall.
 
