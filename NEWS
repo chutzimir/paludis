@@ -4,6 +4,15 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the ChangeLog.
 
+0.42.1:
+
+    * Various improvements to error handling.
+
+    * Syncing svn repositories no longer breaks when using weird locales.
+
+    * GNU info handling will now work even if Paludis is run via sudo with
+      env_reset enabled.
+
 0.42.0:
 
     * Qualudis has been removed.
