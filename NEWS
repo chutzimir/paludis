@@ -4,6 +4,16 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the ChangeLog.
 
+0.42.2:
+
+    * An obscure resolver bug that results in 'evolution' trying to downgrade
+      'gnupg' on Gentoo has been fixed.
+
+    * paludis -i foo::installed now gives an explanation of why it doesn't do
+      what some people seem to expect.
+
+    * Assorted documentation tweaks.
+
 0.42.1:
 
     * Various improvements to error handling.
