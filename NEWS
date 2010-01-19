@@ -4,6 +4,12 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the ChangeLog.
 
+0.44.1:
+    * EAPI 3 support is enabled.
+
+    * A bug giving incorrect results when using -* in use.conf/options.conf has
+      been fixed.
+
 0.44.0:
 
     * The 'everything' set is now called 'installed-packages'. A new set named
