@@ -4,6 +4,16 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
+0.48.4:
+    * 'cave uninstall' now accepts wildcards.
+
+    * 'cave purge' and 'cave resolve' will no longer attempt to purge things
+      that cannot be uninstalled.
+
+    * 'cave show -t' now has short options for values.
+
+    * We now tolerate ebuilds that try to output things or die in global scope.
+
 0.48.3:
     * 'cave display-resolution' now indicates when changing the origin
       repository for an upgrade.
