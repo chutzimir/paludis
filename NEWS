@@ -4,6 +4,17 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
+0.48.5:
+    * xattr support was previously looking for attr/xattr.h rather than
+      sys/xattr.h, and so was not being detected on glibc systems without attr
+      installed. This is now corrected.
+
+    * On some systems, the Python bindings were giving dlopen related warnings
+      due to the linker trying to be too clever. This is now worked around.
+
+    * New cave subcommands for scripting: print-id-actions, print-id-masks,
+      print-repository-metadata, print-set.
+
 0.48.4:
     * 'cave uninstall' now accepts wildcards.
 
