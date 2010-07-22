@@ -4,6 +4,19 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
+0.48.6:
+    * If the user explicitly specified an option for the special 'test' flag,
+      this would override the build_options magic. This is now fixed.
+
+    * Certain pkg_ functions are no longer skipped for 0-based EAPIs, to work
+      around badly behaving Gentoo ebuilds.
+
+    * If 'cave show' displays a masked package, it will now pick a version that
+      is easy to unmask over a higher version that cannot be unmasked.
+
+    * New 'cave verify' subcommand for checking whether installed packages have
+      been modified.
+
 0.48.5:
     * xattr support was previously looking for attr/xattr.h rather than
       sys/xattr.h, and so was not being detected on glibc systems without attr
