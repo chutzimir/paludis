@@ -4,6 +4,16 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
+0.50.2:
+    * 'cave resolve --continue-on-failure' interacted weirdly with background
+      fetching. This is now fixed.
+
+    * Support for automatic repository configuration creation via installing
+      a 'repository/somerepo' pseudo-package is now available on Gentoo.
+
+    * Queries in the form '*/*::foo->' no longer force pointless generation of
+      metadata for ebuilds.
+
 0.50.1:
     * 'cave purge' and 'cave resolve' will no longer either give misleading
       output or produce a horrible error when a package providing an old style
