@@ -4,6 +4,21 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
+0.50.3:
+    * :* dependencies no longer count as matching every slot when testing
+      removal safety.
+
+    * When 'cave resolve' changes from having made a decision to being unable to
+      make a decision, and where dependencies from the previously made decision
+      have already been tracked, a horrible error is no longer produced.
+
+    * 'cave display-resolution' now shows download sizes, and no longer displays
+      empty descriptions.
+
+    * 'cave resolve' now has a '--fetch' option to skip non-fetch jobs.
+
+    * 'cave show' now has a '--no-versions' option.
+
 0.50.2:
     * 'cave resolve --continue-on-failure' interacted weirdly with background
       fetching. This is now fixed.
