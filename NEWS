@@ -4,6 +4,23 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
+0.54.3:
+    * split debug now works correctly again.
+
+    * IDs for repositories will now exist but be masked in their origin
+      repository when a repository is already configured.
+
+    * New --graph-jobs option for 'cave resolve'.
+
+    * 'cave execute-resolution' no longer shows (no output for x seconds)
+      messages when only one job is active.
+
+    * The option descriptions for 'cave import --preserve-work' now match what
+      the option values do.
+
+    * 'cave purge' will now error if given parameters, since it does not do
+      anything with them.
+
 0.54.2:
     * Upgrading from older versions to 0.54.1 would produce strange errors. This
       does not happen for 0.54.2.
