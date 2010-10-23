@@ -4,6 +4,12 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
+0.54.5:
+    * A bug where especially nasty circular dependencies would sometimes end up
+      being ordered incorrectly has been fixed.
+
+    * cave show --all-versions, --repository-at-a-time, --no-keys
+
 0.54.4:
     * XFS clobbers set*id bits when fallocate is used. This is now worked
       around.
