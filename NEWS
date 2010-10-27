@@ -4,6 +4,10 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
+0.54.6:
+    * Coreutils 8.6 changes how 'stat' displays mtimes. We now support the new
+      output format.
+
 0.54.5:
     * A bug where especially nasty circular dependencies would sometimes end up
       being ordered incorrectly has been fixed.
