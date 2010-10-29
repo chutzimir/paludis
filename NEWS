@@ -4,6 +4,11 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
+0.54.7:
+    * Added 'cave has-version', 'cave print-best-version'.
+
+    * 'cave show' now displays correct headings for suboption groups.
+
 0.54.6:
     * Coreutils 8.6 changes how 'stat' displays mtimes. We now support the new
       output format.
