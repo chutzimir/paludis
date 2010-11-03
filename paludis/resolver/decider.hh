@@ -47,6 +47,7 @@
 #include <paludis/filtered_generator-fwd.hh>
 #include <paludis/generator-fwd.hh>
 #include <paludis/changed_choices-fwd.hh>
+#include <paludis/name-fwd.hh>
 #include <tuple>
 
 namespace paludis
@@ -182,7 +183,7 @@ namespace paludis
                         const Generator &) const;
 
                 Filter _make_unmaskable_filter(
-                        const std::shared_ptr<const Resolution> &) const;
+                        const QualifiedPackageName &) const;
 
                 bool _allow_choice_changes_for(
                         const std::shared_ptr<const Resolution> &) const;
