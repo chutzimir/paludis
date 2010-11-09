@@ -4,6 +4,12 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
+0.54.8:
+    * We now produce easier to understand error messages for certain resolutions
+      where unmasking is required.
+
+    * We now show suggestions when 'cave resolve' targets do not exist.
+
 0.54.7:
     * Added 'cave has-version', 'cave print-best-version'.
 
