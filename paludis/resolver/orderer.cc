@@ -829,7 +829,7 @@ namespace
                                         changes_to_make_decision.destination()->repository(),
                                         changes_to_make_decision.resolvent().destination_type()));
 
-                        const std::shared_ptr<JobRequirements> requirements(std::make_shared<JobRequirements>());
+                        std::shared_ptr<JobRequirements> requirements(std::make_shared<JobRequirements>());
                         requirements->push_back(make_named_values<JobRequirement>(
                                     n::job_number() = fetch_job_n->second,
                                     n::required_if() = JobRequirementIfs() + jri_require_for_satisfied + jri_require_for_independent
@@ -847,6 +847,8 @@ namespace
                                 false,
                                 recursed
                                 );
+
+                        requirements = minimise_requirements(requirements);
 
                         const std::shared_ptr<Sequence<PackageDepSpec> > replacing(std::make_shared<Sequence<PackageDepSpec>>());
                         for (PackageIDSequence::ConstIterator i(changes_to_make_decision.destination()->replacing()->begin()),
@@ -868,7 +870,7 @@ namespace
 
                 case nir_fetched:
                     {
-                        const std::shared_ptr<JobRequirements> requirements(std::make_shared<JobRequirements>());
+                        std::shared_ptr<JobRequirements> requirements(std::make_shared<JobRequirements>());
 
                         RecursedRequirements recursed;
                         populate_requirements(
@@ -881,6 +883,8 @@ namespace
                                 false,
                                 recursed
                                 );
+
+                        requirements = minimise_requirements(requirements);
 
                         JobNumber fetch_job_n(resolved->job_lists()->execute_job_list()->append(std::make_shared<FetchJob>(
                                             requirements,
@@ -904,7 +908,7 @@ namespace
                     i != i_end ; ++i)
                 removing->push_back((*i)->uniquely_identifying_spec());
 
-            const std::shared_ptr<JobRequirements> requirements(std::make_shared<JobRequirements>());
+            std::shared_ptr<JobRequirements> requirements(std::make_shared<JobRequirements>());
             RecursedRequirements recursed;
             populate_requirements(
                     resolved->nag(),
@@ -916,6 +920,8 @@ namespace
                     false,
                     recursed
                     );
+
+            requirements = minimise_requirements(requirements);
 
             JobNumber uninstall_job_n(resolved->job_lists()->execute_job_list()->append(std::make_shared<UninstallJob>(
                                 requirements,
