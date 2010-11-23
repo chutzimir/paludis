@@ -4,6 +4,18 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
+0.54.9:
+    * Binary package configuration is now documented, although it is still
+      considered experimental. Various binary-related bugs are fixed.
+
+    * We now display much cleaner errors if output manager creation fails (e.g.
+      if the log directory does not exist).
+
+    * New cave print-unused-distfiles subcommand.
+
+    * We no longer show "no output for X seconds" messages when only one job is
+      running.
+
 0.54.8:
     * We now produce easier to understand error messages for certain resolutions
       where unmasking is required.
