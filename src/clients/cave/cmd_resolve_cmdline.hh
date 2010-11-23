@@ -96,9 +96,7 @@ namespace paludis
             args::ArgsGroup g_destination_options;
             args::EnumArg a_make;
             args::EnumArg a_make_dependencies;
-#ifdef ENABLE_PBINS
             args::StringSetArg a_via_binary;
-#endif
 
 //            args::ArgsGroup g_query_options;
 //            args::SwitchArg a_query;
