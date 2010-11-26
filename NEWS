@@ -4,6 +4,14 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
+0.54.10:
+    * A bug in via-binary package ordering has been fixed.
+
+    * 'cave owner' now has a --dereference option.
+
+    * We now use libmagic rather than calling the 'file' executable to determine
+      whether or not to strip files.
+
 0.54.9:
     * Binary package configuration is now documented, although it is still
       considered experimental. Various binary-related bugs are fixed.
