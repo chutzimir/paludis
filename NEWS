@@ -4,6 +4,14 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
+0.54.11:
+    * 'cave resolve --make binaries' now behaves properly when considering
+      packages that cannot be made into binaries.
+
+    * 'cave show x' will no longer suggest every package name containing an 'x'.
+
+    * Display-If-Profile headers in news items are now handled correctly.
+
 0.54.10:
     * A bug in via-binary package ordering has been fixed.
 
