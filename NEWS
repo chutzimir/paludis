@@ -4,6 +4,13 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
+0.56.1:
+    * We now show the number of skipped and failed packages in "x of y" output.
+
+    * We now run pkg_pretend even if certain confirmations are required.
+
+    * Various minor bug fixes and documentation tweaks.
+
 0.56.0:
     * New 'cave' subcommand: 'print-spec'.
 
