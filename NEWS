@@ -4,6 +4,15 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
+0.56.2:
+    * EAPI 4 is enabled.
+
+    * New 'cave' subcommand: 'digest'.
+
+    * New 'cave print-unused-distfiles' option: '--include'.
+
+    * Updates now work correctly again.
+
 0.56.1:
     * We now show the number of skipped and failed packages in "x of y" output.
 
