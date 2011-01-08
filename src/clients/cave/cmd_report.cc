@@ -1,7 +1,7 @@
 /* vim: set sw=4 sts=4 et foldmethod=syntax : */
 
 /*
- * Copyright (c) 2010 Ciaran McCreesh
+ * Copyright (c) 2010, 2011 Ciaran McCreesh
  *
  * This file is part of the Paludis package manager. Paludis is free software;
  * you can redistribute it and/or modify it under the terms of the GNU General
@@ -224,12 +224,12 @@ ReportCommand::run(
                 need_heading_origin(done_heading, done_heading_origin, *i, origin);
                 cout << fuc(fs_package_origin_masked());
             }
+        }
 
-            if (insecurity && match_package_in_set(*env, *insecurity, *origin, { }))
-            {
-                need_heading_origin(done_heading, done_heading_origin, *i, origin);
-                cout << fuc(fs_package_origin_insecure());
-            }
+        if (insecurity && match_package_in_set(*env, *insecurity, **i, { }))
+        {
+            need_heading(done_heading, *i);
+            cout << fuc(fs_package_insecure());
         }
 
         if (unused->end() != unused->find(*i))
@@ -239,7 +239,7 @@ ReportCommand::run(
                     (! (*i)->supports_action(SupportsActionTest<UninstallAction>())))
             {
                 /* ok, or weird */
-                }
+            }
             else
             {
                 need_heading(done_heading, *i);
