@@ -4,6 +4,13 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
+0.56.3:
+    * cave report would previously not mention certain security issues. This is
+      now fixed.
+
+    * Syncing via 'rsync' now uses '--delete-delay' rather than
+      '--delete-after'. This requires rsync 3.
+
 0.56.2:
     * EAPI 4 is enabled.
 
