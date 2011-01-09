@@ -4,6 +4,14 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
+0.56.4:
+    * Certain abusive || ( ) dependencies are now handled in the same way that
+      Portage treats them.
+
+    * When using 'cave uninstall --remove-if-dependent' followed by 'cave
+      resume', dependent packages would be added to rather than removed from
+      world. This is now fixed.
+
 0.56.3:
     * cave report would previously not mention certain security issues. This is
       now fixed.
