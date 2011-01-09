@@ -1,7 +1,7 @@
 /* vim: set sw=4 sts=4 et foldmethod=syntax : */
 
 /*
- * Copyright (c) 2009, 2010 Ciaran McCreesh
+ * Copyright (c) 2009, 2010, 2011 Ciaran McCreesh
  *
  * This file is part of the Paludis package manager. Paludis is free software;
  * you can redistribute it and/or modify it under the terms of the GNU General
@@ -632,6 +632,25 @@ Decider::_make_constraints_from_target(
         throw InternalError(PALUDIS_HERE, "resolver bug: huh? it's not a block and it's not a package");
 }
 
+const std::shared_ptr<Constraint>
+Decider::_make_constraint_from_package_dependency(
+        const std::shared_ptr<const Resolution> & resolution,
+        const SanitisedDependency & dep,
+        const std::shared_ptr<const Reason> & reason,
+        const SpecInterest interest) const
+{
+    auto existing(_imp->fns.get_use_existing_nothing_fn()(resolution, *dep.spec().if_package(), reason));
+    return std::make_shared<Constraint>(make_named_values<Constraint>(
+                n::destination_type() = resolution->resolvent().destination_type(),
+                n::force_unable() = false,
+                n::nothing_is_fine_too() = existing.second,
+                n::reason() = reason,
+                n::spec() = *dep.spec().if_package(),
+                n::untaken() = si_untaken == interest,
+                n::use_existing() = existing.first
+                ));
+}
+
 const std::shared_ptr<ConstraintSequence>
 Decider::_make_constraints_from_dependency(
         const std::shared_ptr<const Resolution> & resolution,
@@ -641,18 +660,8 @@ Decider::_make_constraints_from_dependency(
 {
     if (dep.spec().if_package())
     {
-        auto existing(_imp->fns.get_use_existing_nothing_fn()(resolution, *dep.spec().if_package(), reason));
-
         const std::shared_ptr<ConstraintSequence> result(std::make_shared<ConstraintSequence>());
-        result->push_back(std::make_shared<Constraint>(make_named_values<Constraint>(
-                            n::destination_type() = resolution->resolvent().destination_type(),
-                            n::force_unable() = false,
-                            n::nothing_is_fine_too() = existing.second,
-                            n::reason() = reason,
-                            n::spec() = *dep.spec().if_package(),
-                            n::untaken() = si_untaken == interest,
-                            n::use_existing() = existing.first
-                            )));
+        result->push_back(_make_constraint_from_package_dependency(resolution, dep, reason, interest));
         return result;
     }
     else if (dep.spec().if_block())
@@ -1387,8 +1396,21 @@ Decider::find_any_score(
         for (Resolvents::ConstIterator r(resolvents->begin()), r_end(resolvents->end()) ;
                 r != r_end ; ++r)
         {
+            bool any(false), any_bad(false);
             ResolutionsByResolvent::ConstIterator i(_imp->resolutions_by_resolvent->find(*r));
-            if (i != _imp->resolutions_by_resolvent->end())
+            if (i != _imp->resolutions_by_resolvent->end() && (*i)->decision())
+            {
+                auto constraint(_make_constraint_from_package_dependency(our_resolution, dep, reason, si_take));
+                if (_check_constraint(constraint, (*i)->decision()))
+                    any = true;
+                else
+                {
+                    any_bad = false;
+                    break;
+                }
+            }
+
+            if (any && ! any_bad)
                 return std::make_pair(acs_will_be_installing, operator_bias);
         }
     }
