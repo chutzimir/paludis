@@ -4,6 +4,10 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
+0.58.3:
+    * We no longer issue QA warnings for certain extremely common QA violations
+      on Gentoo.
+
 0.58.2:
     * We now work around various libarchive oddities that cause problems with
       binary packages.
