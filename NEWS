@@ -4,6 +4,14 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
+0.58.4:
+    * cave resolve --via-binary would lock up under certain circumstances. This
+      is now fixed.
+
+    * New 'cave resolve' option: '--no-restarts-for'
+
+    * New 'cave' subcommand: 'generate-metadata'
+
 0.58.3:
     * We no longer issue QA warnings for certain extremely common QA violations
       on Gentoo.
