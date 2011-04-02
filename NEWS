@@ -4,6 +4,11 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
+0.60.2:
+    * A new configure option, '--enable-prebuilt-documentation', can be used to
+      avoid requiring Asciidoc, since on Gentoo Asciidoc has several bogus
+      dependencies that pull in a lot of unwanted packages on X-less systems.
+
 0.60.1:
     * 'cave resolve --reinstall-dependents-of' now does what the documentation
       says it does.
