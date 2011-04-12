@@ -4,6 +4,16 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
+0.60.4:
+    * 'cave search --and' now works as documented.
+
+    * Previously pbins had problems with symlinks due to oddities in libarchive.
+      This is now worked around.
+
+    * We now treat invalid cached metadata slightly differently, to avoid
+      problems with Gentoo shipping broken metadata due to lack of validation in
+      Portage.
+
 0.60.3:
     * Second attempt at getting '--enable-prebuilt-documentation' to work
       reliably.
