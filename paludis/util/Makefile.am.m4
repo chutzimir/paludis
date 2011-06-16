@@ -16,7 +16,7 @@ define(`addgtest', `define(`gtestlist', gtestlist `$1_TEST')dnl
 $1_TEST_SOURCES = $1_TEST.cc
 $1_TEST_LDADD = \
 	gtest_runner.o \
-	libpaludisutil_@PALUDIS_PC_SLOT@.la
+	libpaludisutil_lollibtool_@PALUDIS_PC_SLOT@.la
 $1_TEST_LDFLAGS = @GTESTDEPS_LDFLAGS@ @GTESTDEPS_LIBS@
 $1_TEST_CXXFLAGS = -I$(top_srcdir) $(AM_CXXFLAGS) @PALUDIS_CXXFLAGS_NO_DEBUGGING@ @GTESTDEPS_CXXFLAGS@
 ')dnl
@@ -70,6 +70,10 @@ libpaludisutil_@PALUDIS_PC_SLOT@_la_SOURCES = filelist
 libpaludisutil_@PALUDIS_PC_SLOT@_la_LDFLAGS = -version-info @VERSION_LIB_CURRENT@:@VERSION_LIB_REVISION@:0 $(PTHREAD_LIBS) $(RT_LIBS)
 libpaludisutil_@PALUDIS_PC_SLOT@_la_LIBADD = $(PTHREAD_LIBS) $(RT_LIBS)
 
+libpaludisutil_lollibtool_@PALUDIS_PC_SLOT@_la_LIBADD = $(PTHREAD_LIBS) $(RT_LIBS)
+libpaludisutil_lollibtool_@PALUDIS_PC_SLOT@_la_LDFLAGS = -version-info @VERSION_LIB_CURRENT@:@VERSION_LIB_REVISION@:0 $(PTHREAD_LIBS) $(RT_LIBS)
+libpaludisutil_lollibtool_@PALUDIS_PC_SLOT@_la_SOURCES = filelist
+
 if HAVE_GTEST
 TESTS = gtestlist
 endif
@@ -78,6 +82,7 @@ check_PROGRAMS = $(TESTS)
 check_SCRIPTS = testscriptlist
 
 lib_LTLIBRARIES = libpaludisutil_@PALUDIS_PC_SLOT@.la
+check_LTLIBRARIES = libpaludisutil_lollibtool_@PALUDIS_PC_SLOT@.la
 
 paludis_util_includedir = $(includedir)/paludis-$(PALUDIS_PC_SLOT)/paludis/util/
 paludis_util_include_HEADERS = headerlist seheaderlist
