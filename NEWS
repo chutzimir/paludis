@@ -4,6 +4,11 @@ News for Paludis
 This file lists the major changes between versions. For a more detailed list
 of every change, see the Git log.
 
+0.64.3:
+    * Fixed a bug where a ! inside a || ( ) could cause a segfault.
+
+    * Assorted minor bug fixes and compiler compatibility changes.
+
 0.64.2:
     * The Python bindings now cover various additional things.
 
